@@ -1,0 +1,34 @@
+# LaunchLine Starter - direnv configuration
+# Copy this file to .envrc to automatically load environment variables
+# Requires direnv: https://direnv.net/
+
+# Load Python virtual environment
+layout python
+
+# Load .env file
+dotenv .env
+
+# Add backend to Python path
+export PYTHONPATH="${PWD}/backend/src:${PYTHONPATH}"
+
+# Django settings module
+export DJANGO_SETTINGS_MODULE="config.settings.dev"
+
+# Add local bin to PATH
+PATH_add "backend/.venv/bin"
+
+# Optional: Set up Node.js version (if using nvm)
+# use node 20
+
+# Optional: Set up Poetry virtual environment location
+export POETRY_VENV_IN_PROJECT=true
+
+# Development helpers
+export COMPOSE_FILE="ops/docker-compose.dev.yml"
+export COMPOSE_PROJECT_NAME="launchline_starter"
+
+echo "LaunchLine Starter development environment loaded! 🚀"
+echo "Available commands:"
+echo "  make help  - Show all available commands"
+echo "  make up    - Start development environment"
+echo "  make seed  - Seed database with sample data"
