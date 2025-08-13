@@ -1,0 +1,83 @@
+product_name: LaunchLine Starter Template
+version: 0.1.0
+owner: Brenden Price
+stack:
+  backend:
+    {
+      lang: "Python 3.11",
+      framework: "Django 5 + Wagtail 6 (headless)",
+      db: "Postgres 16",
+      deps: "Poetry",
+    }
+  frontend:
+    {
+      lang: "TypeScript",
+      framework: "Vue 3 + Vite",
+      ui: "Tailwind CSS",
+      pkg: "pnpm",
+    }
+  ops: { dev: "Docker Compose", proxy: "nginx", ci: "GitHub Actions" }
+
+architecture:
+  api_contracts:
+    leads_create:
+      method: POST
+      path: /api/leads/
+      body: { name: string, email: string, message: string, source?: string }
+      responses:
+        201: { id: int, created_at: str }
+        400: { detail: string }
+    blog_index:
+      method: GET
+      path: /api/blog/
+      query: { page?: int }
+      responses:
+        200: { results: array, next: string|null, prev: string|null }
+
+coding_standards:
+  python: { formatter: black, linter: ruff, isort: true, mypy: lenient }
+  ts: { eslint: true, vue-tsc: true }
+  commit_convention: "feat|fix|chore|docs(scope): message"
+  accessibility: "WCAG AA, keyboard, focus-visible"
+  perf_targets: { home_lighthouse_desktop: ">=90" }
+
+env:
+  backend:
+    DJANGO_SETTINGS_MODULE: config.settings.dev
+    CORS_ALLOWED_ORIGINS: "http://localhost:5173"
+  frontend:
+    VITE_API_URL: "http://localhost:8000"
+
+acceptance_criteria:
+  - docker compose -f ops/docker-compose.dev.yml up brings up db, backend:8000, frontend:5173, nginx proxy
+  - POST /api/leads/ returns 201 and persists
+  - /blog renders list from API
+  - poetry run pytest passes; ruff/black --check/mypy clean; pnpm build succeeds
+
+tasks:
+  - id: ST-001
+    title: Scaffold leads app (backend)
+    role: backend
+    status: todo
+    definition_of_done:
+      - Model+serializer+view+url+admin implemented
+      - DRF throttle and email console in dev
+      - test_leads_api green
+  - id: ST-002
+    title: Blog list page consuming API (frontend)
+    role: frontend
+    status: todo
+    definition_of_done:
+      - /blog route, fetch wrapper, pagination, basic SEO titles/descriptions
+  - id: ST-003
+    title: CI pipeline (lint/test/build)
+    role: ops
+    status: todo
+    definition_of_done:
+      - Poetry/pnpm caching
+      - backend tests run; frontend build passes on PR
+
+changelog:
+  - date: 2025-08-13
+    author: "system"
+    notes: "Initialized AGENT_CONTEXT with contracts, tasks, and standards."
