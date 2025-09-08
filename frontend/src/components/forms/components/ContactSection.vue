@@ -72,19 +72,19 @@ withDefaults(defineProps<Props>(), {
   contactMethods: () => [
     {
       title: 'Email',
-      content: 'hello@launchline.com',
-      link: 'mailto:hello@launchline.com',
+      content: 'breprice@launchlinellc.com',
+      link: 'mailto:breprice@launchlinellc.com',
       type: 'email'
     },
     {
       title: 'Phone',
-      content: '+1 (555) 123-4567',
-      link: 'tel:+15551234567',
+      content: '(570) 766-3452',
+      link: 'tel:+15707663452',
       type: 'phone'
     },
     {
       title: 'Office',
-      customContent: '123 Innovation Drive<br>Tech City, TC 12345<br>United States',
+      customContent: 'Bloomsburg<br>Pennsylvania<br>United States',
       type: 'location'
     }
   ],
