@@ -19,6 +19,11 @@ module.exports = {
     
     // TypeScript specific rules
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-explicit-any': 'off',
+    
+    // Vue 3 <script setup> compatibility
+    'import/no-default-export': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     
     // General rules
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

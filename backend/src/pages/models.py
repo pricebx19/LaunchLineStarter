@@ -13,22 +13,15 @@ from .blocks import (
     CTABlock,
     TextBlock,
     ImageBlock,
+    ContactInfoBlock,
+    SocialLinksBlock,
+    MetricsBlock,
 )
 
 
 class SEOMixin(models.Model):
     """SEO fields for pages."""
-    
-    seo_title = models.CharField(
-        max_length=60,
-        blank=True,
-        help_text="SEO title (60 chars max). Falls back to page title if empty."
-    )
-    search_description = models.TextField(
-        max_length=160,
-        blank=True,
-        help_text="SEO meta description (160 chars max)"
-    )
+
     og_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -37,52 +30,49 @@ class SEOMixin(models.Model):
         related_name="+",
         help_text="Open Graph image for social media sharing"
     )
-    
+
     seo_panels = [
         MultiFieldPanel([
-            FieldPanel("seo_title"),
-            FieldPanel("search_description"),
             FieldPanel("og_image"),
         ], heading="SEO")
     ]
-    
+
     api_fields = [
-        APIField("seo_title"),
-        APIField("search_description"),
         APIField("og_image"),
     ]
-    
+
     @property
     def meta_title(self):
         """Return SEO title or fallback to page title."""
         return self.seo_title or self.title
-    
+
     @property
     def meta_description(self):
         """Return search description."""
         return self.search_description
-    
+
     class Meta:
         abstract = True
 
 
 class HomePage(SEOMixin, Page):
     """Home page with hero, features, testimonials and CTA sections."""
-    
+
     # Hero section
-    hero_heading = models.CharField(max_length=255, help_text="Main hero heading")
+    hero_heading = models.CharField(
+        max_length=255, help_text="Main hero heading")
     hero_subheading = models.TextField(
-        max_length=500, 
-        blank=True, 
+        max_length=500,
+        blank=True,
         help_text="Optional hero subheading"
     )
     hero_cta_text = models.CharField(
-        max_length=100, 
-        blank=True, 
+        max_length=100,
+        blank=True,
         help_text="Hero CTA button text"
     )
     hero_cta_link = models.URLField(
-        blank=True, 
+        blank=True,
         help_text="Hero CTA button URL"
     )
     hero_background_image = models.ForeignKey(
@@ -93,7 +83,7 @@ class HomePage(SEOMixin, Page):
         related_name="+",
         help_text="Hero background image"
     )
-    
+
     # Content sections
     content = StreamField([
         ("features", FeatureGridBlock()),
@@ -102,7 +92,7 @@ class HomePage(SEOMixin, Page):
         ("text", TextBlock()),
         ("image", ImageBlock()),
     ], blank=True, use_json_field=True)
-    
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel("hero_heading"),
@@ -113,16 +103,15 @@ class HomePage(SEOMixin, Page):
         ], heading="Hero Section"),
         FieldPanel("content"),
     ]
-    
+
     promote_panels = Page.promote_panels + SEOMixin.seo_panels
-    
+
     search_fields = Page.search_fields + [
         index.SearchField("hero_heading"),
         index.SearchField("hero_subheading"),
         index.SearchField("content"),
     ]
-    
-    api_fields = Page.api_fields + [
+    api_fields = [
         APIField("hero_heading"),
         APIField("hero_subheading"),
         APIField("hero_cta_text"),
@@ -130,22 +119,104 @@ class HomePage(SEOMixin, Page):
         APIField("hero_background_image"),
         APIField("content"),
     ] + SEOMixin.api_fields
-    
+
     max_count = 1  # Only one home page
-    
+
     class Meta:
         verbose_name = "Home Page"
 
 
+class ContactPage(SEOMixin, Page):
+    """Contact page with 100% StreamField content."""
+
+    # Main content using StreamField
+    content = StreamField([
+        ("hero", HeroBlock()),
+        ("contact_info", ContactInfoBlock()),
+        ("social_links", SocialLinksBlock()),
+        ("metrics", MetricsBlock()),
+        ("text", TextBlock()),
+        ("cta", CTABlock()),
+        ("image", ImageBlock()),
+    ], blank=True, use_json_field=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel("content"),
+    ]
+
+    promote_panels = Page.promote_panels + SEOMixin.seo_panels
+
+    search_fields = Page.search_fields + [
+        index.SearchField("content"),
+    ]
+
+    api_fields = [
+        APIField("content"),
+    ] + SEOMixin.api_fields
+
+    max_count = 1  # Only one contact page
+
+    class Meta:
+        verbose_name = "Contact Page"
+
+    def get_context(self, request):
+        """Add default values for social links and metrics if not set."""
+        context = super().get_context(request)
+
+        # Extract social links and metrics from StreamField content
+        social_links = []
+        metrics = []
+
+        for block in self.content:
+            if block.block_type == 'social_links':
+                social_links = block.value.get('social_links', [])
+            elif block.block_type == 'metrics':
+                metrics = block.value.get('metrics', [])
+
+        # Default social links if none found
+        if not social_links:
+            social_links = [
+                {
+                    "name": "LinkedIn",
+                    "url": "https://linkedin.com/company/launchline",
+                    "icon": "linkedin"
+                },
+                {
+                    "name": "Twitter",
+                    "url": "https://twitter.com/launchline",
+                    "icon": "twitter"
+                },
+                {
+                    "name": "GitHub",
+                    "url": "https://github.com/launchline",
+                    "icon": "github"
+                }
+            ]
+
+        # Default metrics if none found
+        if not metrics:
+            metrics = [
+                {"value": "150+", "label": "Projects Completed"},
+                {"value": "98%", "label": "Client Satisfaction"},
+                {"value": "24h", "label": "Response Time"},
+                {"value": "5★", "label": "Average Rating"}
+            ]
+
+        context['social_links'] = social_links
+        context['metrics'] = metrics
+
+        return context
+
+
 class StandardPage(SEOMixin, Page):
     """Standard content page with StreamField."""
-    
+
     intro = models.TextField(
         max_length=500,
         blank=True,
         help_text="Optional page introduction"
     )
-    
+
     content = StreamField([
         ("hero", HeroBlock()),
         ("features", FeatureGridBlock()),
@@ -154,72 +225,72 @@ class StandardPage(SEOMixin, Page):
         ("text", TextBlock()),
         ("image", ImageBlock()),
     ], blank=True, use_json_field=True)
-    
+
     content_panels = Page.content_panels + [
         FieldPanel("intro"),
         FieldPanel("content"),
     ]
-    
+
     promote_panels = Page.promote_panels + SEOMixin.seo_panels
-    
+
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
         index.SearchField("content"),
     ]
-    
-    api_fields = Page.api_fields + [
+
+    api_fields = [
         APIField("intro"),
         APIField("content"),
     ] + SEOMixin.api_fields
-    
+
     class Meta:
         verbose_name = "Standard Page"
 
 
 class BlogIndexPage(SEOMixin, Page):
     """Blog index page listing blog posts."""
-    
+
     intro = models.TextField(
         max_length=500,
         blank=True,
         help_text="Optional blog introduction"
     )
-    
+
     content_panels = Page.content_panels + [
         FieldPanel("intro"),
     ]
-    
+
     promote_panels = Page.promote_panels + SEOMixin.seo_panels
-    
+
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
     ]
-    
-    api_fields = Page.api_fields + [
+
+    api_fields = [
         APIField("intro"),
         APIField("blog_posts"),
     ] + SEOMixin.api_fields
-    
+
     @property
     def blog_posts(self):
         """Return published blog posts."""
         return BlogPage.objects.child_of(self).live().public().order_by("-first_published_at")
-    
+
     def get_context(self, request):
         """Add blog posts to template context."""
         context = super().get_context(request)
         context["blog_posts"] = self.blog_posts
         return context
-    
+
     max_count = 1  # Only one blog index
-    
+
     class Meta:
         verbose_name = "Blog Index Page"
 
 
 class BlogPage(SEOMixin, Page):
     """Individual blog post page."""
-    
+
     date = models.DateField("Post date", auto_now_add=True)
     intro = models.TextField(
         max_length=500,
@@ -233,36 +304,35 @@ class BlogPage(SEOMixin, Page):
         related_name="+",
         help_text="Featured image for the blog post"
     )
-    
+
     content = StreamField([
         ("text", TextBlock()),
         ("image", ImageBlock()),
         ("cta", CTABlock()),
     ], use_json_field=True)
-    
+
     content_panels = Page.content_panels + [
-        FieldPanel("date"),
         FieldPanel("intro"),
         FieldPanel("featured_image"),
         FieldPanel("content"),
     ]
-    
+
     promote_panels = Page.promote_panels + SEOMixin.seo_panels
-    
+
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
         index.SearchField("content"),
     ]
-    
-    api_fields = Page.api_fields + [
+
+    api_fields = [
         APIField("date"),
         APIField("intro"),
         APIField("featured_image"),
         APIField("content"),
     ] + SEOMixin.api_fields
-    
+
     parent_page_types = ["BlogIndexPage"]
-    
+
     class Meta:
         verbose_name = "Blog Page"
         ordering = ["-date"]

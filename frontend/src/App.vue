@@ -4,23 +4,30 @@
     <main>
       <router-view />
     </main>
-    <Footer />
+    <Footer v-if="!isHomePage" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import Navbar from '@/components/Navbar.vue'
-import Footer from '@/components/Footer.vue'
-import { useSeo } from '@/lib/seo'
+import { computed, onMounted, defineAsyncComponent } from 'vue'
+import { useRoute } from 'vue-router'
+import { useSeo } from './lib/seo'
 
+// Use dynamic imports for components
+const Navbar = defineAsyncComponent(() => import('./components/layout/Navbar.vue'))
+const Footer = defineAsyncComponent(() => import('./components/layout/Footer.vue'))
+
+const route = useRoute()
 const { updateSeo } = useSeo()
+
+// Check if current page is home page
+const isHomePage = computed(() => route.path === '/')
 
 onMounted(() => {
   // Set default SEO if no specific page meta
   updateSeo({
-    title: 'LaunchLine - Professional Launch Solutions',
-    description: 'LaunchLine provides professional launch solutions for your business needs.'
+    title: 'LaunchLine LLC - We\'re Taking Off | Your Brand. Your Website. Done Right.',
+    description: 'Professional websites that launch your business into the digital stratosphere. From car clubs to show promoters, we build the online presence that drives real results.'
   })
 })
 </script>

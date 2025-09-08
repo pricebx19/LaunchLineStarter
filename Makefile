@@ -133,6 +133,10 @@ test:
 	@echo "Running backend tests..."
 	cd backend && poetry run python manage.py test --settings=config.settings.dev
 
+test-integration:
+	@echo "Running integration tests..."
+	python test_integration.py
+
 test-cov:
 	@echo "Running backend tests with coverage..."
 	cd backend && poetry run pytest --cov=src --cov-report=html --cov-report=term

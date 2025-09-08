@@ -1,55 +1,201 @@
 <template>
   <div class="home-page">
-    <!-- Hero Section -->
-    <Hero
-      title="Launch Your Vision"
-      subtitle="With Confidence"
-      description="Professional launch solutions designed to accelerate your business growth and maximize your success from day one."
-      cta-text="Get Started Today"
-      cta-link="/contact"
-    />
+    <!-- Hero Section - Initially visible by default -->
+      <Hero
+        :is-active="currentSection === 'hero'"
+      />
 
     <!-- Features Section -->
-    <FeatureGrid 
-      title="Why Choose LaunchLine?"
-      subtitle="We provide comprehensive solutions designed to accelerate your success and maximize your growth potential."
+    <FeaturesSection 
+      :is-active="currentSection === 'features'"
+    />
+
+    <!-- Statistics Section -->
+    <StatisticsSection 
+      :is-active="currentSection === 'statistics'"
     />
 
     <!-- Testimonials Section -->
-    <Testimonial 
-      title="What Our Clients Say"
-      subtitle="Don't just take our word for it. Here's what our satisfied clients have to say about their LaunchLine experience."
+    <TestimonialsSection 
+      :is-active="currentSection === 'testimonials'"
     />
 
     <!-- Call to Action Section -->
-    <CTA 
-      title="Ready to Launch Your Success?"
-      subtitle="Join hundreds of successful companies who have accelerated their growth with LaunchLine. Let's turn your vision into reality."
-      primary-cta-text="Start Your Launch"
-      primary-cta-link="/contact"
-      secondary-cta-text="View Services"
-      secondary-cta-link="/services"
+    <CTASection 
+      :is-active="currentSection === 'cta'"
     />
   </div>
 </template>
 
+<style scoped>
+.home-page {
+  /* Disable all scrolling on the home page */
+  overflow: hidden;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Ensure buttons and interactive elements have proper z-index */
+.home-page section button,
+.home-page section [role="button"] {
+  position: relative;
+  z-index: 30;
+}
+
+/* Ensure the scroll indicator buttons are always clickable */
+.home-page section .text-center button {
+  position: relative;
+  z-index: 30;
+  pointer-events: auto;
+}
+
+/* Disable scrollbar and scroll wheel */
+.home-page::-webkit-scrollbar {
+  display: none;
+}
+
+.home-page {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Ensure the body and html also don't scroll when on home page */
+:global(body.home-page-active) {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* Ensure text selection works on all content */
+.home-page {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+.home-page * {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+:global(html.home-page-active) {
+  overflow: hidden;
+}
+</style>
+
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import Hero from '@/components/Hero.vue'
-import FeatureGrid from '@/components/FeatureGrid.vue'
-import Testimonial from '@/components/Testimonial.vue'
-import CTA from '@/components/CTA.vue'
-import { useSeo } from '@/lib/seo'
+import { onMounted, onUnmounted, defineAsyncComponent, ref, provide, nextTick } from 'vue'
+import { useSeo } from '../lib/seo'
+
+// Use dynamic imports for components
+const Hero = defineAsyncComponent(() => import('../components/sections/hero/Hero.vue'))
+const Statistics = defineAsyncComponent(() => import('../components/ui/display/Statistics.vue'))
+const FeatureGrid = defineAsyncComponent(() => import('../components/sections/features/FeatureGrid.vue'))
+const Testimonial = defineAsyncComponent(() => import('../components/ui/display/Testimonial.vue'))
+const CTA = defineAsyncComponent(() => import('../components/sections/cta/components/CTA.vue'))
+const FeaturesSection = defineAsyncComponent(() => import('../components/sections/features/FeaturesSection.vue'))
+const StatisticsSection = defineAsyncComponent(() => import('../components/sections/StatisticsSection.vue'))
+const TestimonialsSection = defineAsyncComponent(() => import('../components/sections/TestimonialsSection.vue'))
+const CTASection = defineAsyncComponent(() => import('../components/sections/CTASection.vue'))
 
 const { updateSeo } = useSeo()
 
-onMounted(() => {
+// Section navigation state
+const currentSection = ref('hero')
+const hasNavigated = ref(false) // Track if user has clicked any navigation button
+const sections = ['hero', 'features', 'statistics', 'testimonials', 'cta']
+const isNavigating = ref(false) // Prevent rapid navigation
+
+// Create navigation object
+const navigation = {
+  goToSection: (sectionId: string) => {
+    console.log('goToSection called with:', sectionId)
+    if (sections.includes(sectionId) && !isNavigating.value) {
+      isNavigating.value = true
+      hasNavigated.value = true
+      currentSection.value = sectionId
+      console.log('Section changed to:', sectionId, 'hasNavigated:', hasNavigated.value)
+      
+      // Reset navigation lock after a short delay
+      setTimeout(() => {
+        isNavigating.value = false
+      }, 500)
+    }
+  },
+
+  goToNextSection: () => {
+    if (isNavigating.value) {
+      return;
+    }
+    
+    isNavigating.value = true
+    hasNavigated.value = true
+    const currentIndex = sections.indexOf(currentSection.value)
+    const nextIndex = (currentIndex + 1) % sections.length
+    const nextSection = sections[nextIndex]
+    currentSection.value = nextSection
+    
+    // Reset navigation lock after a short delay
+    setTimeout(() => {
+      isNavigating.value = false
+    }, 500)
+  },
+
+  goToPreviousSection: () => {
+    if (isNavigating.value) {
+      return;
+    }
+    
+    isNavigating.value = true
+    hasNavigated.value = true
+    const currentIndex = sections.indexOf(currentSection.value)
+    const prevIndex = currentIndex === 0 ? sections.length - 1 : currentIndex - 1
+    currentSection.value = sections[prevIndex]
+    
+    // Reset navigation lock after a short delay
+    setTimeout(() => {
+      isNavigating.value = false
+    }, 500)
+  }
+}
+
+// Expose navigation object to template
+defineExpose({
+  navigation
+})
+
+// Provide navigation object to child components
+provide('navigation', navigation)
+
+onMounted(async () => {
+  // Add body class to disable global scrolling
+  document.body.classList.add('home-page-active')
+  document.documentElement.classList.add('home-page-active')
+  
+  // Ensure the hero section is active after components are mounted
+  await nextTick()
+  currentSection.value = 'hero'
+  hasNavigated.value = false
+  
   updateSeo({
-    title: 'LaunchLine - Professional Launch Solutions',
-    description: 'Professional launch solutions designed to accelerate your business growth and maximize your success from day one.',
-    ogTitle: 'LaunchLine - Professional Launch Solutions',
-    ogDescription: 'Professional launch solutions designed to accelerate your business growth and maximize your success from day one.',
+    title: 'LaunchLine LLC - We\'re Taking Off | Your Brand. Your Website. Done Right.',
+    description: 'Professional websites that launch your business into the digital stratosphere. From car clubs to show promoters, we build the online presence that drives real results.',
+    ogTitle: 'LaunchLine LLC - We\'re Taking Off | Your Brand. Your Website. Done Right.',
+    ogDescription: 'Professional websites that launch your business into the digital stratosphere. From car clubs to show promoters, we build the online presence that drives real results.',
     canonical: window.location.origin + '/'
   })
+})
+
+onUnmounted(() => {
+  // Remove body class to restore global scrolling
+  document.body.classList.remove('home-page-active')
+  document.documentElement.classList.remove('home-page-active')
 })
 </script>

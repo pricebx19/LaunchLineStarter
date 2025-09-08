@@ -59,13 +59,84 @@
   }
 }
 
+@layer utilities {
+  /* Custom gradient backgrounds */
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, #0EA5E9, #8B5CF6);
+  }
+
+  /* Text gradients */
+  .text-gradient-brand {
+    background: linear-gradient(135deg, #0EA5E9, #8B5CF6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Additional gray shades for better design */
+  .bg-gray-750 {
+    background-color: #374151;
+  }
+
+  .bg-gray-850 {
+    background-color: #1f2937;
+  }
+
+  /* Additional hover effects */
+  .hover-glow {
+    transition: all 0.3s ease;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+  }
+
+  /* Custom animation delays */
+  .animation-delay-100 {
+    animation-delay: 0.1s;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 0.3s;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 0.5s;
+  }
+}
+
+/* Performance optimizations */
+* {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+}
+
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    @apply !transition-none !animate-none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 
   html {
     @apply !scroll-auto;
+  }
+  
+  /* Disable complex animations */
+  .floating-shape,
+  .floating-element,
+  .icon-pulse,
+  .tech-icon {
+    animation: none !important;
   }
 }

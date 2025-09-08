@@ -1,14 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
+import { isFeatureEnabled, FEATURE_FLAGS } from './config/features'
 
-const routes: RouteRecordRaw[] = [
+// Base routes that are always available
+const baseRoutes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Home',
     component: () => import('@/pages/Home.vue'),
     meta: {
-      title: 'LaunchLine - Professional Launch Solutions',
-      description: 'LaunchLine provides professional launch solutions for your business needs.'
+      title: 'LaunchLine LLC - We\'re Taking Off | Your Brand. Your Website. Done Right.',
+      description: 'Professional websites that launch your business into the digital stratosphere. From car clubs to show promoters, we build the online presence that drives real results.'
     }
   },
   {
@@ -16,8 +18,8 @@ const routes: RouteRecordRaw[] = [
     name: 'About',
     component: () => import('@/pages/About.vue'),
     meta: {
-      title: 'About - LaunchLine',
-      description: 'Learn more about LaunchLine and our mission to provide professional launch solutions.'
+      title: 'About - LaunchLine LLC',
+      description: 'Learn more about LaunchLine and our mission to provide professional websites that launch your brand into the digital stratosphere.'
     }
   },
   {
@@ -25,10 +27,32 @@ const routes: RouteRecordRaw[] = [
     name: 'Services',
     component: () => import('@/pages/Services.vue'),
     meta: {
-      title: 'Services - LaunchLine',
-      description: 'Discover our comprehensive range of professional launch services.'
+      title: 'Services - LaunchLine LLC',
+      description: 'Discover our professional website packages including Starter, Pro, and Elite options designed for your business needs.'
     }
   },
+  {
+    path: '/portfolio',
+    name: 'Portfolio',
+    component: () => import('@/pages/Portfolio.vue'),
+    meta: {
+      title: 'Portfolio - LaunchLine LLC',
+      description: 'See how LaunchLine has launched businesses into the digital stratosphere.'
+    }
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: () => import('@/pages/Contact.vue'),
+    meta: {
+      title: 'Contact - LaunchLine LLC',
+      description: 'Ready to launch your business into the digital stratosphere? Get in touch with LaunchLine for professional websites that drive real results.'
+    }
+  }
+]
+
+// Blog routes (conditionally added based on feature flag)
+const blogRoutes: RouteRecordRaw[] = [
   {
     path: '/blog',
     name: 'Blog',
@@ -39,14 +63,20 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/contact',
-    name: 'Contact',
-    component: () => import('@/pages/Contact.vue'),
+    path: '/blog/:slug',
+    name: 'BlogPost',
+    component: () => import('@/pages/BlogPost.vue'),
     meta: {
-      title: 'Contact - LaunchLine',
-      description: 'Get in touch with LaunchLine for your professional launch needs.'
+      title: 'Blog Post - LaunchLine',
+      description: 'Read our latest blog post.'
     }
   }
+]
+
+// Combine routes based on feature flags
+const routes: RouteRecordRaw[] = [
+  ...baseRoutes,
+  ...(isFeatureEnabled(FEATURE_FLAGS.BLOG_PAGES) ? blogRoutes : [])
 ]
 
 const router = createRouter({

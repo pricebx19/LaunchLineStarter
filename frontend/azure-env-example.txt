@@ -1,0 +1,45 @@
+# Azure Static Web Apps Environment Configuration
+# Copy these values to GitHub Secrets for deployment
+
+# API Configuration
+VITE_API_URL=https://your-backend-domain.com
+
+# App Configuration
+VITE_APP_TITLE=LaunchLine - Professional Launch Solutions
+VITE_APP_DESCRIPTION=Professional launch solutions designed to accelerate your business growth
+
+# Form Submission
+VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/mrbagvqo
+
+# Production Settings
+VITE_ENABLE_ANALYTICS=true
+VITE_ENABLE_ERROR_REPORTING=true
+
+# Feature Flags - Set to 'true' to enable features
+# Core Features
+VITE_BLOG_PAGES=true
+VITE_ROCKET_ANIMATION=true
+
+# Wagtail Features (enable as needed)
+VITE_WAGTAIL_NAVBAR=false
+VITE_WAGTAIL_FOOTER=false
+VITE_WAGTAIL_LAYOUT=false
+VITE_WAGTAIL_HERO=false
+VITE_WAGTAIL_FEATURES=false
+VITE_WAGTAIL_TESTIMONIALS=false
+VITE_WAGTAIL_CTA=false
+VITE_WAGTAIL_BLOG=true
+VITE_WAGTAIL_PORTFOLIO=false
+VITE_WAGTAIL_SERVICES=false
+VITE_WAGTAIL_CONTACT_FORM=true
+VITE_WAGTAIL_NEWSLETTER=false
+VITE_WAGTAIL_SEO=true
+VITE_WAGTAIL_META=true
+VITE_WAGTAIL_ANIMATIONS=false
+VITE_WAGTAIL_PARTICLES=false
+VITE_WAGTAIL_LAZY_LOADING=true
+VITE_WAGTAIL_CACHING=true
+
+# Experimental Features (disable in production)
+VITE_WAGTAIL_AI_CONTENT=false
+VITE_WAGTAIL_ANALYTICS=false

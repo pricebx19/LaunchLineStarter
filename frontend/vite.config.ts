@@ -13,5 +13,23 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['vue', 'vue-router'],
+          utils: ['dompurify']
+        }
+      }
+    }
+  },
+  preview: {
+    port: 4173,
+    host: true
   }
 })
