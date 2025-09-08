@@ -112,11 +112,19 @@ const handleLearnMore = () => {
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-title {
-    @apply text-4xl;
+    @apply text-3xl;
   }
   
   .hero-subtitle {
-    @apply text-lg;
+    @apply text-base;
+  }
+  
+  .metric-card {
+    @apply p-4;
+  }
+  
+  .cta-primary, .cta-secondary {
+    @apply px-6 py-3 text-sm;
   }
 }
 </style>

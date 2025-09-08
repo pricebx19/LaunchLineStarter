@@ -634,6 +634,14 @@ defineOptions({
   @apply opacity-100 translate-y-0;
 }
 
+/* Mobile: Show content immediately to prevent blank space */
+@media (max-width: 768px) {
+  .contact-info-section,
+  .contact-form-section {
+    @apply opacity-100 translate-y-0;
+  }
+}
+
 /* Animations */
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
@@ -650,11 +658,35 @@ defineOptions({
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .glass-card {
-    @apply p-6;
+    @apply p-4;
   }
   
   .section-title {
     @apply text-2xl;
+  }
+  
+  .contact-method-enhanced {
+    @apply p-3;
+  }
+  
+  .method-icon {
+    @apply w-10 h-10 mr-3;
+  }
+  
+  .method-title {
+    @apply text-base;
+  }
+  
+  .method-value {
+    @apply text-sm;
+  }
+  
+  .form-input {
+    @apply py-2;
+  }
+  
+  .submit-button {
+    @apply py-3;
   }
 }
 </style>

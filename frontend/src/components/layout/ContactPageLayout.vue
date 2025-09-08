@@ -1,5 +1,7 @@
 <template>
   <div class="contact-page min-h-screen relative overflow-hidden">
+    <!-- Ensure content is above background elements -->
+    <div class="relative z-10">
     <!-- Animated Background -->
     <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/30">
       <StarryBackground 
@@ -19,7 +21,8 @@
       </div>
     </div>
 
-    <slot />
+      <slot />
+    </div>
   </div>
 </template>
 
