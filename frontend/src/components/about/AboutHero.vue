@@ -4,10 +4,10 @@
     <StarryBackground />
 
     <div class="text-center text-white max-w-4xl mx-auto px-6 relative z-10">
-      <h1 class="text-4xl md:text-6xl font-bold mb-6 text-shadow-lg">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-6 text-shadow-lg">
         About <span class="text-brand-primary">LaunchLine</span>
       </h1>
-      <p class="text-xl text-gray-300 leading-relaxed mb-4">
+      <p class="text-lg sm:text-xl text-gray-300 leading-relaxed mb-4">
         We're dedicated to transforming businesses into digital powerhouses through cutting-edge web and software development. 
         Our mission is to provide professional solutions that launch your brand into the digital stratosphere.
       </p>

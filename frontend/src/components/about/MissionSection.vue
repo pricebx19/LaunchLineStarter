@@ -17,12 +17,12 @@
         <div class="inline-flex items-center px-3 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 mb-4">
           <span class="text-brand-primary text-sm font-semibold">🚀 OUR MISSION</span>
         </div>
-        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
           To <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-blue-400 to-cyan-300">Launch</span> 
-          <br class="hidden md:block">Every Business Into 
-          <br class="hidden md:block"><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-brand-primary to-blue-500">Digital Orbit</span>
+          <br class="block sm:hidden md:block">Every Business Into 
+          <br class="block sm:hidden md:block"><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-brand-primary to-blue-500">Digital Orbit</span>
         </h2>
-        <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+        <p class="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
           We transform ambitious ideas into digital reality, crafting web experiences that don't just look professional—they <span class="text-brand-primary font-semibold">perform</span> like rockets.
         </p>
       </div>

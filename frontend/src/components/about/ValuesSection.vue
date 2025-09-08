@@ -39,13 +39,13 @@
           <div class="w-2 h-2 bg-brand-primary rounded-full ml-3 animate-pulse" style="animation-delay: 0.5s;"></div>
         </div>
         
-        <h2 class="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold text-white mb-8 leading-tight">
           Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-purple-400 to-cyan-300 animate-pulse">Guiding</span>
-          <br class="hidden md:block">
+          <br class="block sm:hidden md:block">
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-brand-primary to-purple-500">Constellation</span>
         </h2>
         
-        <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-4">
+        <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-4 px-4">
           Like stars in the cosmos, our values illuminate every decision, guide every solution, and power every launch into the digital universe.
         </p>
         
@@ -56,8 +56,8 @@
         </div>
       </div>
       
-      <!-- Orbital Values System -->
-      <div class="orbital-system relative" ref="orbitalSystemRef">
+      <!-- Desktop: Orbital Values System -->
+      <div class="orbital-system relative hidden" ref="orbitalSystemRef">
         <!-- Central Core -->
         <OrbitalCore />
         
@@ -105,6 +105,57 @@
             :style="`animation-delay: ${index * 0.5}s`"
           />
         </svg>
+      </div>
+
+      <!-- Mobile: Card-based Values Layout -->
+      <div class="mobile-values-grid">
+        <div 
+          v-for="(value, index) in valuesConstellation" 
+          :key="`mobile-${value.title}`"
+          class="mobile-value-card"
+          :class="`card-${index + 1}`"
+        >
+          <!-- Card Header -->
+          <div class="card-header">
+            <div class="card-icon">
+              <div v-html="value.icon" class="w-8 h-8 text-brand-primary"></div>
+            </div>
+            <div class="card-title-section">
+              <h3 class="card-title">{{ value.title }}</h3>
+              <div class="card-metrics">
+                <span class="metric-badge">{{ value.metrics.impact }}</span>
+                <span class="metric-label">{{ value.metrics.priority }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Content -->
+          <div class="card-content">
+            <p class="card-description">{{ value.description }}</p>
+            
+            <!-- Principles -->
+            <div class="card-principles">
+              <h4 class="principles-title">Core Principles</h4>
+              <ul class="principles-list">
+                <li v-for="principle in value.principles" :key="principle" class="principle-item">
+                  <div class="principle-dot"></div>
+                  <span>{{ principle }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Impact Bar -->
+            <div class="card-impact">
+              <div class="impact-bar">
+                <div class="impact-fill" :style="`width: ${value.metrics.impactPercentage}%`"></div>
+              </div>
+              <span class="impact-text">{{ value.impact }}</span>
+            </div>
+          </div>
+
+          <!-- Card Glow Effect -->
+          <div class="card-glow"></div>
+        </div>
       </div>
       
       <!-- Values Summary -->
@@ -201,7 +252,7 @@ const unhighlightOrbit = (index: number) => {
 }
 
 onMounted(() => {
-  // Add scroll-triggered animations for orbital values
+  // Add scroll-triggered animations for orbital values (desktop only)
   const orbitalValues = document.querySelectorAll('.orbital-value')
   if (orbitalValues.length > 0) {
     const orbitalObserver = new IntersectionObserver((entries) => {
@@ -217,7 +268,7 @@ onMounted(() => {
     orbitalValues.forEach(value => orbitalObserver.observe(value))
   }
 
-  // Initialize constellation line animations
+  // Initialize constellation line animations (desktop only)
   const constellationLines = document.querySelectorAll('.constellation-line')
   if (constellationLines.length > 0) {
     setTimeout(() => {
@@ -227,6 +278,22 @@ onMounted(() => {
         }, index * 500)
       })
     }, 1000)
+  }
+
+  // Add scroll-triggered animations for mobile cards
+  const mobileCards = document.querySelectorAll('.mobile-value-card')
+  if (mobileCards.length > 0) {
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('card-animate-in')
+          }, index * 200)
+        }
+      })
+    }, { threshold: 0.1 })
+    
+    mobileCards.forEach(card => cardObserver.observe(card))
   }
 })
 </script>
@@ -393,6 +460,226 @@ export default {
   }
 }
 
+/* Mobile Values Grid */
+.mobile-values-grid {
+  display: none; /* Hidden by default */
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Show mobile grid only on screens smaller than 1025px */
+@media (max-width: 1024px) {
+  .mobile-values-grid {
+    display: grid;
+  }
+}
+
+/* Show orbital system only on screens 1025px and above */
+@media (min-width: 1025px) {
+  .orbital-system {
+    display: block;
+  }
+}
+
+.mobile-value-card {
+  position: relative;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: 24px;
+  padding: 2rem;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 0 30px rgba(14, 165, 233, 0.1);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.mobile-value-card.card-animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-value-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(14, 165, 233, 0.6);
+  box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.4), 0 0 40px rgba(14, 165, 233, 0.2);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-icon {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(139, 92, 246, 0.2));
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.card-title-section {
+  flex: 1;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.card-metrics {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.metric-badge {
+  background: linear-gradient(135deg, #0EA5E9, #8B5CF6);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.metric-label {
+  color: #9CA3AF;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Card Content */
+.card-content {
+  color: #D1D5DB;
+}
+
+.card-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: #E5E7EB;
+}
+
+.card-principles {
+  margin-bottom: 1.5rem;
+}
+
+.principles-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.75rem;
+}
+
+.principles-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.principle-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.principle-dot {
+  width: 6px;
+  height: 6px;
+  background: #0EA5E9;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  margin-top: 0.5rem;
+  flex-shrink: 0;
+}
+
+.card-impact {
+  border-top: 1px solid rgba(14, 165, 233, 0.2);
+  padding-top: 1rem;
+}
+
+.impact-bar {
+  height: 6px;
+  background: rgba(14, 165, 233, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.impact-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0EA5E9, #8B5CF6);
+  border-radius: 3px;
+  transition: width 1.5s ease-out;
+  animation: impact-fill 2s ease-out forwards;
+}
+
+.impact-text {
+  font-size: 0.875rem;
+  color: #9CA3AF;
+  line-height: 1.4;
+}
+
+/* Card Glow Effect */
+.card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.05), rgba(139, 92, 246, 0.05));
+  border-radius: 24px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.mobile-value-card:hover .card-glow {
+  opacity: 1;
+}
+
+/* Card-specific animations */
+.card-1 .impact-fill { animation-delay: 0.2s; }
+.card-2 .impact-fill { animation-delay: 0.4s; }
+.card-3 .impact-fill { animation-delay: 0.6s; }
+.card-4 .impact-fill { animation-delay: 0.8s; }
+
+@keyframes impact-fill {
+  from { width: 0%; }
+  to { width: var(--impact-width, 95%); }
+}
+
+/* Mobile card entrance animations */
+@keyframes card-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-value-card.card-animate-in {
+  animation: card-slide-up 0.6s ease-out forwards;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .orbital-system {
@@ -406,6 +693,18 @@ export default {
     height: 300px;
     max-width: 600px;
   }
+  
+  .mobile-values-grid {
+    gap: 1.5rem;
+  }
+  
+  .mobile-value-card {
+    padding: 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+  }
 }
 
 @media (max-width: 640px) {
@@ -416,6 +715,31 @@ export default {
   .orbital-system {
     height: 250px;
     max-width: 100%;
+  }
+  
+  .mobile-values-grid {
+    gap: 1.25rem;
+  }
+  
+  .mobile-value-card {
+    padding: 1.25rem;
+  }
+  
+  .card-header {
+    gap: 0.75rem;
+  }
+  
+  .card-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .card-title {
+    font-size: 1.125rem;
+  }
+  
+  .card-description {
+    font-size: 0.875rem;
   }
 }
 </style>

@@ -16,11 +16,11 @@
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 mb-6">
           <span class="text-brand-primary text-sm font-semibold">⚡ OUR PROCESS</span>
         </div>
-        <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
           The <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-blue-400 to-cyan-300">LaunchLine</span> 
-          <br class="hidden md:block">Methodology
+          <br class="block sm:hidden md:block">Methodology
         </h2>
-        <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+        <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed px-4">
           A proven 3-phase rocket launch sequence that transforms your vision into a digital reality that <span class="text-brand-primary font-semibold">outperforms</span> expectations.
         </p>
       </div>
