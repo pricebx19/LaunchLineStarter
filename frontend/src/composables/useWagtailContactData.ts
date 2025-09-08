@@ -52,9 +52,9 @@ export function useWagtailContactData() {
       } else {
         throw new Error('No contact page found in Wagtail')
       }
-    } catch (error) {
-      console.error('Failed to fetch Wagtail contact data:', error)
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load contact page data'
+    } catch (err) {
+      console.error('Failed to fetch Wagtail contact data:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load contact page data'
       error.value = errorMessage
       
       // Clear the data so error state is shown
