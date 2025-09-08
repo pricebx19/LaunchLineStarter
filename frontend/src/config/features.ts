@@ -43,7 +43,7 @@ export const FEATURE_FLAGS = {
 export const FEATURES = {
   // Legacy features (environment variables)
   [FEATURE_FLAGS.ROCKET_ANIMATION]: import.meta.env.VITE_ROCKET_ANIMATION === 'true',
-  [FEATURE_FLAGS.BLOG_PAGES]: import.meta.env.VITE_BLOG_PAGES !== 'false',
+  [FEATURE_FLAGS.BLOG_PAGES]: import.meta.env.VITE_BLOG_PAGES === 'true',
   
   // Wagtail features - these will be overridden by API data
   [FEATURE_FLAGS.WAGTAIL_NAVBAR]: import.meta.env.VITE_WAGTAIL_NAVBAR === 'true',
