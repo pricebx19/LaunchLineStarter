@@ -42,28 +42,15 @@
 
 <script setup lang="ts">
 import { inject, defineAsyncComponent } from 'vue'
+import type { HeroProps, ParentNavigation } from '../../../types'
 
 // Use dynamic imports for navigation components
 const NavigationDownButton = defineAsyncComponent(() => import('../../ui/navigation/NavigationDownButton.vue'))
 
 // Inject navigation function from parent
-interface ParentNavigation {
-  goToNextSection: () => void
-  goToPreviousSection: () => void
-  goToSection: (sectionId: string) => void
-}
-
 const parentNavigation = inject<ParentNavigation | null>('navigation', null)
 
-interface Props {
-  isActive: boolean
-  title?: string
-  subtitle?: string
-  description?: string
-  ctaText?: string
-  ctaLink?: string
-  backgroundImage?: string
-}
+interface Props extends HeroProps {}
 
 defineProps<Props>();
 

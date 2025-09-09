@@ -16,11 +16,9 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  count?: number
-  color?: string
-  speed?: number
-}
+import type { TechIconProps } from '../../types'
+
+interface Props extends TechIconProps {}
 
 const props = withDefaults(defineProps<Props>(), {
   count: 6,

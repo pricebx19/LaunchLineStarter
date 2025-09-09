@@ -52,19 +52,9 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  visible?: boolean
-  loading?: boolean
-  showAll?: boolean
-  remainingCount?: number
-  itemType?: string
-  showAllText?: string
-  showLessText?: string
-  loadingText?: string
-  variant?: 'primary' | 'secondary' | 'minimal'
-  showIcon?: boolean
-  showLessButton?: boolean
-}
+import type { LoadMoreButtonProps } from '../../types'
+
+interface Props extends LoadMoreButtonProps {}
 
 withDefaults(defineProps<Props>(), {
   visible: true,

@@ -10,7 +10,21 @@
 </template>
 
 <script setup lang="ts">
-// No props or logic needed for this visual component
+import type { AnimationProps } from '../../types/Common'
+
+interface Props extends AnimationProps {
+  intensity?: 'low' | 'medium' | 'high'
+  color?: 'blue' | 'purple' | 'mixed'
+}
+
+withDefaults(defineProps<Props>(), {
+  intensity: 'medium',
+  color: 'mixed'
+})
+
+defineOptions({
+  name: 'BlogBackgroundEffects'
+})
 </script>
 
 <style scoped>

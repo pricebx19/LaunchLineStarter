@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent, onMounted, nextTick } from 'vue'
+import type { CTAStat } from '../../../types/index'
 
 const StarryBackground = defineAsyncComponent(() => import('../../effects/StarryBackground.vue'))
 const FloatingShapes = defineAsyncComponent(() => import('../../effects/FloatingShapes.vue'))
@@ -38,13 +39,8 @@ const HeroTitle = defineAsyncComponent(() => import('./HeroTitle.vue'))
 const StatsCounter = defineAsyncComponent(() => import('../../ui/display/StatsCounter.vue'))
 const ScrollIndicator = defineAsyncComponent(() => import('../../ui/navigation/ScrollIndicator.vue'))
 
-interface Stat {
-  value: string
-  label: string
-}
-
 defineProps<{
-  stats: Stat[]
+  stats: CTAStat[]
 }>()
 
 onMounted(() => {

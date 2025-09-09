@@ -76,16 +76,19 @@
 </template>
 
 <script setup lang="ts">
-// Remove duplicate interfaces - using the ones from componentData
+import type { Testimonial, TestimonialData } from '../../../types/UI'
+import { TESTIMONIAL_DATA } from '../../../data/ui'
 
 interface Props {
   title?: string
   subtitle?: string
-  testimonials?: TestimonialWithRating[]
+  testimonials?: Testimonial[]
+  testimonialData?: TestimonialData
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  testimonials: () => defaultTestimonials
+  testimonials: () => TESTIMONIAL_DATA.testimonials,
+  testimonialData: () => TESTIMONIAL_DATA
 })
 
 const getInitials = (name: string): string => {

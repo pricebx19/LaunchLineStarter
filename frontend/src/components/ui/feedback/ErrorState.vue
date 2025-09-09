@@ -4,8 +4,8 @@
       <svg :class="iconClass" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="iconPath"/>
       </svg>
-      <h3 class="text-lg font-semibold text-white mb-2">{{ title }}</h3>
-      <p class="text-gray-400 mb-4">{{ message }}</p>
+      <h3 class="text-lg font-semibold text-white mb-2">{{ title || errorData.title }}</h3>
+      <p class="text-gray-400 mb-4">{{ message || errorData.description }}</p>
       <button 
         v-if="showRetryButton"
         @click="$emit('retry')" 
@@ -20,21 +20,25 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { ErrorStateData } from '../../../types/UI'
+import { ERROR_STATE_PRESETS } from '../../../data/ui'
 
 interface Props {
-  title: string
-  message: string
+  title?: string
+  message?: string
   fullScreen?: boolean
   showRetryButton?: boolean
   retryText?: string
   errorType?: 'error' | 'warning' | 'not-found'
+  errorData?: ErrorStateData
 }
 
 const props = withDefaults(defineProps<Props>(), {
   fullScreen: false,
   showRetryButton: true,
   retryText: 'Try Again',
-  errorType: 'error'
+  errorType: 'error',
+  errorData: () => ERROR_STATE_PRESETS.serverError
 })
 
 defineEmits<{

@@ -9,13 +9,13 @@
       <!-- Section Header -->
       <div class="text-center mb-16">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 mb-6">
-          <span class="text-brand-primary text-sm font-semibold">👥 {{ badgeText }}</span>
+          <span class="text-brand-primary text-sm font-semibold">👥 {{ teamData.title.toUpperCase() }}</span>
         </div>
         <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-          {{ title }}
+          {{ teamData.subtitle }}
         </h2>
         <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-          {{ description }}
+          {{ teamData.description }}
         </p>
       </div>
       
@@ -31,7 +31,7 @@
           <div class="member-avatar-wrapper">
             <div class="member-avatar">
               <div class="avatar-placeholder">
-                {{ member.initials }}
+                {{ member.name.split(' ').map(n => n[0]).join('') }}
               </div>
               <div class="avatar-glow"></div>
             </div>
@@ -41,17 +41,20 @@
           <div class="member-info">
             <h3 class="member-name">{{ member.name }}</h3>
             <div class="member-role">{{ member.role }}</div>
-            <p class="member-description">{{ member.description }}</p>
+            <p class="member-description">{{ member.bio }}</p>
             
-            <!-- Skills -->
+            <!-- Social Links -->
             <div class="member-skills">
-              <span 
-                v-for="skill in member.skills" 
-                :key="skill"
+              <a 
+                v-for="(url, platform) in member.social" 
+                :key="platform"
+                :href="url"
                 class="skill-tag"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {{ skill }}
-              </span>
+                {{ platform }}
+              </a>
             </div>
           </div>
           
@@ -79,28 +82,24 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { teamMembers as defaultTeamMembers, type TeamMember } from '../../data/componentData'
+import { TEAM_DATA } from '../../data/about'
+import type { TeamData, TeamMember } from '../../types/About'
 
-// Remove duplicate interface - using the one from componentData
-
-const props = withDefaults(defineProps<{
-  badgeText?: string
-  title?: string
-  description?: string
+interface Props {
+  teamData?: TeamData
   ctaTitle?: string
   ctaDescription?: string
   ctaText?: string
-  team?: TeamMember[]
-}>(), {
-  badgeText: 'OUR TEAM',
-  title: 'Meet the Crew',
-  description: 'The talented individuals behind every successful launch, each bringing unique expertise to propel your project forward.',
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  teamData: () => TEAM_DATA,
   ctaTitle: 'Ready to Work with Us?',
   ctaDescription: 'Join the growing list of successful businesses that have launched into the digital stratosphere with our help.',
   ctaText: 'Start Your Project'
 })
 
-const teamMembers = computed(() => props.team || defaultTeamMembers)
+const teamMembers = computed(() => props.teamData.members)
 </script>
 
 <style scoped>

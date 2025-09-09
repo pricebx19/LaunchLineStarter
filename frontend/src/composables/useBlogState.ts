@@ -35,7 +35,7 @@ export function useBlogState(blogPosts?: Ref<any[]>) {
   )
 
   // Search timeout for debouncing
-  let searchTimeout: number | null = null
+  let searchTimeout: ReturnType<typeof setTimeout> | null = null
 
   // Methods
   const applySearchSuggestion = (suggestion: string) => {

@@ -284,3 +284,387 @@ class MetricsBlock(blocks.StructBlock):
         template = "blocks/metrics_block.html"
         icon = "chart-line"
         label = "Metrics"
+
+
+# Service-specific blocks
+class ServicePackageBlock(blocks.StructBlock):
+    """Single service package with pricing and features."""
+
+    title = blocks.CharBlock(max_length=100, help_text="Package title")
+    description = blocks.TextBlock(
+        max_length=500,
+        help_text="Package description"
+    )
+    price = blocks.CharBlock(
+        max_length=50,
+        help_text="Price (e.g., 'From $2,500')"
+    )
+    duration = blocks.CharBlock(
+        max_length=50,
+        help_text="Duration (e.g., '2 weeks')"
+    )
+    icon = blocks.RawHTMLBlock(
+        help_text="SVG icon HTML code"
+    )
+    features = blocks.ListBlock(
+        blocks.CharBlock(max_length=200),
+        min_num=1,
+        max_num=10,
+        help_text="Package features"
+    )
+
+    class Meta:
+        icon = "tick"
+        label = "Service Package"
+
+
+class AlaCarteServiceBlock(blocks.StructBlock):
+    """Single a la carte service item."""
+
+    title = blocks.CharBlock(max_length=100, help_text="Service title")
+    description = blocks.TextBlock(
+        max_length=300,
+        help_text="Service description"
+    )
+    price = blocks.CharBlock(
+        max_length=50,
+        help_text="Price (e.g., '$350')"
+    )
+    icon = blocks.RawHTMLBlock(
+        help_text="SVG icon HTML code"
+    )
+    category = blocks.CharBlock(
+        max_length=50,
+        help_text="Service category (e.g., 'Design', 'Development')"
+    )
+    features = blocks.ListBlock(
+        blocks.CharBlock(max_length=200),
+        min_num=1,
+        max_num=8,
+        help_text="Service features"
+    )
+    popular = blocks.BooleanBlock(
+        required=False,
+        help_text="Mark as popular service"
+    )
+
+    class Meta:
+        icon = "list-ul"
+        label = "A La Carte Service"
+
+
+class FAQBlock(blocks.StructBlock):
+    """Single FAQ item."""
+
+    question = blocks.CharBlock(
+        max_length=200,
+        help_text="FAQ question"
+    )
+    answer = blocks.TextBlock(
+        max_length=1000,
+        help_text="FAQ answer"
+    )
+
+    class Meta:
+        icon = "help"
+        label = "FAQ Item"
+
+
+class ServicePackagesBlock(blocks.StructBlock):
+    """Service packages section."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        default="Choose Your Perfect Package",
+        help_text="Section heading"
+    )
+    subheading = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Section subheading"
+    )
+    packages = blocks.ListBlock(
+        ServicePackageBlock(),
+        min_num=1,
+        max_num=5,
+        help_text="Add service packages"
+    )
+
+    class Meta:
+        template = "blocks/service_packages_block.html"
+        icon = "list-ul"
+        label = "Service Packages"
+
+
+class AlaCarteServicesBlock(blocks.StructBlock):
+    """A la carte services section."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        default="A La Carte Services",
+        help_text="Section heading"
+    )
+    subheading = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Section subheading"
+    )
+    services = blocks.ListBlock(
+        AlaCarteServiceBlock(),
+        min_num=1,
+        max_num=20,
+        help_text="Add a la carte services"
+    )
+
+    class Meta:
+        template = "blocks/ala_carte_services_block.html"
+        icon = "list-ul"
+        label = "A La Carte Services"
+
+
+class FAQSectionBlock(blocks.StructBlock):
+    """FAQ section."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        default="Frequently Asked Questions",
+        help_text="Section heading"
+    )
+    subheading = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Section subheading"
+    )
+    faqs = blocks.ListBlock(
+        FAQBlock(),
+        min_num=1,
+        max_num=15,
+        help_text="Add FAQ items"
+    )
+
+    class Meta:
+        template = "blocks/faq_section_block.html"
+        icon = "help"
+        label = "FAQ Section"
+
+
+# Portfolio-specific blocks
+class ProjectBlock(blocks.StructBlock):
+    """Single portfolio project."""
+
+    title = blocks.CharBlock(max_length=100, help_text="Project title")
+    description = blocks.TextBlock(
+        max_length=500,
+        help_text="Project description"
+    )
+    icon = blocks.RawHTMLBlock(
+        help_text="SVG icon HTML code"
+    )
+    tags = blocks.ListBlock(
+        blocks.CharBlock(max_length=50),
+        min_num=1,
+        max_num=8,
+        help_text="Project tags"
+    )
+    package = blocks.CharBlock(
+        max_length=50,
+        help_text="Package type (e.g., 'Starter', 'Pro', 'Elite')"
+    )
+    timeline = blocks.CharBlock(
+        max_length=50,
+        help_text="Project timeline (e.g., '2 weeks', '4-6 weeks')"
+    )
+    category = blocks.CharBlock(
+        max_length=50,
+        help_text="Project category (e.g., 'SaaS', 'E-Commerce')"
+    )
+    image = ImageChooserBlock(
+        required=False,
+        help_text="Project image"
+    )
+    technologies = blocks.ListBlock(
+        blocks.CharBlock(max_length=50),
+        min_num=1,
+        max_num=10,
+        help_text="Technologies used"
+    )
+    status = blocks.ChoiceBlock(
+        choices=[
+            ("completed", "Completed"),
+            ("in-progress", "In Progress"),
+            ("featured", "Featured"),
+        ],
+        default="completed",
+        help_text="Project status"
+    )
+    visits = blocks.CharBlock(
+        max_length=50,
+        required=False,
+        help_text="Visits metric (e.g., '10K+')"
+    )
+    conversion = blocks.CharBlock(
+        max_length=50,
+        required=False,
+        help_text="Conversion metric (e.g., '25%')"
+    )
+    performance = blocks.CharBlock(
+        max_length=50,
+        required=False,
+        help_text="Performance metric (e.g., '98%')"
+    )
+
+    class Meta:
+        icon = "image"
+        label = "Portfolio Project"
+
+
+class CaseStudyBlock(blocks.StructBlock):
+    """Single case study."""
+
+    title = blocks.CharBlock(max_length=100, help_text="Case study title")
+    business = blocks.CharBlock(
+        max_length=100,
+        help_text="Business name"
+    )
+    icon = blocks.RawHTMLBlock(
+        help_text="SVG icon HTML code"
+    )
+    metric1_value = blocks.CharBlock(
+        max_length=50,
+        help_text="First metric value"
+    )
+    metric1_label = blocks.CharBlock(
+        max_length=100,
+        help_text="First metric label"
+    )
+    metric2_value = blocks.CharBlock(
+        max_length=50,
+        help_text="Second metric value"
+    )
+    metric2_label = blocks.CharBlock(
+        max_length=100,
+        help_text="Second metric label"
+    )
+    description = blocks.TextBlock(
+        max_length=1000,
+        help_text="Case study description"
+    )
+    package = blocks.CharBlock(
+        max_length=50,
+        help_text="Package used"
+    )
+    timeline = blocks.CharBlock(
+        max_length=50,
+        help_text="Project timeline"
+    )
+    testimonial = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Client testimonial"
+    )
+    client = blocks.CharBlock(
+        max_length=100,
+        required=False,
+        help_text="Client name"
+    )
+
+    class Meta:
+        icon = "doc-full"
+        label = "Case Study"
+
+
+class TechnologyBlock(blocks.StructBlock):
+    """Single technology."""
+
+    name = blocks.CharBlock(max_length=50, help_text="Technology name")
+    icon = blocks.RawHTMLBlock(
+        help_text="SVG icon HTML code"
+    )
+
+    class Meta:
+        icon = "cog"
+        label = "Technology"
+
+
+class PortfolioProjectsBlock(blocks.StructBlock):
+    """Portfolio projects section."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        default="Our Portfolio",
+        help_text="Section heading"
+    )
+    subheading = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Section subheading"
+    )
+    projects = blocks.ListBlock(
+        ProjectBlock(),
+        min_num=1,
+        max_num=20,
+        help_text="Add portfolio projects"
+    )
+
+    class Meta:
+        template = "blocks/portfolio_projects_block.html"
+        icon = "image"
+        label = "Portfolio Projects"
+
+
+class CaseStudiesBlock(blocks.StructBlock):
+    """Case studies section."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        default="Success Stories",
+        help_text="Section heading"
+    )
+    subheading = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Section subheading"
+    )
+    case_studies = blocks.ListBlock(
+        CaseStudyBlock(),
+        min_num=1,
+        max_num=10,
+        help_text="Add case studies"
+    )
+
+    class Meta:
+        template = "blocks/case_studies_block.html"
+        icon = "doc-full"
+        label = "Case Studies"
+
+
+class TechnologiesBlock(blocks.StructBlock):
+    """Technologies showcase section."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        default="Technologies We Use",
+        help_text="Section heading"
+    )
+    subheading = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Section subheading"
+    )
+    technologies = blocks.ListBlock(
+        TechnologyBlock(),
+        min_num=1,
+        max_num=20,
+        help_text="Add technologies"
+    )
+
+    class Meta:
+        template = "blocks/technologies_block.html"
+        icon = "cog"
+        label = "Technologies"

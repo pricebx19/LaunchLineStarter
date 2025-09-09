@@ -8,13 +8,10 @@
 </template>
 
 <script setup lang="ts">
-interface Stat {
-  value: string
-  label: string
-}
+import type { CTAStat } from '../../../types/index'
 
 defineProps<{
-  stats: Stat[]
+  stats: CTAStat[]
 }>()
 </script>
 

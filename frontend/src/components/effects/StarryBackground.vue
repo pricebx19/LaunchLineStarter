@@ -43,7 +43,10 @@
 </template>
 
 <script setup lang="ts">
-interface StarryBackgroundProps {
+import type { AnimationProps } from '../../types/Common'
+import { STARRY_BACKGROUND_PRESETS } from '../../data/animations'
+
+interface StarryBackgroundProps extends AnimationProps {
   largeCount?: number
   mediumCount?: number
   smallCount?: number
@@ -53,6 +56,7 @@ interface StarryBackgroundProps {
   showSmall?: boolean
   showShooting?: boolean
   opacity?: number
+  preset?: 'subtle' | 'default' | 'intense'
 }
 
 const props = withDefaults(defineProps<StarryBackgroundProps>(), {
@@ -64,7 +68,8 @@ const props = withDefaults(defineProps<StarryBackgroundProps>(), {
   showMedium: true,
   showSmall: true,
   showShooting: true,
-  opacity: 1
+  opacity: 1,
+  preset: 'default'
 })
 
 defineOptions({

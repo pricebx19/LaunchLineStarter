@@ -38,6 +38,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
 import { useSeo } from '../../lib/seo'
+import type { HomePageData } from '../../types'
+import { HOME_PAGE_DATA } from '../../data/content'
 
 defineOptions({
   name: 'MobileHome'
@@ -52,6 +54,14 @@ const MobileTestimonialsSection = defineAsyncComponent(() => import('../sections
 const MobileCTASection = defineAsyncComponent(() => import('../sections/MobileCTASection.vue'))
 
 const { updateSeo } = useSeo()
+
+interface Props {
+  homeData?: HomePageData
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  homeData: () => HOME_PAGE_DATA
+})
 
 // Scroll to top functionality
 const showScrollTop = ref(false)

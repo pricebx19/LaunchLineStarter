@@ -30,6 +30,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, defineAsyncComponent, ref, provide, nextTick } from 'vue'
 import { useSeo } from '../../lib/seo'
+import type { HomePageData } from '../../types'
+import { HOME_PAGE_DATA } from '../../data/content'
 
 defineOptions({
   name: 'DesktopHome'
@@ -43,6 +45,14 @@ const TestimonialsSection = defineAsyncComponent(() => import('../sections/Testi
 const CTASection = defineAsyncComponent(() => import('../sections/CTASection.vue'))
 
 const { updateSeo } = useSeo()
+
+interface Props {
+  homeData?: HomePageData
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  homeData: () => HOME_PAGE_DATA
+})
 
 // Section navigation state
 const currentSection = ref('hero')

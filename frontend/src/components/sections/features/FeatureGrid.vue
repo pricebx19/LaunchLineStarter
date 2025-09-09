@@ -68,7 +68,7 @@
             
             <!-- Icon Container - No box, just the icon -->
             <div class="icon-container relative z-10 w-16 h-16 mx-auto mb-5 flex items-center justify-center group-hover:scale-110 transition-all duration-500">
-              <div class="w-12 h-12 text-blue-400 group-hover:text-blue-300 transition-all duration-500 flex items-center justify-center overflow-hidden" v-html="getFeatureIcon(feature.icon)"></div>
+              <div class="w-12 h-12 text-blue-400 group-hover:text-blue-300 transition-all duration-500 flex items-center justify-center overflow-hidden" v-html="getFeatureIcon(feature.icon || 'strategy')"></div>
             </div>
             
             <!-- Content -->
@@ -101,21 +101,15 @@
 </template>
 
 <script setup lang="ts">
+import { inject, defineAsyncComponent } from 'vue'
+import { features as defaultFeatures } from '../../../data/componentData'
+import type { FeatureGridProps, Feature } from '../../../types'
 
-// Remove duplicate interface - using the one from componentData
-
-interface Props {
-  title?: string
-  subtitle?: string
-  features?: Feature[]
-}
+interface Props extends FeatureGridProps {}
 
 const props = withDefaults(defineProps<Props>(), {
   features: () => defaultFeatures
 })
-
-import { inject, defineAsyncComponent } from 'vue'
-import { features as defaultFeatures, type Feature } from '../../../data/componentData'
 
 // Use dynamic imports for navigation components
 const NavigationUpButton = defineAsyncComponent(() => import('../../ui/navigation/NavigationUpButton.vue'))

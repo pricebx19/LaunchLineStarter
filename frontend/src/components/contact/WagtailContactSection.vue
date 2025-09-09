@@ -182,26 +182,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue'
-
-interface StreamFieldBlock {
-  type: string
-  value: any
-}
-
-interface WagtailContactData {
-  content?: StreamFieldBlock[]
-  title?: string
-  slug?: string
-  phone?: string
-  email?: string
-}
-
-interface ContactFormData {
-  name: string
-  email: string
-  subject: string
-  message: string
-}
+import type { WagtailContactData, ContactFormData, StreamFieldBlock } from '../../types'
 
 const props = defineProps<{
   wagtailData: WagtailContactData

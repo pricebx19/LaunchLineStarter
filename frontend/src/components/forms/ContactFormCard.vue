@@ -26,22 +26,10 @@
 
 <script setup lang="ts">
 import { ref, reactive, defineAsyncComponent } from 'vue'
+import type { ContactFormData, FormErrors } from '../../types'
 
 const ContactFormSuccess = defineAsyncComponent(() => import('./ContactFormSuccess.vue'))
 const ContactFormFields = defineAsyncComponent(() => import('./ContactFormFields.vue'))
-
-interface FormData {
-  name: string
-  email: string
-  subject: string
-  budget: string
-  timeline: string
-  message: string
-}
-
-interface FormErrors {
-  [key: string]: string
-}
 
 const props = withDefaults(defineProps<{
   title?: string
@@ -50,13 +38,13 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'form-submit': [data: FormData]
+  'form-submit': [data: ContactFormData]
 }>()
 
 const formSubmitted = ref(false)
 const isSubmitting = ref(false)
 
-const formData = reactive<FormData>({
+const formData = reactive<ContactFormData>({
   name: '',
   email: '',
   subject: '',
@@ -117,7 +105,7 @@ const validateForm = (): boolean => {
 }
 
 const handleFieldChange = (field: string, value: string) => {
-  formData[field as keyof FormData] = value
+  ;(formData as any)[field] = value
   // Clear error when user starts typing
   if (formErrors[field]) {
     delete formErrors[field]
@@ -149,7 +137,7 @@ const handleSubmit = async () => {
 const resetForm = () => {
   formSubmitted.value = false
   Object.keys(formData).forEach(key => {
-    formData[key as keyof FormData] = ''
+    ;(formData as any)[key] = ''
   })
   Object.keys(formErrors).forEach(key => {
     delete formErrors[key]

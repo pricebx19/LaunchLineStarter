@@ -34,23 +34,9 @@
 
 <script setup lang="ts">
 import ContactMethod from './ContactMethod.vue'
+import type { ContactMethodData, ContactInfoProps } from '../../../types'
 
-interface ContactMethodData {
-  title: string
-  content?: string
-  customContent?: string
-  link?: string
-  type: 'email' | 'phone' | 'location' | 'custom'
-  iconPath?: string
-}
-
-interface Props {
-  title?: string
-  description?: string
-  contactMethods?: ContactMethodData[]
-  responseTimeTitle?: string
-  responseTimeDescription?: string
-}
+interface Props extends ContactInfoProps {}
 
 withDefaults(defineProps<Props>(), {
   title: "Let's Start a Conversation",

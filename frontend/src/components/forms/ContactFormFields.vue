@@ -129,22 +129,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-
-interface FormData {
-  name: string
-  email: string
-  subject: string
-  budget: string
-  timeline: string
-  message: string
-}
-
-interface FormErrors {
-  [key: string]: string
-}
+import type { ContactFormData, FormErrors } from '../../types'
 
 defineProps<{
-  formData: FormData
+  formData: ContactFormData
   formErrors: FormErrors
   isSubmitting: boolean
 }>()

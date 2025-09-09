@@ -1,3 +1,5 @@
+import type { CTAStat } from '../types/index'
+
 export interface Project {
   id: number
   title: string
@@ -52,7 +54,7 @@ export const portfolioCategories: string[] = [
 ]
 
 // Hero section stats
-export const portfolioStats: Stat[] = [
+export const portfolioStats: CTAStat[] = [
   { value: '50+', label: 'Projects Launched' },
   { value: '300%', label: 'Avg Growth' },
   { value: '98%', label: 'Client Satisfaction' },

@@ -38,7 +38,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
-            <span>{{ formatDate(blogPost.publishedDate || blogPost.date) }}</span>
+            <span>{{ formatDate(blogPost.publishedDate || blogPost.date || '') }}</span>
           </div>
           <div class="flex items-center space-x-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,14 +75,14 @@
 </template>
 
 <script setup lang="ts">
-import type { BlogPage } from '../../lib/api'
-import type { SocialLink } from '../../composables/useSocialSharing'
+import type { BlogPost } from '../../types/Content'
+import type { SocialLink } from '../../types/SocialSharing'
+import { formatDate } from '../../utils/helpers'
 
 interface Props {
-  blogPost: BlogPage
+  blogPost: BlogPost
   estimatedReadTime: number
   socialLinks: SocialLink[]
-  formatDate: (dateString: string) => string
 }
 
 interface Emits {

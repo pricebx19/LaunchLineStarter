@@ -183,7 +183,7 @@ defineOptions({
 const orbitalSystemRef = ref<HTMLElement>()
 
 // Track hover timeouts for better interaction
-let hoverTimeouts: { [key: number]: number } = {}
+let hoverTimeouts: { [key: number]: ReturnType<typeof setTimeout> } = {}
 
 // Generate energy particle positions
 const getEnergyParticleStyle = (index: number) => {

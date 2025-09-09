@@ -39,21 +39,7 @@ import StarryBackground from '../../effects/StarryBackground.vue'
 import ContactInfo from './ContactInfo.vue'
 import ContactForm from '../ContactForm.vue'
 
-interface ContactMethodData {
-  title: string
-  content?: string
-  customContent?: string
-  link?: string
-  type: 'email' | 'phone' | 'location' | 'custom'
-  iconPath?: string
-}
-
-interface ContactFormData {
-  name: string
-  email: string
-  subject: string
-  message: string
-}
+import type { ContactMethodData, ContactFormData } from '../../../types'
 
 interface Props {
   infoTitle?: string

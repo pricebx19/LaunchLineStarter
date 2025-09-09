@@ -1,16 +1,13 @@
 import { ref } from 'vue'
-
-export interface WagtailContactData {
-  content: any[]
-  title: string
-  slug: string
-}
+import type { WagtailContactData } from '../types'
 
 export function useWagtailContactData() {
   const wagtailData = ref<WagtailContactData>({
+    id: 1,
     content: [],
     title: '',
-    slug: ''
+    slug: '',
+    seo: {}
   })
 
   const isLoading = ref(false)
@@ -37,9 +34,11 @@ export function useWagtailContactData() {
         
         // Store the raw StreamField content directly
         wagtailData.value = {
+          id: contactPage.id || 1,
           content: contactPage.content || [],
           title: contactPage.title || '',
-          slug: contactPage.slug || ''
+          slug: contactPage.slug || '',
+          seo: contactPage.seo || {}
         }
         
         // Validate that we have content blocks
@@ -59,9 +58,11 @@ export function useWagtailContactData() {
       
       // Clear the data so error state is shown
       wagtailData.value = {
+        id: 1,
         content: [],
         title: '',
-        slug: ''
+        slug: '',
+        seo: {}
       }
       return { success: false, error: errorMessage }
     } finally {
@@ -71,9 +72,11 @@ export function useWagtailContactData() {
 
   const clearData = () => {
     wagtailData.value = {
+      id: 1,
       content: [],
       title: '',
-      slug: ''
+      slug: '',
+      seo: {}
     }
     error.value = null
   }

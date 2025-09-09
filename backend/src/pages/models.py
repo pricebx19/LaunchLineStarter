@@ -16,6 +16,12 @@ from .blocks import (
     ContactInfoBlock,
     SocialLinksBlock,
     MetricsBlock,
+    ServicePackagesBlock,
+    AlaCarteServicesBlock,
+    FAQSectionBlock,
+    PortfolioProjectsBlock,
+    CaseStudiesBlock,
+    TechnologiesBlock,
 )
 
 
@@ -248,15 +254,25 @@ class StandardPage(SEOMixin, Page):
 
 
 class BlogIndexPage(SEOMixin, Page):
-    """Blog index page listing blog posts."""
+    """Blog index page with StreamField content and blog posts listing."""
 
+    # Main content using StreamField
+    content = StreamField([
+        ("hero", HeroBlock()),
+        ("text", TextBlock()),
+        ("cta", CTABlock()),
+        ("image", ImageBlock()),
+    ], blank=True, use_json_field=True)
+
+    # Legacy intro field for backward compatibility
     intro = models.TextField(
         max_length=500,
         blank=True,
-        help_text="Optional blog introduction"
+        help_text="Optional blog introduction (legacy field)"
     )
 
     content_panels = Page.content_panels + [
+        FieldPanel("content"),
         FieldPanel("intro"),
     ]
 
@@ -264,9 +280,11 @@ class BlogIndexPage(SEOMixin, Page):
 
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
+        index.SearchField("content"),
     ]
 
     api_fields = [
+        APIField("content"),
         APIField("intro"),
         APIField("blog_posts"),
     ] + SEOMixin.api_fields
@@ -336,3 +354,139 @@ class BlogPage(SEOMixin, Page):
     class Meta:
         verbose_name = "Blog Page"
         ordering = ["-date"]
+
+
+class ServicesPage(SEOMixin, Page):
+    """Services page with 100% StreamField content."""
+
+    # Main content using StreamField
+    content = StreamField([
+        ("hero", HeroBlock()),
+        ("service_packages", ServicePackagesBlock()),
+        ("ala_carte_services", AlaCarteServicesBlock()),
+        ("faq_section", FAQSectionBlock()),
+        ("cta", CTABlock()),
+        ("text", TextBlock()),
+        ("image", ImageBlock()),
+    ], blank=True, use_json_field=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel("content"),
+    ]
+
+    promote_panels = Page.promote_panels + SEOMixin.seo_panels
+
+    search_fields = Page.search_fields + [
+        index.SearchField("content"),
+    ]
+
+    api_fields = [
+        APIField("content"),
+    ] + SEOMixin.api_fields
+
+    max_count = 1  # Only one services page
+
+    class Meta:
+        verbose_name = "Services Page"
+
+
+class HomePage(SEOMixin, Page):
+    """Home page with 100% StreamField content."""
+
+    # Main content using StreamField
+    content = StreamField([
+        ("hero", HeroBlock()),
+        ("features", FeatureGridBlock()),
+        ("statistics", MetricsBlock()),
+        ("testimonial", TestimonialBlock()),
+        ("cta", CTABlock()),
+        ("text", TextBlock()),
+        ("image", ImageBlock()),
+    ], blank=True, use_json_field=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel("content"),
+    ]
+
+    promote_panels = Page.promote_panels + SEOMixin.seo_panels
+
+    search_fields = Page.search_fields + [
+        index.SearchField("content"),
+    ]
+
+    api_fields = [
+        APIField("content"),
+    ] + SEOMixin.api_fields
+
+    max_count = 1  # Only one home page
+
+    class Meta:
+        verbose_name = "Home Page"
+
+
+class AboutPage(SEOMixin, Page):
+    """About page with 100% StreamField content."""
+
+    # Main content using StreamField
+    content = StreamField([
+        ("hero", HeroBlock()),
+        ("features", FeatureGridBlock()),
+        ("testimonial", TestimonialBlock()),
+        ("cta", CTABlock()),
+        ("text", TextBlock()),
+        ("image", ImageBlock()),
+    ], blank=True, use_json_field=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel("content"),
+    ]
+
+    promote_panels = Page.promote_panels + SEOMixin.seo_panels
+
+    search_fields = Page.search_fields + [
+        index.SearchField("content"),
+    ]
+
+    api_fields = [
+        APIField("content"),
+    ] + SEOMixin.api_fields
+
+    max_count = 1  # Only one about page
+
+    class Meta:
+        verbose_name = "About Page"
+
+
+class PortfolioPage(SEOMixin, Page):
+    """Portfolio page with 100% StreamField content."""
+
+    # Main content using StreamField
+    content = StreamField([
+        ("hero", HeroBlock()),
+        ("statistics", MetricsBlock()),
+        ("portfolio_projects", PortfolioProjectsBlock()),
+        ("case_studies", CaseStudiesBlock()),
+        ("technologies", TechnologiesBlock()),
+        ("cta", CTABlock()),
+        ("text", TextBlock()),
+        ("image", ImageBlock()),
+    ], blank=True, use_json_field=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel("content"),
+    ]
+
+    promote_panels = Page.promote_panels + SEOMixin.seo_panels
+
+    search_fields = Page.search_fields + [
+        index.SearchField("content"),
+    ]
+
+    api_fields = [
+        APIField("content"),
+    ] + SEOMixin.api_fields
+
+    max_count = 1  # Only one portfolio page
+
+    class Meta:
+        verbose_name = "Portfolio Page"

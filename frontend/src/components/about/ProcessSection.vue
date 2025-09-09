@@ -14,14 +14,13 @@
       <!-- Section Header -->
       <div class="text-center mb-20">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 mb-6">
-          <span class="text-brand-primary text-sm font-semibold">⚡ OUR PROCESS</span>
+          <span class="text-brand-primary text-sm font-semibold">⚡ {{ processData.title.toUpperCase() }}</span>
         </div>
         <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-          The <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-blue-400 to-cyan-300">LaunchLine</span> 
-          <br class="block sm:hidden md:block">Methodology
+          {{ processData.subtitle }}
         </h2>
         <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed px-4">
-          A proven 3-phase rocket launch sequence that transforms your vision into a digital reality that <span class="text-brand-primary font-semibold">outperforms</span> expectations.
+          {{ processData.description }}
         </p>
       </div>
       
@@ -32,19 +31,15 @@
         
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
           <ProcessStep
-            v-for="(step, index) in approachSteps"
-            :key="step.title"
+            v-for="(step, index) in processData.steps"
+            :key="step.id"
             :step-number="index + 1"
             :title="step.title"
             :description="step.description"
-            :features="step.features"
+            :features="[]"
           >
             <template #icon>
-              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path v-if="index === 0" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                <path v-else-if="index === 1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
-                <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-              </svg>
+              <component :is="getIconComponent(step.icon)" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" />
             </template>
           </ProcessStep>
         </div>
@@ -64,23 +59,30 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import ProcessStep from './ProcessStep.vue'
 import TechIcons from '../effects/TechIcons.vue'
-import { approachSteps } from '../../data/aboutData'
+import { PROCESS_DATA } from '../../data/about'
+import type { ProcessData } from '../../types/About'
 
-defineOptions({
-  name: 'ProcessSection'
+interface Props {
+  processData?: ProcessData
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  processData: () => PROCESS_DATA
 })
-</script>
 
-<script lang="ts">
-export default {
-  name: 'ProcessSection'
+const processData = computed(() => props.processData)
+
+const getIconComponent = (iconName: string) => {
+  const icons: Record<string, any> = {
+    search: 'svg',
+    palette: 'svg',
+    code: 'svg',
+    rocket: 'svg'
+  }
+  return icons[iconName] || 'svg'
 }
 </script>
 
-<style scoped>
-.process-steps-container {
-  height: fit-content;
-}
-</style>

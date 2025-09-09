@@ -11,21 +11,15 @@
     
     <div class="widget-content" :class="{ 'open': widgetOpen }">
       <div class="widget-header">
-        <h4 class="text-white font-semibold">Quick Contact</h4>
-        <p class="text-gray-300 text-sm">We typically respond in under 2 hours</p>
+        <h4 class="text-white font-semibold">{{ widgetData.title }}</h4>
+        <p class="text-gray-300 text-sm">{{ widgetData.subtitle || 'Get in touch with us' }}</p>
       </div>
       <div class="widget-methods">
-        <a href="tel:+15707663452" class="widget-method">
+        <a v-for="method in (widgetData.methods || [])" :key="method.type" :href="method.href" class="widget-method">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="method.icon"/>
           </svg>
-          Call Now
-        </a>
-        <a href="mailto:breprice@launchlinellc.com" class="widget-method">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 7.89a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-          </svg>
-          Email Us
+          {{ method.label }}
         </a>
       </div>
     </div>
@@ -33,15 +27,22 @@
 </template>
 
 <script setup lang="ts">
+import { FLOATING_WIDGET_DATA } from '../../data/forms'
+import type { FloatingWidgetData } from '../../types/index'
+
 interface Props {
   widgetOpen: boolean
+  widgetData?: FloatingWidgetData
 }
 
 interface Emits {
   (e: 'toggle'): void
 }
 
-defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  widgetData: () => FLOATING_WIDGET_DATA
+})
+
 const emit = defineEmits<Emits>()
 
 const handleToggle = () => {

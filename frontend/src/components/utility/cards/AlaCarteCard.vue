@@ -101,15 +101,7 @@
 </template>
 
 <script setup lang="ts">
-interface AlaCarteService {
-  title: string
-  description: string
-  price: string
-  icon: string
-  category: string
-  features: string[]
-  popular?: boolean
-}
+import type { AlaCarteService } from '../../../types/Service'
 
 interface Props {
   service: AlaCarteService
@@ -137,81 +129,26 @@ defineOptions({
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.alacarte-item.animate-in {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
+.alacarte-item.animate-in { opacity: 1 !important; transform: translateY(0) !important; }
 
 /* Service Card Advanced Styling */
-.alacarte-item:hover {
-  transform: translateY(-12px) scale(1.03);
-  filter: brightness(1.05);
-}
+.alacarte-item:hover { transform: translateY(-12px) scale(1.03); filter: brightness(1.05); }
 
 /* Floating Particles Animations */
-@keyframes float-particle-1 {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.7;
-  }
-  50% {
-    transform: translateY(-20px) rotate(180deg);
-    opacity: 1;
-  }
-}
+@keyframes float-particle-1 { 0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; } 50% { transform: translateY(-20px) rotate(180deg); opacity: 1; } }
+@keyframes float-particle-2 { 0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.5; } 33% { transform: translateY(-12px) rotate(120deg) scale(1.3); opacity: 0.8; } 66% { transform: translateY(-25px) rotate(240deg) scale(0.7); opacity: 1; } }
+@keyframes float-particle-3 { 0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; } 25% { transform: translateY(-10px) rotate(90deg); opacity: 0.9; } 75% { transform: translateY(-30px) rotate(270deg); opacity: 1; } }
 
-@keyframes float-particle-2 {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg) scale(1);
-    opacity: 0.5;
-  }
-  33% {
-    transform: translateY(-12px) rotate(120deg) scale(1.3);
-    opacity: 0.8;
-  }
-  66% {
-    transform: translateY(-25px) rotate(240deg) scale(0.7);
-    opacity: 1;
-  }
-}
-
-@keyframes float-particle-3 {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.6;
-  }
-  25% {
-    transform: translateY(-10px) rotate(90deg);
-    opacity: 0.9;
-  }
-  75% {
-    transform: translateY(-30px) rotate(270deg);
-    opacity: 1;
-  }
-}
-
-.animate-float-particle-1 {
-  animation: float-particle-1 4s ease-in-out infinite;
-}
-
-.animate-float-particle-2 {
-  animation: float-particle-2 6s ease-in-out infinite;
-  animation-delay: 1s;
-}
-
-.animate-float-particle-3 {
-  animation: float-particle-3 5s ease-in-out infinite;
-  animation-delay: 2s;
-}
+.animate-float-particle-1 { animation: float-particle-1 4s ease-in-out infinite; }
+.animate-float-particle-2 { animation: float-particle-2 6s ease-in-out infinite; animation-delay: 1s; }
+.animate-float-particle-3 { animation: float-particle-3 5s ease-in-out infinite; animation-delay: 2s; }
 
 /* CTA Button advanced effects */
 .alacarte-cta-button {
   position: relative;
   background: linear-gradient(135deg, #0EA5E9 0%, #3B82F6 100%);
   border: none;
-  box-shadow: 
-    0 4px 15px rgba(14, 165, 233, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 .alacarte-cta-button::before {
@@ -226,50 +163,26 @@ defineOptions({
   border-radius: inherit;
 }
 
-.alacarte-item:hover .alacarte-cta-button::before {
-  left: 100%;
-}
+.alacarte-item:hover .alacarte-cta-button::before { left: 100%; }
 
 .alacarte-cta-button:hover {
-  box-shadow: 
-    0 8px 25px rgba(14, 165, 233, 0.6),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-    0 0 30px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 0 30px rgba(59, 130, 246, 0.3);
   transform: translateY(-2px);
 }
 
 /* Enhanced mobile responsiveness */
 @media (max-width: 768px) {
-  .alacarte-item:hover {
-    transform: translateY(-6px) scale(1.01);
-  }
-  
-  .floating-particle {
-    display: none;
-  }
+  .alacarte-item:hover { transform: translateY(-6px) scale(1.01); }
+  .floating-particle { display: none; }
 }
 
 /* Accessibility: Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .alacarte-item,
-  .floating-particle {
-    animation: none !important;
-    transition: none !important;
-  }
-  
-  .alacarte-item {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  
-  .alacarte-item:hover {
-    transform: none;
-  }
+  .alacarte-item, .floating-particle { animation: none !important; transition: none !important; }
+  .alacarte-item { opacity: 1 !important; transform: none !important; }
+  .alacarte-item:hover { transform: none; }
 }
 
 /* Focus states for accessibility */
-.alacarte-item:focus-within {
-  outline: 2px solid #0EA5E9;
-  outline-offset: 2px;
-}
+.alacarte-item:focus-within { outline: 2px solid #0EA5E9; outline-offset: 2px; }
 </style>

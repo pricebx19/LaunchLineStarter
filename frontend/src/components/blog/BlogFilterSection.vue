@@ -37,6 +37,14 @@
 
 <script setup lang="ts">
 import { ref, watch, defineAsyncComponent } from 'vue'
+import type { BlogPost } from '../../types/Content'
+import type { SearchFilters } from '../../types/Common'
+
+interface SpecialFilters {
+  popular: boolean
+  featured: boolean
+  recent: boolean
+}
 
 const BlogBackgroundEffects = defineAsyncComponent(() => import('./BlogBackgroundEffects.vue'))
 const BlogSearchBar = defineAsyncComponent(() => import('./BlogSearchBar.vue'))
@@ -48,13 +56,9 @@ interface Props {
   totalPosts: number
   searchSuggestions: string[]
   hasActiveSearch: boolean
-  filteredPosts: any[]
+  filteredPosts: BlogPost[]
   selectedCategories: string[]
-  specialFilters: {
-    popular: boolean
-    featured: boolean
-    recent: boolean
-  }
+  specialFilters: SpecialFilters
   categories: string[]
 }
 

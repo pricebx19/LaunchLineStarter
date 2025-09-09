@@ -19,15 +19,21 @@
 </template>
 
 <script setup lang="ts">
+import type { AnimationProps } from '../../types/Common'
+
+interface Props extends AnimationProps {
+  size?: 'sm' | 'md' | 'lg'
+  animationSpeed?: number
+}
+
+withDefaults(defineProps<Props>(), {
+  size: 'md',
+  animationSpeed: 1
+})
+
 defineOptions({
   name: 'OrbitalCore'
 })
-</script>
-
-<script lang="ts">
-export default {
-  name: 'OrbitalCore'
-}
 </script>
 
 <style scoped>

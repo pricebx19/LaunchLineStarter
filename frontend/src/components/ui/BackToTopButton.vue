@@ -14,18 +14,23 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+import type { AnimationProps } from '../../types/Common'
+import { scrollToTop } from '../../utils/helpers'
+
+interface Props extends AnimationProps {
   show: boolean
+  threshold?: number
+  position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
 }
 
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  threshold: 300,
+  position: 'bottom-right'
+})
 
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  })
-}
+defineOptions({
+  name: 'BackToTopButton'
+})
 </script>
 
 <style scoped>

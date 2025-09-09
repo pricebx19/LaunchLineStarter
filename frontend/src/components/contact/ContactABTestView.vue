@@ -44,16 +44,13 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
-import type { WagtailContactData } from '../../composables/useWagtailContactData'
-import type { ContactFormData } from '../../composables/useContactForm'
+import type { WagtailContactData, ContactFormData } from '../../types'
 
 const WagtailContactPage = defineAsyncComponent(() => import('./WagtailContactPage.vue'))
 
-interface Props {
-  isLoadingWagtailData: boolean
-  wagtailDataError: string | null
-  wagtailData: WagtailContactData
-}
+import type { ContactABTestViewProps } from '../../types'
+
+interface Props extends ContactABTestViewProps {}
 
 interface Emits {
   (e: 'retry'): void

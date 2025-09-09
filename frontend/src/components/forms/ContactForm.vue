@@ -113,27 +113,10 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import FormMessage from '../ui/FormMessage.vue'
+import type { ContactFormData, ContactFormProps } from '../../types'
+import { CONTACT_FORM_DATA } from '../../data/forms'
 
-interface ContactFormData {
-  name: string
-  email: string
-  subject: string
-  message: string
-}
-
-interface Props {
-  title?: string
-  subjectOptions?: string[]
-  successMessage?: string
-  namePlaceholder?: string
-  emailPlaceholder?: string
-  subjectPlaceholder?: string
-  messagePlaceholder?: string
-  submitText?: string
-  submittingText?: string
-  disclaimerText?: string
-  messageRows?: number
-}
+interface Props extends ContactFormProps {}
 
 const props = withDefaults(defineProps<Props>(), {
   title: 'Send us a Message',

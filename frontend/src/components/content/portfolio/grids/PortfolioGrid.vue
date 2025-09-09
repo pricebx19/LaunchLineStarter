@@ -72,24 +72,7 @@ const PortfolioProjectsGrid = defineAsyncComponent(() => import('./PortfolioProj
 const LoadMoreButton = defineAsyncComponent(() => import('../../../utility/LoadMoreButton.vue'))
 const ProjectModal = defineAsyncComponent(() => import('../layout/ProjectModal.vue'))
 
-interface Project {
-  id: number
-  title: string
-  description: string
-  icon: string
-  tags: string[]
-  package: string
-  timeline: string
-  category: string
-  image?: string
-  technologies: string[]
-  status: 'completed' | 'in-progress' | 'featured'
-  metrics?: {
-    visits?: string
-    conversion?: string
-    performance?: string
-  }
-}
+import type { Project } from '../../../../data/portfolioData'
 
 const props = withDefaults(defineProps<{
   categories: string[]

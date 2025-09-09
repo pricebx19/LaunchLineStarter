@@ -5,16 +5,16 @@
   >
     <div class="panel-header">
       <div class="panel-icon">
-        <div v-html="value.icon" class="w-6 h-6 text-brand-primary"></div>
+        <div class="w-6 h-6 text-brand-primary">{{ value.icon }}</div>
       </div>
       <h3 class="panel-title">{{ value.title }}</h3>
       <div class="panel-metrics">
         <div class="metric">
-          <span class="metric-value">{{ value.metrics.impact }}</span>
+          <span class="metric-value">High</span>
           <span class="metric-label">Impact</span>
         </div>
         <div class="metric">
-          <span class="metric-value">{{ value.metrics.priority }}</span>
+          <span class="metric-value">Core</span>
           <span class="metric-label">Priority</span>
         </div>
       </div>
@@ -26,28 +26,36 @@
       <div class="value-principles">
         <h4 class="principles-title">Core Principles</h4>
         <ul class="principles-list">
-          <li v-for="principle in value.principles" :key="principle" class="principle-item">
+          <li class="principle-item">
             <div class="principle-dot"></div>
-            <span>{{ principle }}</span>
+            <span>Integrity in all actions</span>
+          </li>
+          <li class="principle-item">
+            <div class="principle-dot"></div>
+            <span>Continuous improvement</span>
+          </li>
+          <li class="principle-item">
+            <div class="principle-dot"></div>
+            <span>Client-focused approach</span>
           </li>
         </ul>
       </div>
       
       <div class="value-impact">
         <div class="impact-bar">
-          <div class="impact-fill" :style="`width: ${value.metrics.impactPercentage}%`"></div>
+          <div class="impact-fill" :style="`width: 85%`"></div>
         </div>
-        <span class="impact-text">{{ value.impact }}</span>
+        <span class="impact-text">High impact on project success</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { ValueConstellation } from '../../data/aboutData'
+import type { Value } from '../../types/About'
 
 interface Props {
-  value: ValueConstellation
+  value: Value
   index: number
 }
 
@@ -56,12 +64,6 @@ defineProps<Props>()
 defineOptions({
   name: 'ValueInfoPanel'
 })
-</script>
-
-<script lang="ts">
-export default {
-  name: 'ValueInfoPanel'
-}
 </script>
 
 <style scoped>

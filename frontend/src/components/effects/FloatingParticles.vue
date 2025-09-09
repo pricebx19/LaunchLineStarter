@@ -10,18 +10,23 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+import type { AnimationProps } from '../../types/Common'
+import { PARTICLE_PRESETS } from '../../data/animations'
+
+interface Props extends AnimationProps {
   count?: number
   color?: string
   size?: number
   speed?: number
+  preset?: 'default' | 'subtle' | 'intense'
 }
 
 const props = withDefaults(defineProps<Props>(), {
   count: 8,
   color: '#0EA5E9',
   size: 4,
-  speed: 6
+  speed: 6,
+  preset: 'default'
 })
 
 defineOptions({

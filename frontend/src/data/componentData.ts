@@ -85,7 +85,7 @@ export const testimonials: TestimonialWithRating[] = [
 
 // Features
 export interface Feature {
-  id: number
+  id: string
   title: string
   description: string
   icon: string
@@ -93,37 +93,37 @@ export interface Feature {
 
 export const features: Feature[] = [
   {
-    id: 1,
+    id: '1',
     title: 'Strategic Website Design',
     description: 'Custom websites built with your business goals in mind. We focus on conversion, user experience, and results that matter.',
     icon: 'strategy'
   },
   {
-    id: 2,
+    id: '2',
     title: 'Industry Expertise',
     description: 'Deep understanding of car clubs, show promoters, and small-to-medium businesses. We speak your language and know your market.',
     icon: 'technology'
   },
   {
-    id: 3,
+    id: '3',
     title: 'Rapid Turnaround',
     description: 'Get your professional website in as little as 2 weeks with our Starter Package. Fast, efficient, and built to last.',
     icon: 'analytics'
   },
   {
-    id: 4,
+    id: '4',
     title: 'Premium Branding',
     description: 'Luxury aesthetic with modern design principles. Your brand deserves to look as professional as it performs.',
     icon: 'brand'
   },
   {
-    id: 5,
+    id: '5',
     title: 'Ongoing Support',
     description: '24/7 support and maintenance packages available. We\'re here for the long haul, not just the launch.',
     icon: 'support'
   },
   {
-    id: 6,
+    id: '6',
     title: 'SEO & Growth',
     description: 'Built-in search optimization and marketing tools to help your business grow online from day one.',
     icon: 'growth'
@@ -172,6 +172,7 @@ export const statistics: Stat[] = [
 
 // CTA Components Data  
 export interface CTAFeature {
+  id: string
   icon: string
   title: string
   description: string
@@ -183,9 +184,9 @@ export interface CTAStat {
 }
 
 export const ctaFeatures: CTAFeature[] = [
-  { icon: '⚡', title: 'Fast Delivery', description: 'Launch in 2-3 weeks' },
-  { icon: '🛡️', title: 'Secure & Reliable', description: 'Enterprise-grade hosting' },
-  { icon: '🎯', title: 'Results Focused', description: 'Proven conversion rates' }
+  { id: '1', icon: '⚡', title: 'Fast Delivery', description: 'Launch in 2-3 weeks' },
+  { id: '2', icon: '🛡️', title: 'Secure & Reliable', description: 'Enterprise-grade hosting' },
+  { id: '3', icon: '🎯', title: 'Results Focused', description: 'Proven conversion rates' }
 ]
 
 export const ctaStats: CTAStat[] = [

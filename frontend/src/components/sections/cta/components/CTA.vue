@@ -128,38 +128,13 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
 import { ctaFeatures, ctaStats } from '../../../../data/componentData'
+import type { CTAProps, CTAStat, Feature } from '../../../../types'
 
 // Use dynamic imports for navigation components
 const NavigationUpButton = defineAsyncComponent(() => import('../../../ui/navigation/NavigationUpButton.vue'))
 const NavigationDownButton = defineAsyncComponent(() => import('../../../ui/navigation/NavigationDownButton.vue'))
 
-interface Stat {
-  value: string
-  label: string
-}
-
-interface Feature {
-  icon: string
-  title: string
-  description: string
-}
-
-interface Props {
-  variant?: 'full' | 'section' | 'simple' | 'header'
-  title?: string
-  subtitle?: string
-  primaryCtaText?: string
-  primaryCtaLink?: string
-  secondaryCtaText?: string
-  secondaryCtaLink?: string
-  additionalInfo?: string
-  showStats?: boolean
-  stats?: Stat[]
-  features?: Feature[]
-  showEffects?: boolean
-  showNavigation?: boolean
-  containerClass?: string
-}
+interface Props extends CTAProps {}
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'simple',

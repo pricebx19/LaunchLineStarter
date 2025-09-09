@@ -98,15 +98,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-
-interface Service {
-  title: string
-  description: string
-  price: string
-  duration: string
-  features: string[]
-  icon: string
-}
+import type { Service } from '../../../types/Service'
 
 interface Props {
   service: Service
@@ -147,89 +139,21 @@ const displayFeatures = computed(() => {
 }
 
 /* Floating particles animation */
-@keyframes float-1 {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg); 
-    opacity: 0.7;
-  }
-  50% { 
-    transform: translateY(-20px) rotate(180deg); 
-    opacity: 1;
-  }
-}
+@keyframes float-1 { 0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; } 50% { transform: translateY(-20px) rotate(180deg); opacity: 1; } }
+@keyframes float-2 { 0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.5; } 33% { transform: translateY(-15px) rotate(120deg) scale(1.2); opacity: 0.8; } 66% { transform: translateY(-25px) rotate(240deg) scale(0.8); opacity: 1; } }
+@keyframes float-3 { 0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; } 25% { transform: translateY(-10px) rotate(90deg); opacity: 0.9; } 75% { transform: translateY(-30px) rotate(270deg); opacity: 1; } }
 
-@keyframes float-2 {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg) scale(1); 
-    opacity: 0.5;
-  }
-  33% { 
-    transform: translateY(-15px) rotate(120deg) scale(1.2); 
-    opacity: 0.8;
-  }
-  66% { 
-    transform: translateY(-25px) rotate(240deg) scale(0.8); 
-    opacity: 1;
-  }
-}
-
-@keyframes float-3 {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg); 
-    opacity: 0.6;
-  }
-  25% { 
-    transform: translateY(-10px) rotate(90deg); 
-    opacity: 0.9;
-  }
-  75% { 
-    transform: translateY(-30px) rotate(270deg); 
-    opacity: 1;
-  }
-}
-
-/* Apply floating animations */
-.animate-float-1 {
-  animation: float-1 4s ease-in-out infinite;
-}
-
-.animate-float-2 {
-  animation: float-2 6s ease-in-out infinite;
-  animation-delay: 1s;
-}
-
-.animate-float-3 {
-  animation: float-3 5s ease-in-out infinite;
-  animation-delay: 2s;
-}
+.animate-float-1 { animation: float-1 4s ease-in-out infinite; }
+.animate-float-2 { animation: float-2 6s ease-in-out infinite; animation-delay: 1s; }
+.animate-float-3 { animation: float-3 5s ease-in-out infinite; animation-delay: 2s; }
 
 /* Slow rotating animation for icon ring */
-@keyframes slow-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-slow-spin {
-  animation: slow-spin 8s linear infinite;
-}
+@keyframes slow-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.animate-slow-spin { animation: slow-spin 8s linear infinite; }
 
 /* Shimmer effect for title */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.animate-shimmer {
-  animation: shimmer 2s ease-in-out infinite;
-}
+@keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+.animate-shimmer { animation: shimmer 2s ease-in-out infinite; }
 
 /* Enhanced icon container effects */
 .icon-container::before {
@@ -245,28 +169,15 @@ const displayFeatures = computed(() => {
   animation-play-state: paused;
 }
 
-.service-card:hover .icon-container::before {
-  opacity: 0.7;
-  animation-play-state: running;
-}
-
-@keyframes icon-border-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+.service-card:hover .icon-container::before { opacity: 0.7; animation-play-state: running; }
+@keyframes icon-border-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 /* CTA Button advanced effects */
 .cta-button {
   position: relative;
   background: linear-gradient(135deg, #0EA5E9 0%, #3B82F6 100%);
   border: none;
-  box-shadow: 
-    0 4px 15px rgba(14, 165, 233, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 .cta-button::before {
@@ -281,15 +192,10 @@ const displayFeatures = computed(() => {
   border-radius: inherit;
 }
 
-.service-card:hover .cta-button::before {
-  left: 100%;
-}
+.service-card:hover .cta-button::before { left: 100%; }
 
 .cta-button:hover {
-  box-shadow: 
-    0 8px 25px rgba(14, 165, 233, 0.6),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-    0 0 30px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 0 30px rgba(59, 130, 246, 0.3);
   transform: translateY(-2px);
 }
 
@@ -307,84 +213,31 @@ const displayFeatures = computed(() => {
   transition: opacity 0.5s;
 }
 
-.service-card:hover::after {
-  opacity: 1;
-  animation: border-glow 2s ease-in-out infinite;
-}
-
-@keyframes border-glow {
-  0%, 100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-}
+.service-card:hover::after { opacity: 1; animation: border-glow 2s ease-in-out infinite; }
+@keyframes border-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
 /* Staggered feature animations */
-.service-card:hover li:nth-child(1) {
-  animation: feature-highlight 0.6s ease-out;
-  animation-delay: 0.1s;
-  animation-fill-mode: both;
-}
+.service-card:hover li:nth-child(1) { animation: feature-highlight 0.6s ease-out; animation-delay: 0.1s; animation-fill-mode: both; }
+.service-card:hover li:nth-child(2) { animation: feature-highlight 0.6s ease-out; animation-delay: 0.2s; animation-fill-mode: both; }
+.service-card:hover li:nth-child(3) { animation: feature-highlight 0.6s ease-out; animation-delay: 0.3s; animation-fill-mode: both; }
 
-.service-card:hover li:nth-child(2) {
-  animation: feature-highlight 0.6s ease-out;
-  animation-delay: 0.2s;
-  animation-fill-mode: both;
-}
-
-.service-card:hover li:nth-child(3) {
-  animation: feature-highlight 0.6s ease-out;
-  animation-delay: 0.3s;
-  animation-fill-mode: both;
-}
-
-@keyframes feature-highlight {
-  0% {
-    transform: translateX(-10px);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translateX(2px);
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
+@keyframes feature-highlight { 0% { transform: translateX(-10px); opacity: 0.8; } 50% { transform: translateX(2px); } 100% { transform: translateX(0); opacity: 1; } }
 
 /* Price section enhanced styling */
 .service-card:hover .bg-gray-700\/50 {
   background: linear-gradient(135deg, rgba(55, 65, 81, 0.7), rgba(75, 85, 99, 0.6));
-  box-shadow: 
-    0 4px 15px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .service-card:hover {
-    transform: translateY(-8px);
-  }
-  
-  .floating-particle {
-    display: none;
-  }
+  .service-card:hover { transform: translateY(-8px); }
+  .floating-particle { display: none; }
 }
 
 /* Accessibility: Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .service-card,
-  .floating-particle,
-  .icon-container,
-  .cta-button {
-    animation: none !important;
-    transition: none !important;
-  }
-  
-  .service-card:hover {
-    transform: none;
-  }
+  .service-card, .floating-particle, .icon-container, .cta-button { animation: none !important; transition: none !important; }
+  .service-card:hover { transform: none; }
 }
 </style>

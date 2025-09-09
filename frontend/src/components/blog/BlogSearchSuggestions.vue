@@ -17,7 +17,9 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+import type { SearchProps } from '../../types/Common'
+
+interface Props extends SearchProps {
   searchQuery: string
   suggestions: string[]
 }

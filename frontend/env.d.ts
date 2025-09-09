@@ -15,6 +15,7 @@ interface ImportMetaEnv {
   readonly VITE_FORMSPREE_ENDPOINT: string
   readonly VITE_DEV_MODE: string
   readonly VITE_DEBUG: string
+  readonly VITE_SHOW_FEATURE_FLAGS: string
   // Feature flags
   readonly VITE_BLOG_PAGES: string
   readonly VITE_ROCKET_ANIMATION: string
@@ -28,6 +29,8 @@ interface ImportMetaEnv {
   readonly VITE_WAGTAIL_BLOG: string
   readonly VITE_WAGTAIL_PORTFOLIO: string
   readonly VITE_WAGTAIL_SERVICES: string
+  readonly VITE_WAGTAIL_HOME: string
+  readonly VITE_WAGTAIL_ABOUT: string
   readonly VITE_WAGTAIL_CONTACT_FORM: string
   readonly VITE_WAGTAIL_NEWSLETTER: string
   readonly VITE_WAGTAIL_SEO: string

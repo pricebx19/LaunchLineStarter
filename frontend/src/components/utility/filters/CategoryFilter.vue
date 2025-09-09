@@ -231,21 +231,22 @@
 
 <script setup lang="ts">
 import { computed, ref, nextTick } from 'vue'
+import type { CategoryFilterProps } from '../../../types/index'
 
-interface Props {
-  categories: string[]
-  selectedCategories: string[]
-  specialFilters: {
-    popular: boolean
-    featured: boolean
-    recent: boolean
-  }
-  marginBottom?: string
-  itemType?: string // e.g., "posts", "projects", "services"
-  pageKey?: string // Unique identifier for the page to isolate localStorage
-}
+interface Props extends CategoryFilterProps {}
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  marginBottom: '2rem',
+  categories: () => [],
+  selectedCategories: () => [],
+  specialFilters: () => ({
+    popular: false,
+    featured: false,
+    recent: false
+  }),
+  itemType: 'Posts',
+  pageKey: ''
+})
 
 const emit = defineEmits<{
   categoriesChange: [categories: string[]]

@@ -73,29 +73,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-
-interface Value {
-  title: string
-  description: string
-  iconPath: string
-}
-
-interface ConstellationLine {
-  id: string
-  x1: number
-  y1: number
-  x2: number
-  y2: number
-  delay: number
-}
-
-interface ConstellationStar {
-  id: string
-  x: number
-  y: number
-  size: number
-  delay: number
-}
+import type { Value, ConstellationLine, ConstellationStar } from '../../types'
 
 const props = withDefaults(defineProps<{
   badgeText?: string

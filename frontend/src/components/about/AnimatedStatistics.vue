@@ -2,8 +2,8 @@
   <div class="values-summary mt-24 text-center" ref="summaryRef">
     <div class="summary-card">
       <div class="summary-header">
-        <h3 class="summary-title">The LaunchLine Promise</h3>
-        <div class="summary-subtitle">Where Values Meet Innovation</div>
+        <h3 class="summary-title">{{ statisticsData.title }}</h3>
+        <div class="summary-subtitle">{{ statisticsData.subtitle }}</div>
       </div>
       
       <div class="summary-stats">
@@ -19,13 +19,12 @@
       </div>
       
       <p class="summary-description">
-        Every line of code, every design decision, every client interaction is guided by these four fundamental values.
-        Together, they form the constellation that lights our path to digital excellence.
+        {{ statisticsData.description }}
       </p>
       
       <div class="summary-cta">
         <router-link to="/contact" class="cta-button">
-          <span>Experience Our Values</span>
+          <span>{{ statisticsData.ctaText }}</span>
           <div class="cta-arrow">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -38,14 +37,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { ANIMATED_STATISTICS_DATA } from '../../data/about'
+import type { AnimatedStatisticsData, Statistic } from '../../types/About'
 
-interface Statistic {
-  target: string | number
-  current: string | number
-  suffix: string
-  label: string
+interface Props {
+  statisticsData?: AnimatedStatisticsData
 }
+
+const props = withDefaults(defineProps<Props>(), {
+  statisticsData: () => ANIMATED_STATISTICS_DATA
+})
 
 defineOptions({
   name: 'AnimatedStatistics'
@@ -53,26 +55,10 @@ defineOptions({
 
 const summaryRef = ref<HTMLElement>()
 
-const statistics = ref<Statistic[]>([
-  {
-    target: 100,
-    current: 0,
-    suffix: '%',
-    label: 'Value-Driven Decisions'
-  },
-  {
-    target: 4,
-    current: 0,
-    suffix: '+',
-    label: 'Core Principles'
-  },
-  {
-    target: '∞',
-    current: 0,
-    suffix: '',
-    label: 'Possibilities Unlocked'
-  }
-])
+const statistics = ref<Statistic[]>(props.statisticsData.statistics.map(stat => ({
+  ...stat,
+  current: 0
+})))
 
 // Animate statistics numbers
 const animateNumbers = () => {

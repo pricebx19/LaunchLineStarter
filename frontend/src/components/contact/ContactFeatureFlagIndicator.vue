@@ -1,27 +1,32 @@
 <template>
-  <div v-if="isDev" class="fixed top-4 right-4 z-50">
-    <div class="bg-gray-800 text-white p-4 rounded-lg shadow-lg">
-      <h4 class="font-semibold mb-2">Contact Page Status</h4>
-      <div class="text-sm space-y-1">
-        <div>Strategy: {{ contactStrategy }}</div>
-        <div>Wagtail Enabled: {{ isWagtailEnabled ? '✅' : '❌' }}</div>
-        <div>Migration Status: {{ migrationStatus }}</div>
-      </div>
-      <button 
-        @click="handleRefresh" 
-        class="mt-2 px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
-      >
-        Refresh Flags
-      </button>
-    </div>
-  </div>
+  <DebugPanel
+    :is-dev="isDev"
+    title="Contact Page Status"
+    :strategy="contactStrategy"
+    :is-wagtail-enabled="isWagtailEnabled"
+    :migration-status="migrationStatus"
+    :has-data="false"
+    :has-error="false"
+    :is-loading="false"
+    :api-url="'http://localhost:8000'"
+    :last-updated="null"
+    feature-flag-name="WAGTAIL_CONTACT"
+    @refresh="handleRefresh"
+    @refresh-data="() => {}"
+  >
+    <template #debug-data>
+      <div>Contact form integration ready</div>
+      <div>Wagtail contact page available</div>
+    </template>
+  </DebugPanel>
 </template>
 
 <script setup lang="ts">
-interface Props {
-  isDev: boolean
+import DebugPanel from '../utility/DebugPanel.vue'
+import type { DebugPanelProps } from '../../types'
+
+interface Props extends DebugPanelProps {
   contactStrategy: string
-  isWagtailEnabled: boolean
   migrationStatus: string
 }
 

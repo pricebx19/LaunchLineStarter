@@ -112,29 +112,11 @@ import { api } from '../../lib/api'
 import { useSeo } from '../../lib/seo'
 import StarryBackground from '../effects/StarryBackground.vue'
 import WagtailContactSection from './WagtailContactSection.vue'
-
-interface StreamFieldBlock {
-  type: string
-  value: any
-}
-
-interface WagtailContactData {
-  content?: StreamFieldBlock[]
-  title?: string
-  slug?: string
-  phone?: string
-  email?: string
-}
-
-interface ContactFormData {
-  name: string
-  email: string
-  subject: string
-  message: string
-}
+import type { WagtailPage } from '../../types'
+import type { ContactFormData } from '../../types/Forms'
 
 const props = defineProps<{
-  wagtailData: WagtailContactData
+  wagtailData: WagtailPage
 }>()
 
 const { updateSeo } = useSeo()
@@ -215,35 +197,16 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Hero Animations */
-.hero-title {
-  animation: fadeInUp 1s ease-out;
-}
-
-.hero-subtitle {
-  animation: fadeInUp 1s ease-out 0.2s both;
-}
-
-.cta-primary, .cta-secondary {
-  animation: fadeInUp 1s ease-out 0.4s both;
-}
-
-.metric-card {
-  animation: fadeInUp 1s ease-out both;
-}
+.hero-title { animation: fadeInUp 1s ease-out; }
+.hero-subtitle { animation: fadeInUp 1s ease-out 0.2s both; }
+.cta-primary, .cta-secondary { animation: fadeInUp 1s ease-out 0.4s both; }
+.metric-card { animation: fadeInUp 1s ease-out both; }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* CTA Button Styles */
 .cta-primary {
   @apply relative px-8 py-4 bg-brand-primary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105;
 }
@@ -252,103 +215,48 @@ onMounted(() => {
   @apply absolute inset-0 bg-gradient-to-r from-brand-primary to-blue-500 rounded-lg opacity-0 transition-opacity duration-300;
 }
 
-.cta-primary:hover .button-glow {
-  @apply opacity-20;
-}
+.cta-primary:hover .button-glow { @apply opacity-20; }
 
 .cta-secondary {
   @apply px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-all duration-300 transform hover:scale-105;
 }
 
-/* Metric Cards */
 .metric-card {
   @apply bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10 hover:bg-white/10 transition-all duration-300;
 }
 
-/* Floating Shapes */
 .floating-shape {
   @apply absolute w-32 h-32 border border-white/10 rounded-full;
   animation: float 6s ease-in-out infinite;
 }
 
-.shape-1 {
-  @apply top-20 left-20;
-  animation-delay: 0s;
-}
-
-.shape-2 {
-  @apply top-40 right-20;
-  animation-delay: 2s;
-}
-
-.shape-3 {
-  @apply bottom-40 left-40;
-  animation-delay: 4s;
-}
-
-.shape-4 {
-  @apply bottom-20 right-40;
-  animation-delay: 1s;
-}
+.shape-1 { @apply top-20 left-20; animation-delay: 0s; }
+.shape-2 { @apply top-40 right-20; animation-delay: 2s; }
+.shape-3 { @apply bottom-40 left-40; animation-delay: 4s; }
+.shape-4 { @apply bottom-20 right-40; animation-delay: 1s; }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(180deg);
-  }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
 }
 
-/* Floating Contact Widget */
-.floating-contact-widget {
-  @apply fixed bottom-8 right-8 z-50;
-}
-
+.floating-contact-widget { @apply fixed bottom-8 right-8 z-50; }
 .widget-toggle {
   @apply w-14 h-14 bg-brand-primary text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center;
 }
-
-.widget-toggle.open {
-  @apply bg-red-500;
-}
-
+.widget-toggle.open { @apply bg-red-500; }
 .widget-content {
   @apply absolute bottom-16 right-0 w-80 bg-gray-800 rounded-lg shadow-xl p-6 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300;
 }
+.widget-content.open { @apply opacity-100 pointer-events-auto transform translate-y-0; }
+.widget-header { @apply mb-4 pb-4 border-b border-gray-600; }
+.widget-methods { @apply space-y-3; }
+.widget-method { @apply flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200; }
 
-.widget-content.open {
-  @apply opacity-100 pointer-events-auto transform translate-y-0;
-}
-
-.widget-header {
-  @apply mb-4 pb-4 border-b border-gray-600;
-}
-
-.widget-methods {
-  @apply space-y-3;
-}
-
-.widget-method {
-  @apply flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200;
-}
-
-/* Responsive Design */
 @media (max-width: 768px) {
-  .hero-title {
-    @apply text-4xl;
-  }
-  
-  .hero-subtitle {
-    @apply text-lg;
-  }
-  
-  .floating-contact-widget {
-    @apply bottom-4 right-4;
-  }
-  
-  .widget-content {
-    @apply w-72 right-0;
-  }
+  .hero-title { @apply text-4xl; }
+  .hero-subtitle { @apply text-lg; }
+  .floating-contact-widget { @apply bottom-4 right-4; }
+  .widget-content { @apply w-72 right-0; }
 }
 </style>

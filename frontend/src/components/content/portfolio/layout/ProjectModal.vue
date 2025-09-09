@@ -97,24 +97,7 @@
 import { computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
-interface Project {
-  id: number
-  title: string
-  description: string
-  icon: string
-  tags: string[]
-  package: string
-  timeline: string
-  category: string
-  image?: string
-  technologies: string[]
-  status: 'completed' | 'in-progress' | 'featured'
-  metrics?: {
-    visits?: string
-    conversion?: string
-    performance?: string
-  }
-}
+import type { Project } from '../../../../data/portfolioData'
 
 interface Props {
   project: Project

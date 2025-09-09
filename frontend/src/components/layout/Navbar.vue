@@ -352,9 +352,7 @@ const currentPath = computed(() => route.path)
   backdrop-filter: none !important;
 }
 
-.navbar-transparent::before {
-  opacity: 0 !important;
-}
+.navbar-transparent::before { opacity: 0 !important; }
 
 .navbar-with-background {
   background: rgba(0, 0, 0, 0.95) !important;
@@ -373,58 +371,12 @@ const currentPath = computed(() => route.path)
 }
 
 /* Custom animations and effects */
-.particle {
-  pointer-events: none;
-  filter: blur(0.5px);
-}
-
-.particle-mini {
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-}
-
-/* Smooth mobile menu animations */
-@media (max-width: 768px) {
-  .nav-item-enter-active {
-    transition: all 0.3s ease-out;
-  }
-  
-  .nav-item-enter-from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  
-  .nav-item-enter-to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Enhanced focus states */
-.focus\:ring-cyan-400\/50:focus {
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.5);
-}
-
-/* Glassmorphism backdrop */
-.backdrop-blur-xl {
-  backdrop-filter: blur(24px);
-}
-
-/* Removed complex shimmer animations - keeping it simple */
-
-/* Particle floating animation base */
-.particle-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
+.particle { pointer-events: none; filter: blur(0.5px); }
+.particle-mini { animation-duration: 2s; animation-iteration-count: infinite; }
+.particle-container { position: relative; width: 100%; height: 100%; }
 
 /* Enhanced hover effects */
-.nav-link {
-  position: relative;
-  overflow: hidden;
-}
-
+.nav-link { position: relative; overflow: hidden; }
 .nav-link::before {
   content: '';
   position: absolute;
@@ -435,24 +387,25 @@ const currentPath = computed(() => route.path)
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
   transition: left 0.5s;
 }
-
-.nav-link:hover::before {
-  left: 100%;
-}
+.nav-link:hover::before { left: 100%; }
 
 /* Mobile menu stagger animation */
 @keyframes staggerIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.mobile-nav-item { animation: staggerIn 0.3s ease-out forwards; }
+
+/* Smooth mobile menu animations */
+@media (max-width: 768px) {
+  .nav-item-enter-active { transition: all 0.3s ease-out; }
+  .nav-item-enter-from { opacity: 0; transform: translateX(-20px); }
+  .nav-item-enter-to { opacity: 1; transform: translateX(0); }
 }
 
-.mobile-nav-item {
-  animation: staggerIn 0.3s ease-out forwards;
-}
+/* Enhanced focus states */
+.focus\:ring-cyan-400\/50:focus { box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.5); }
+
+/* Glassmorphism backdrop */
+.backdrop-blur-xl { backdrop-filter: blur(24px); }
 </style>

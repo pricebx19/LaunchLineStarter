@@ -31,21 +31,32 @@ export function useBlogPostData() {
           console.log('Blog post item:', item)
           
           // Transform Wagtail response to match our BlogPage interface
+          const publishedDate = item.meta?.first_published_at || item.date || new Date().toISOString()
           blogPost.value = {
             id: item.id,
             title: item.title,
             slug: item.meta?.slug || item.slug,
             intro: item.intro || item.title,
-            date: item.meta?.first_published_at || item.date || new Date().toISOString(),
+            date: publishedDate,
             body: item.body || '',
-            publishedDate: item.meta?.first_published_at || item.date || new Date().toISOString(),
+            publishedDate: publishedDate,
             author: item.author || 'Anonymous',
             featuredImage: item.featured_image || item.featuredImage,
             content: Array.isArray(item.content) ? item.content : [], // This is now an array from the API
             seo: {
               title: item.title,
               description: item.meta?.search_description || item.search_description || ''
-            }
+            },
+            // Additional properties to match BlogPost interface
+            publishedAt: publishedDate,
+            updatedAt: publishedDate,
+            readTime: 5, // Default read time
+            tags: [],
+            category: 'General',
+            featured: false,
+            image: item.featured_image || item.featuredImage,
+            seoTitle: item.title,
+            seoDescription: item.meta?.search_description || item.search_description || ''
           }
           
           console.log('Transformed blog post:', blogPost.value)

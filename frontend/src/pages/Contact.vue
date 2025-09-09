@@ -84,6 +84,7 @@ import { useWagtailContactData } from '../composables/useWagtailContactData'
 import { useFloatingWidget } from '../composables/useFloatingWidget'
 import { useContactMetrics } from '../composables/useContactMetrics'
 import { useComponentFlags, useFeatureFlags } from '../composables/useFeatureFlags'
+import type { ContactPageProps } from '../types'
 
 // Async component imports for better performance
 const ContactPageLayout = defineAsyncComponent(() => import('../components/layout/ContactPageLayout.vue'))

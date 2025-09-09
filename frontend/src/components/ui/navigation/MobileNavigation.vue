@@ -27,46 +27,13 @@
       >
         <div class="px-4 py-6 space-y-4">
           <router-link 
-            to="/" 
+            v-for="item in navigationItems" 
+            :key="item.href"
+            :to="item.href" 
             class="block text-white hover:text-brand-primary transition-colors py-2"
             @click="closeMenu"
           >
-            Home
-          </router-link>
-          <router-link 
-            to="/about" 
-            class="block text-white hover:text-brand-primary transition-colors py-2"
-            @click="closeMenu"
-          >
-            About
-          </router-link>
-          <router-link 
-            to="/services" 
-            class="block text-white hover:text-brand-primary transition-colors py-2"
-            @click="closeMenu"
-          >
-            Services
-          </router-link>
-          <router-link 
-            to="/portfolio" 
-            class="block text-white hover:text-brand-primary transition-colors py-2"
-            @click="closeMenu"
-          >
-            Portfolio
-          </router-link>
-          <router-link 
-            to="/blog" 
-            class="block text-white hover:text-brand-primary transition-colors py-2"
-            @click="closeMenu"
-          >
-            Blog
-          </router-link>
-          <router-link 
-            to="/contact" 
-            class="block text-white hover:text-brand-primary transition-colors py-2"
-            @click="closeMenu"
-          >
-            Contact
+            {{ item.name }}
           </router-link>
         </div>
       </div>
@@ -76,6 +43,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import type { NavigationItem } from '../../../types/index'
+import { navigationItems } from '../../../data/navigation'
 
 defineOptions({
   name: 'MobileNavigation'

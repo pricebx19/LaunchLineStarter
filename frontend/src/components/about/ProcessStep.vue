@@ -43,11 +43,14 @@
 </template>
 
 <script setup lang="ts">
+import type { ProcessStep as ProcessStepType } from '../../types/About'
+
 interface Props {
   stepNumber: number
   title: string
   description: string
   features: string[]
+  icon?: string
 }
 
 defineProps<Props>()
@@ -55,12 +58,6 @@ defineProps<Props>()
 defineOptions({
   name: 'ProcessStep'
 })
-</script>
-
-<script lang="ts">
-export default {
-  name: 'ProcessStep'
-}
 </script>
 
 <style scoped>

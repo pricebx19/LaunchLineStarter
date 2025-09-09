@@ -50,6 +50,9 @@
 </template>
 
 <script setup lang="ts">
+import type { SectionHeaderData } from '../../../types/UI'
+import { SECTION_HEADER_PRESETS } from '../../../data/ui'
+
 interface Props {
   badge?: string
   badgeVariant?: 'primary' | 'secondary' | 'neutral'
@@ -62,6 +65,7 @@ interface Props {
   marginClass?: string
   titleClass?: string
   descriptionClass?: string
+  headerData?: SectionHeaderData
 }
 
 withDefaults(defineProps<Props>(), {
@@ -71,7 +75,8 @@ withDefaults(defineProps<Props>(), {
   descriptionVariant: 'medium',
   marginClass: 'mb-16',
   titleClass: 'leading-tight',
-  descriptionClass: ''
+  descriptionClass: '',
+  headerData: () => SECTION_HEADER_PRESETS.default
 })
 </script>
 

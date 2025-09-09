@@ -54,55 +54,25 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-
-interface CompanyStat {
-  value: number
-  suffix: string
-  label: string
-  description: string
-}
+import type { CompanyStatsData } from '../../../types'
+import { defaultCompanyStats } from '../../../data/companyStats'
 
 const props = withDefaults(defineProps<{
   badgeText?: string
   title?: string
   description?: string
   bottomText?: string
-  statsData?: CompanyStat[]
+  statsData?: CompanyStatsData['stats']
 }>(), {
-  badgeText: 'BY THE NUMBERS',
-  title: 'Launching Success Stories',
-  description: 'Real metrics from real businesses that trusted us to transform their digital presence.',
-  bottomText: 'Every project is a new mission, every launch a new success story waiting to be written.'
+  badgeText: defaultCompanyStats.badgeText,
+  title: defaultCompanyStats.title,
+  description: defaultCompanyStats.description,
+  bottomText: defaultCompanyStats.bottomText
 })
 
 const animatedValues = ref<number[]>([])
 
-const stats = computed(() => props.statsData || [
-  {
-    value: 150,
-    suffix: '+',
-    label: 'Websites Launched',
-    description: 'Digital experiences that drive results'
-  },
-  {
-    value: 95,
-    suffix: '%',
-    label: 'Client Satisfaction',
-    description: 'Consistently exceeding expectations'
-  },
-  {
-    value: 250,
-    suffix: '%',
-    label: 'Avg. Traffic Increase',
-    description: 'Measurable growth in 6 months'
-  },
-  {
-    value: 48,
-    suffix: 'hrs',
-    label: 'Avg. Response Time',
-    description: 'Swift communication guaranteed'
-  }
-])
+const stats = computed(() => props.statsData || defaultCompanyStats.stats)
 
 const animatedValue = (target: number, index: number) => {
   return animatedValues.value[index] || 0
@@ -140,7 +110,7 @@ onMounted(() => {
   animatedValues.value = new Array(stats.value.length).fill(0)
   
   // Start animations with delays
-  stats.value.forEach((stat, index) => {
+  stats.value.forEach((stat: any, index: number) => {
     setTimeout(() => {
       animateNumber(stat.value, index)
     }, index * 200 + 500) // 500ms initial delay
@@ -150,9 +120,7 @@ onMounted(() => {
 
 <style scoped>
 .stats-bg-pattern {
-  background-image: 
-    radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, #8b5cf6 0%, transparent 50%);
+  background-image: radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%), radial-gradient(circle at 75% 75%, #8b5cf6 0%, transparent 50%);
   background-size: 400px 400px;
   animation: drift 20s ease-in-out infinite;
 }
@@ -164,10 +132,7 @@ onMounted(() => {
   transform: translateY(30px);
 }
 
-.stat-content {
-  @apply relative z-10;
-}
-
+.stat-content { @apply relative z-10; }
 .stat-number {
   @apply text-4xl md:text-5xl font-bold text-white mb-1;
   background: linear-gradient(135deg, #3b82f6, #8b5cf6);
@@ -175,32 +140,11 @@ onMounted(() => {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.stat-suffix { @apply text-2xl md:text-3xl font-bold text-brand-primary inline; }
+.stat-label { @apply text-lg font-semibold text-white mb-2; }
+.stat-description { @apply text-sm text-gray-400 leading-relaxed; }
+.stat-glow { @apply absolute inset-0 bg-gradient-to-br from-brand-primary/20 to-purple-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl; }
 
-.stat-suffix {
-  @apply text-2xl md:text-3xl font-bold text-brand-primary inline;
-}
-
-.stat-label {
-  @apply text-lg font-semibold text-white mb-2;
-}
-
-.stat-description {
-  @apply text-sm text-gray-400 leading-relaxed;
-}
-
-.stat-glow {
-  @apply absolute inset-0 bg-gradient-to-br from-brand-primary/20 to-purple-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl;
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes drift {
-  0%, 100% { transform: translateX(-10px) translateY(-10px); }
-  50% { transform: translateX(10px) translateY(10px); }
-}
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes drift { 0%, 100% { transform: translateX(-10px) translateY(-10px); } 50% { transform: translateX(10px) translateY(10px); } }
 </style>

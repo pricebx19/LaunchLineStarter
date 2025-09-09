@@ -19,9 +19,12 @@
 </template>
 
 <script setup lang="ts">
+import type { MissionFeature } from '../../types/About'
+
 interface Props {
   title: string
   description: string
+  icon?: string
 }
 
 defineProps<Props>()
@@ -29,12 +32,6 @@ defineProps<Props>()
 defineOptions({
   name: 'MissionCard'
 })
-</script>
-
-<script lang="ts">
-export default {
-  name: 'MissionCard'
-}
 </script>
 
 <style scoped>

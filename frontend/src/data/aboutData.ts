@@ -8,6 +8,7 @@ export interface ValueConstellation {
   title: string
   description: string
   icon: string
+  color: string
   principles: string[]
   metrics: {
     impact: string
@@ -61,6 +62,7 @@ export const valuesConstellation: ValueConstellation[] = [
     title: 'Stellar Excellence',
     description: 'Like the brightest stars in the cosmos, we pursue excellence that illuminates the digital landscape. Every pixel, every line of code, every user interaction is crafted with precision that rivals the formation of galaxies.',
     icon: '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
+    color: '#FFD700',
     principles: [
       'Obsessive attention to detail',
       'Never settle for "good enough"',
@@ -78,6 +80,7 @@ export const valuesConstellation: ValueConstellation[] = [
     title: 'Quantum Innovation',
     description: 'We harness the power of cutting-edge technology like quantum particles dancing through space-time. Innovation isn\'t just what we do—it\'s the cosmic force that propels every solution beyond conventional limits.',
     icon: '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/></svg>',
+    color: '#00BFFF',
     principles: [
       'Embrace emerging technologies',
       'Challenge conventional thinking',
@@ -95,6 +98,7 @@ export const valuesConstellation: ValueConstellation[] = [
     title: 'Orbital Partnership',
     description: 'Like celestial bodies in perfect synchronization, we orbit alongside our clients in a cosmic dance of collaboration. Your success becomes our gravitational pull, creating a partnership that spans digital galaxies.',
     icon: '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v7H5v-2.5c-.42-.22-.78-.55-1.08-.96L4 18zm0-7h3c0 1.08.25 2.1.7 3H4v-3z"/></svg>',
+    color: '#32CD32',
     principles: [
       'Transparent communication',
       'Shared vision and goals',
@@ -112,6 +116,7 @@ export const valuesConstellation: ValueConstellation[] = [
     title: 'Cosmic Results',
     description: 'We measure success by the magnitude of impact—like supernovas that birth new stars. Every project creates ripple effects across the digital universe, generating measurable results that transform businesses into thriving cosmic entities.',
     icon: '<svg fill="currentColor" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>',
+    color: '#FF6347',
     principles: [
       'Data-driven decision making',
       'Measurable ROI focus',

@@ -23,7 +23,7 @@
           :value="searchQuery"
           @input="handleInput"
           type="text" 
-          placeholder="Search articles, topics, technologies..." 
+          :placeholder="placeholder"
           class="enhanced-search-input"
         />
         
@@ -46,9 +46,14 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+import { BLOG_SEARCH_SUGGESTIONS } from '../../data/blog'
+import type { SearchProps } from '../../types/Common'
+
+interface Props extends SearchProps {
   searchQuery: string
   totalPosts: number
+  placeholder?: string
+  suggestions?: string[]
 }
 
 interface Emits {
@@ -56,7 +61,11 @@ interface Emits {
   (e: 'clear'): void
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  placeholder: 'Search articles, topics, technologies...',
+  suggestions: () => BLOG_SEARCH_SUGGESTIONS
+})
+
 const emit = defineEmits<Emits>()
 
 const handleInput = (event: Event) => {
@@ -70,7 +79,6 @@ const handleClear = () => {
 </script>
 
 <style scoped>
-/* Search Container */
 .search-container {
   margin-bottom: 2rem;
 }
@@ -99,13 +107,10 @@ const handleClear = () => {
 .search-subtitle {
   color: #9ca3af;
   font-size: 1.125rem;
-  margin: 0;
+  margin: 0 auto;
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-/* Search Wrapper */
 .search-wrapper {
   display: flex;
   justify-content: center;
@@ -118,7 +123,6 @@ const handleClear = () => {
   max-width: 600px;
 }
 
-/* Enhanced Search Input */
 .enhanced-search-input {
   width: 100%;
   padding: 1rem 1rem 1rem 3.5rem;
@@ -147,12 +151,9 @@ const handleClear = () => {
   border-color: #3b82f6;
   background: rgba(31, 41, 55, 0.95);
   transform: translateY(-2px);
-  box-shadow: 
-    0 15px 35px rgba(0, 0, 0, 0.15),
-    0 0 0 4px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
-/* Search Icon */
 .search-icon {
   position: absolute;
   left: 1rem;
@@ -173,7 +174,6 @@ const handleClear = () => {
   height: 1.25rem;
 }
 
-/* Clear Button */
 .clear-button {
   position: absolute;
   right: 1rem;
@@ -204,7 +204,6 @@ const handleClear = () => {
   color: #ef4444;
 }
 
-/* Transitions */
 .fade-enter-active, .fade-leave-active {
   transition: all 0.3s ease;
 }
@@ -214,15 +213,9 @@ const handleClear = () => {
   transform: scale(0.8);
 }
 
-/* Mobile responsiveness */
 @media (max-width: 1024px) {
-  .search-title {
-    font-size: 1.75rem;
-  }
-  
-  .title-icon {
-    font-size: 2rem;
-  }
+  .search-title { font-size: 1.75rem; }
+  .title-icon { font-size: 2rem; }
 }
 
 @media (max-width: 768px) {
@@ -231,48 +224,23 @@ const handleClear = () => {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
-  .title-icon {
-    font-size: 1.75rem;
-  }
-  
-  .search-subtitle {
-    font-size: 1rem;
-  }
-  
+  .title-icon { font-size: 1.75rem; }
+  .search-subtitle { font-size: 1rem; }
   .enhanced-search-input {
     padding: 0.875rem 1rem 0.875rem 3rem;
     font-size: 0.875rem;
   }
-  
-  .search-icon .icon {
-    width: 1rem;
-    height: 1rem;
-  }
-  
-  .clear-button {
-    width: 1.75rem;
-    height: 1.75rem;
-  }
+  .search-icon .icon { width: 1rem; height: 1rem; }
+  .clear-button { width: 1.75rem; height: 1.75rem; }
 }
 
 @media (max-width: 640px) {
-  .search-header {
-    margin-bottom: 1.5rem;
-  }
-  
-  .search-wrapper {
-    margin-bottom: 0.75rem;
-  }
-  
+  .search-header { margin-bottom: 1.5rem; }
+  .search-wrapper { margin-bottom: 0.75rem; }
   .enhanced-search-input {
     padding: 0.75rem 0.875rem 0.75rem 2.75rem;
   }
-  
-  .search-icon {
-    left: 0.875rem;
-  }
-  
+  .search-icon { left: 0.875rem; }
   .clear-button {
     right: 0.875rem;
     width: 1.5rem;
@@ -280,7 +248,6 @@ const handleClear = () => {
   }
 }
 
-/* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
   .enhanced-search-input:hover,
   .enhanced-search-input:focus,
@@ -289,7 +256,6 @@ const handleClear = () => {
   }
 }
 
-/* Focus indicators */
 button:focus-visible,
 input:focus-visible {
   outline: 2px solid #3b82f6;

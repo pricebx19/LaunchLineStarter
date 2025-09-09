@@ -3,21 +3,21 @@
   <section class="relative z-10 pt-32 pb-16 px-4 text-center">
     <div class="max-w-4xl mx-auto">
       <h1 class="hero-title text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
-        Let's Create
-        <span class="text-glow block text-brand-primary">Something Amazing</span>
+        {{ heroData.title }}
+        <span class="text-glow block text-brand-primary">{{ heroData.subtitle }}</span>
       </h1>
       <p class="hero-subtitle text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-        Ready to transform your vision into digital reality? We're here to make it happen with cutting-edge technology and innovative design.
+        {{ heroData.description }}
       </p>
       
       <!-- Floating CTA buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
         <button @click="handleStartProject" class="cta-primary">
-          <span class="relative z-10">Start Your Project</span>
+          <span class="relative z-10">{{ heroData.primaryCta || 'Start Your Project' }}</span>
           <div class="button-glow"></div>
         </button>
         <button @click="handleLearnMore" class="cta-secondary">
-          <span class="relative z-10">Learn More</span>
+          <span class="relative z-10">{{ heroData.secondaryCta || 'Learn More' }}</span>
         </button>
       </div>
 
@@ -35,10 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import type { ContactMetric } from '../../composables/useContactMetrics'
+import { CONTACT_HERO_DATA } from '../../data/forms'
+import type { ContactHeroData, ContactMetric } from '../../types/index'
 
 interface Props {
-  metrics: ContactMetric[]
+  heroData?: ContactHeroData
+  metrics?: ContactMetric[]
 }
 
 interface Emits {
@@ -46,7 +48,11 @@ interface Emits {
   (e: 'learn-more'): void
 }
 
-defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  heroData: () => CONTACT_HERO_DATA,
+  metrics: () => CONTACT_HERO_DATA.metrics || []
+})
+
 const emit = defineEmits<Emits>()
 
 const handleStartProject = () => {

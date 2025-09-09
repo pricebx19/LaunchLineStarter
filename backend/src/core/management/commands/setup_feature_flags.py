@@ -107,6 +107,22 @@ class Command(BaseCommand):
             enabled=options.get('enable_all', False)
         )
 
+        self.create_feature_flag(
+            'WAGTAIL_HOME',
+            'Wagtail Home Page',
+            'Use Wagtail for home page management',
+            'CONTENT',
+            enabled=options.get('enable_all', False)
+        )
+
+        self.create_feature_flag(
+            'WAGTAIL_ABOUT',
+            'Wagtail About Page',
+            'Use Wagtail for about page management',
+            'CONTENT',
+            enabled=options.get('enable_all', False)
+        )
+
         # Forms & Interactions flags
         self.create_feature_flag(
             'WAGTAIL_CONTACT_FORM',

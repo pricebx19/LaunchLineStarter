@@ -19,10 +19,7 @@
 </template>
 
 <script setup lang="ts">
-interface Address {
-  street: string
-  city: string
-}
+import type { Address } from '../../../types/index'
 
 withDefaults(defineProps<{
   title?: string
@@ -32,8 +29,11 @@ withDefaults(defineProps<{
   title: 'Our Location',
   locationName: 'LaunchLine HQ',
   address: () => ({
-    street: 'Bloomsburg',
-    city: 'Pennsylvania'
+    street: '123 Main Street',
+    city: 'Bloomsburg',
+    state: 'Pennsylvania',
+    zipCode: '17815',
+    country: 'United States'
   })
 })
 </script>

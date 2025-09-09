@@ -45,6 +45,16 @@ export interface BlogPage {
   author?: string
   publishedDate?: string
   search_description?: string
+  // Additional properties to match BlogPost interface
+  publishedAt?: string
+  updatedAt?: string
+  readTime?: number
+  tags?: string[]
+  category?: string
+  featured?: boolean
+  image?: string
+  seoTitle?: string
+  seoDescription?: string
 }
 
 export interface ContentBlock {

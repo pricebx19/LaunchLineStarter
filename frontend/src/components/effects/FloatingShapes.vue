@@ -11,17 +11,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-
-interface Shape {
-  size: number
-  gradient: string
-  position: { top: string; left?: string; right?: string; bottom?: string }
-  delay: number
-}
+import type { FloatingShape } from '../../types'
 
 const props = withDefaults(defineProps<{
   count?: number
-  customShapes?: Shape[]
+  customShapes?: FloatingShape[]
 }>(), {
   count: 4
 })
@@ -32,12 +26,12 @@ const shapes = computed(() => {
       style: {
         width: `${shape.size}px`,
         height: `${shape.size}px`,
-        background: shape.gradient,
-        top: shape.position.top,
-        left: shape.position.left,
-        right: shape.position.right,
-        bottom: shape.position.bottom,
-        animationDelay: `${shape.delay}s`
+        background: shape.gradient || shape.color,
+        top: shape.position?.top,
+        left: shape.position?.left,
+        right: shape.position?.right,
+        bottom: shape.position?.bottom,
+        animationDelay: `${shape.delay || shape.animationDelay}s`
       }
     }))
   }

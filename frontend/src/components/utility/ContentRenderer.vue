@@ -114,17 +114,12 @@
 
 <script setup lang="ts">
 import { computed, defineAsyncComponent } from 'vue'
+import type { ContentBlock } from '../../types'
 
 const Hero = defineAsyncComponent(() => import('../sections/hero/Hero.vue'))
 const FeatureGrid = defineAsyncComponent(() => import('../sections/features/FeatureGrid.vue'))
 const Testimonial = defineAsyncComponent(() => import('../ui/display/Testimonial.vue'))
 const CTA = defineAsyncComponent(() => import('../sections/cta/components/CTA.vue'))
-
-interface ContentBlock {
-  type: string
-  value: any
-  id: string
-}
 
 interface Props {
   content: ContentBlock[]

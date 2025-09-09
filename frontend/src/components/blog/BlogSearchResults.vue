@@ -47,16 +47,21 @@
 </template>
 
 <script setup lang="ts">
+import type { BlogPost } from '../../types/Content'
+import type { SearchFilters } from '../../types/Common'
+
+interface SpecialFilters {
+  popular: boolean
+  featured: boolean
+  recent: boolean
+}
+
 interface Props {
   hasActiveSearch: boolean
   searchQuery: string
-  filteredPosts: any[]
+  filteredPosts: BlogPost[]
   selectedCategories: string[]
-  specialFilters: {
-    popular: boolean
-    featured: boolean
-    recent: boolean
-  }
+  specialFilters: SpecialFilters
   categories: string[]
 }
 

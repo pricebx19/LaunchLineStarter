@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(defineProps<{
-  title?: string
-  message?: string
-  buttonText?: string
-}>(), {
+import type { ContactFormSuccessProps } from '../../types'
+
+interface Props extends ContactFormSuccessProps {}
+
+withDefaults(defineProps<Props>(), {
   title: 'Message Sent Successfully!',
   message: 'Thank you for reaching out! We\'ll get back to you within 24 hours to discuss your project in detail.',
   buttonText: 'Send Another Message'

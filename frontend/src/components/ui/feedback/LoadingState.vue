@@ -12,15 +12,19 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { LoadingStateData } from '../../../types/UI'
+import { LOADING_STATE_PRESETS } from '../../../data/ui'
 
 interface Props {
   message?: string
   fullScreen?: boolean
+  loadingData?: LoadingStateData
 }
 
 const props = withDefaults(defineProps<Props>(), {
   message: 'Loading...',
-  fullScreen: false
+  fullScreen: false,
+  loadingData: () => LOADING_STATE_PRESETS.default
 })
 
 const containerClass = computed(() => {

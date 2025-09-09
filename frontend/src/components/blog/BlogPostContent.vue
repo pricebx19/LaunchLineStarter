@@ -56,10 +56,10 @@
 </template>
 
 <script setup lang="ts">
-import type { BlogPage } from '../../lib/api'
+import type { BlogPost } from '../../types/Content'
 
 interface Props {
-  blogPost: BlogPage
+  blogPost: BlogPost
 }
 
 defineProps<Props>()
@@ -71,26 +71,14 @@ defineProps<Props>()
   max-width: none;
 }
 
-.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+.prose h1, .prose h2, .prose h3 {
   color: #ffffff;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
+  margin: 1.5rem 0 1rem;
 }
 
-.prose h1 {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.prose h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.prose h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
+.prose h1 { font-size: 2rem; font-weight: 700; }
+.prose h2 { font-size: 1.5rem; font-weight: 600; }
+.prose h3 { font-size: 1.25rem; font-weight: 600; }
 
 .prose p {
   color: #d1d5db;
@@ -142,7 +130,6 @@ defineProps<Props>()
 
 .content-block :deep(h3) {
   @apply text-xl font-semibold text-white mb-3 mt-5;
-  color: #e5e7eb;
 }
 
 .content-block :deep(p) {
@@ -181,7 +168,6 @@ defineProps<Props>()
   @apply bg-transparent p-0 text-gray-200;
 }
 
-/* Add some visual interest to the content */
 .content-block {
   position: relative;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -192,22 +178,6 @@ defineProps<Props>()
   padding-bottom: 1.5rem;
 }
 
-.content-block::before {
-  content: '';
-  position: absolute;
-  left: -2px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(180deg, transparent, #3b82f6, transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.content-block:hover::before {
-  opacity: 1;
-}
-
 .content-block:hover {
   transform: translateX(8px);
   background: rgba(31, 41, 55, 0.3);
@@ -216,40 +186,11 @@ defineProps<Props>()
   margin: 0 -1rem;
 }
 
-/* Enhanced typography */
-.prose h1, .prose h2, .prose h3 {
-  position: relative;
-}
-
-.prose h2::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 50px;
-  height: 2px;
-  background: linear-gradient(90deg, #3b82f6, #7c3aed);
-  border-radius: 1px;
-}
-
-/* Responsive improvements */
 @media (max-width: 768px) {
-  .prose h1 {
-    font-size: 1.75rem;
-  }
-  
-  .prose h2 {
-    font-size: 1.5rem;
-  }
-  
-  .prose h3 {
-    font-size: 1.25rem;
-  }
-  
-  .content-block :deep(p) {
-    font-size: 1rem;
-  }
-  
+  .prose h1 { font-size: 1.75rem; }
+  .prose h2 { font-size: 1.5rem; }
+  .prose h3 { font-size: 1.25rem; }
+  .content-block :deep(p) { font-size: 1rem; }
   .content-block:hover {
     transform: none;
     margin: 0;
@@ -258,28 +199,7 @@ defineProps<Props>()
   }
 }
 
-/* Print styles */
-@media print {
-  .prose {
-    color: black !important;
-  }
-  
-  .prose h1, .prose h2, .prose h3 {
-    color: black !important;
-  }
-}
-
-/* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
-  .content-block {
-    transition: none !important;
-  }
-}
-
-/* High contrast mode */
-@media (prefers-contrast: high) {
-  .prose {
-    color: white;
-  }
+  .content-block { transition: none !important; }
 }
 </style>

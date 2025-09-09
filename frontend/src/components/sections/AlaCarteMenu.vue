@@ -91,15 +91,7 @@ const AlaCarteCard = defineAsyncComponent(() => import('../utility/cards/AlaCart
 const SectionHeader = defineAsyncComponent(() => import('../ui/layout/SectionHeader.vue'))
 const LoadMoreButton = defineAsyncComponent(() => import('../utility/LoadMoreButton.vue'))
 
-interface AlaCarteService {
-  title: string
-  description: string
-  price: string
-  icon: string
-  category: string
-  features: string[]
-  popular?: boolean
-}
+import type { AlaCarteService } from '../../types'
 
 interface Props {
   services: AlaCarteService[]
