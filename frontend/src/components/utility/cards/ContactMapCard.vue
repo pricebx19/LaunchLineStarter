@@ -32,8 +32,8 @@ withDefaults(defineProps<{
   title: 'Our Location',
   locationName: 'LaunchLine HQ',
   address: () => ({
-    street: '123 Innovation Drive',
-    city: 'Tech City, TC 12345'
+    street: 'Bloomsburg',
+    city: 'Pennsylvania'
   })
 })
 </script>

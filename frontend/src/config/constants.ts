@@ -3,13 +3,13 @@ export const APP_CONFIG = {
   NAME: 'LaunchLine LLC',
   TAGLINE: "We're taking off",
   SUBTAGLINE: 'Your brand. Your website. Done right.',
-  EMAIL: 'hello@launchline.com',
-  PHONE: '+1 (555) 123-4567',
+  EMAIL: 'breprice@launchlinellc.com',
+  PHONE: '(570) 766-3452',
   ADDRESS: {
-    STREET: '123 Innovation Drive',
-    CITY: 'Tech City',
-    STATE: 'TC',
-    ZIP: '12345',
+    STREET: 'Bloomsburg',
+    CITY: 'Pennsylvania',
+    STATE: 'PA',
+    ZIP: '17815',
     COUNTRY: 'United States'
   }
 } as const

@@ -66,8 +66,8 @@
               </div>
               <div class="map-info">
                 <p class="text-white font-semibold">LaunchLine HQ</p>
-                <p class="text-gray-300 text-sm">123 Innovation Drive</p>
-                <p class="text-gray-300 text-sm">Tech City, TC 12345</p>
+                <p class="text-gray-300 text-sm">Bloomsburg</p>
+                <p class="text-gray-300 text-sm">Pennsylvania</p>
               </div>
             </div>
           </div>
