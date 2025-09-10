@@ -121,15 +121,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref, onMounted, watch, defineAsyncComponent } from 'vue'
 import { 
   getBlockMetadata, 
   transformBlockToProps, 
   validateBlockData,
-  getBlockComponent,
   getAllBlockNames,
-  getRegistryStats,
-  type BlockMetadata
+  getRegistryStats
 } from '../../lib/blocks/block-registry'
 import type { ContentBlock } from '../../types'
 
@@ -204,10 +202,9 @@ const getBlockComponent = (blockType: string) => {
   // Load component asynchronously
   const component = defineAsyncComponent({
     loader: metadata.component,
-    errorComponent: props.fallbackComponent,
     delay: 200,
     timeout: 3000,
-    onError(error, retry, fail, attempts) {
+    onError(error: any, retry: () => void, fail: () => void, attempts: number) {
       console.error(`Failed to load component for block "${blockType}" (attempt ${attempts}):`, error)
       if (attempts <= 3) {
         retry()
@@ -235,7 +232,7 @@ const getBlockClasses = (block: ContentBlock): string => {
   
   // Add custom classes if provided
   if (props.customBlockClasses[block.type]) {
-    baseClasses.push(props.customBlockClasses[block.type])
+    baseClasses.push(props.customBlockClasses[block.type]!)
   }
 
   // Add validation status class
@@ -282,12 +279,6 @@ const isDebugOpen = (blockId: string): boolean => {
   return debugOpenBlocks.value.has(blockId)
 }
 
-// Error boundary
-const handleError = (error: Error) => {
-  console.error('Content renderer error:', error)
-  error.value = error.message
-  props.onContentError(error)
-}
 
 // Watch for content changes
 watch(() => props.content, (newContent) => {

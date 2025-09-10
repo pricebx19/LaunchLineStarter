@@ -3,7 +3,7 @@
  * This creates a powerful, flexible system for dynamic content rendering
  */
 
-import { defineAsyncComponent, type Component } from 'vue'
+import { type Component } from 'vue'
 
 // Block metadata interface
 export interface BlockMetadata {

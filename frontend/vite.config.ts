@@ -32,15 +32,22 @@ export default defineConfig({
     // Optimize chunk size
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
-      external: [],
       output: {
-        manualChunks: {
-          // Core Vue framework
-          'vue-vendor': ['vue', 'vue-router'],
-          // State management
-          'pinia-vendor': ['pinia'],
-          // Utility libraries
-          'utils-vendor': ['dompurify']
+        // Let Vite handle chunk splitting automatically
+        manualChunks: (id) => {
+          // Only split node_modules into vendor chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('vue') || id.includes('vue-router')) {
+              return 'vue-vendor'
+            }
+            if (id.includes('pinia')) {
+              return 'pinia-vendor'
+            }
+            if (id.includes('dompurify')) {
+              return 'utils-vendor'
+            }
+            return 'vendor'
+          }
         },
         // Optimize chunk naming
         chunkFileNames: (chunkInfo) => {
@@ -81,6 +88,10 @@ export default defineConfig({
     exclude: [
       // Exclude heavy dependencies that should be loaded on demand
     ]
+  },
+  // Ensure proper module resolution
+  ssr: {
+    noExternal: ['vue', 'vue-router', 'pinia']
   },
   // Ensure proper module resolution
   define: {
