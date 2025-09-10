@@ -43,7 +43,6 @@
 </template>
 
 <script setup lang="ts">
-import type { ProcessStep as ProcessStepType } from '../../types/About'
 
 interface Props {
   stepNumber: number

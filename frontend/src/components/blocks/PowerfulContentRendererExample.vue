@@ -40,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import PowerfulContentRenderer from './PowerfulContentRenderer.vue'
 import { getRegistryStats } from '../../lib/blocks/block-registry'
 import type { ContentBlock } from '../../types'

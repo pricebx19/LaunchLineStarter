@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import type { MissionFeature } from '../../types/About'
 
 interface Props {
   title: string
