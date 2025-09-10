@@ -29,12 +29,11 @@ export default defineConfig({
     assetsDir: 'assets',
     sourcemap: process.env.NODE_ENV === 'development',
     minify: 'esbuild',
-    // Optimize chunk size
-    chunkSizeWarningLimit: 1000,
+    // Force everything into a single bundle
     rollupOptions: {
       output: {
-        // Use default Vite chunking strategy
-        manualChunks: undefined,
+        // Force all code into a single chunk
+        manualChunks: () => 'everything',
         // Optimize chunk naming
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
