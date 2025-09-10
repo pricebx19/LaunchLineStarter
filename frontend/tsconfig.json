@@ -27,7 +27,6 @@
     // Unused code detection - Enhanced
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitUsed": true,
     
     // Module and target
     "module": "ESNext",
