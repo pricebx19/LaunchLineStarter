@@ -668,3 +668,410 @@ class TechnologiesBlock(blocks.StructBlock):
         template = "blocks/technologies_block.html"
         icon = "cog"
         label = "Technologies"
+
+
+# === ADVANCED BLOCK TYPES ===
+
+class VideoBlock(blocks.StructBlock):
+    """Video block with embed URL and optional poster image."""
+
+    video_url = blocks.URLBlock(
+        help_text="Video URL (YouTube, Vimeo, etc.)"
+    )
+    title = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        help_text="Video title"
+    )
+    description = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Video description"
+    )
+    poster_image = ImageChooserBlock(
+        required=False,
+        help_text="Poster image for video"
+    )
+    autoplay = blocks.BooleanBlock(
+        required=False,
+        default=False,
+        help_text="Autoplay video"
+    )
+    controls = blocks.BooleanBlock(
+        required=False,
+        default=True,
+        help_text="Show video controls"
+    )
+
+    class Meta:
+        template = "blocks/video_block.html"
+        icon = "media"
+        label = "Video"
+
+
+class GalleryBlock(blocks.StructBlock):
+    """Image gallery with multiple images."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        help_text="Gallery heading"
+    )
+    images = blocks.ListBlock(
+        ImageChooserBlock(),
+        min_num=2,
+        max_num=20,
+        help_text="Add images to gallery"
+    )
+    layout = blocks.ChoiceBlock(
+        choices=[
+            ("grid", "Grid"),
+            ("carousel", "Carousel"),
+            ("masonry", "Masonry"),
+        ],
+        default="grid",
+        help_text="Gallery layout"
+    )
+    columns = blocks.ChoiceBlock(
+        choices=[
+            ("2", "2 Columns"),
+            ("3", "3 Columns"),
+            ("4", "4 Columns"),
+        ],
+        default="3",
+        help_text="Number of columns (grid layout)"
+    )
+
+    class Meta:
+        template = "blocks/gallery_block.html"
+        icon = "image"
+        label = "Image Gallery"
+
+
+class CodeBlock(blocks.StructBlock):
+    """Code block with syntax highlighting."""
+
+    code = blocks.TextBlock(
+        help_text="Code content"
+    )
+    language = blocks.ChoiceBlock(
+        choices=[
+            ("javascript", "JavaScript"),
+            ("python", "Python"),
+            ("html", "HTML"),
+            ("css", "CSS"),
+            ("json", "JSON"),
+            ("bash", "Bash"),
+            ("sql", "SQL"),
+            ("php", "PHP"),
+            ("java", "Java"),
+            ("cpp", "C++"),
+            ("csharp", "C#"),
+            ("go", "Go"),
+            ("rust", "Rust"),
+            ("swift", "Swift"),
+            ("kotlin", "Kotlin"),
+        ],
+        default="javascript",
+        help_text="Programming language"
+    )
+    show_line_numbers = blocks.BooleanBlock(
+        required=False,
+        default=True,
+        help_text="Show line numbers"
+    )
+    copy_button = blocks.BooleanBlock(
+        required=False,
+        default=True,
+        help_text="Show copy button"
+    )
+
+    class Meta:
+        template = "blocks/code_block.html"
+        icon = "code"
+        label = "Code Block"
+
+
+class AccordionBlock(blocks.StructBlock):
+    """Accordion with expandable items."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        help_text="Accordion heading"
+    )
+    items = blocks.ListBlock(
+        blocks.StructBlock([
+            ("title", blocks.CharBlock(max_length=200, help_text="Item title")),
+            ("content", blocks.RichTextBlock(help_text="Item content")),
+            ("open_by_default", blocks.BooleanBlock(
+                required=False, default=False, help_text="Open by default")),
+        ]),
+        min_num=1,
+        max_num=10,
+        help_text="Add accordion items"
+    )
+
+    class Meta:
+        template = "blocks/accordion_block.html"
+        icon = "list-ol"
+        label = "Accordion"
+
+
+class TabsBlock(blocks.StructBlock):
+    """Tabbed content block."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        help_text="Tabs heading"
+    )
+    tabs = blocks.ListBlock(
+        blocks.StructBlock([
+            ("title", blocks.CharBlock(max_length=100, help_text="Tab title")),
+            ("content", blocks.RichTextBlock(help_text="Tab content")),
+        ]),
+        min_num=2,
+        max_num=6,
+        help_text="Add tabs"
+    )
+
+    class Meta:
+        template = "blocks/tabs_block.html"
+        icon = "list-ol"
+        label = "Tabs"
+
+
+class PricingTableBlock(blocks.StructBlock):
+    """Pricing table with multiple tiers."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        default="Choose Your Plan",
+        help_text="Pricing table heading"
+    )
+    subheading = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Pricing table subheading"
+    )
+    plans = blocks.ListBlock(
+        blocks.StructBlock([
+            ("name", blocks.CharBlock(max_length=100, help_text="Plan name")),
+            ("price", blocks.CharBlock(max_length=50,
+             help_text="Price (e.g., '$99/month')")),
+            ("description", blocks.TextBlock(
+                max_length=300, help_text="Plan description")),
+            ("features", blocks.ListBlock(blocks.CharBlock(
+                max_length=200), help_text="Plan features")),
+            ("cta_text", blocks.CharBlock(max_length=50,
+             default="Get Started", help_text="CTA button text")),
+            ("cta_link", blocks.URLBlock(help_text="CTA button URL")),
+            ("popular", blocks.BooleanBlock(required=False,
+             default=False, help_text="Mark as popular")),
+        ]),
+        min_num=2,
+        max_num=5,
+        help_text="Add pricing plans"
+    )
+
+    class Meta:
+        template = "blocks/pricing_table_block.html"
+        icon = "list-ul"
+        label = "Pricing Table"
+
+
+class TimelineBlock(blocks.StructBlock):
+    """Timeline with events and milestones."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        help_text="Timeline heading"
+    )
+    events = blocks.ListBlock(
+        blocks.StructBlock([
+            ("date", blocks.CharBlock(max_length=50, help_text="Event date")),
+            ("title", blocks.CharBlock(max_length=200, help_text="Event title")),
+            ("description", blocks.TextBlock(
+                max_length=500, help_text="Event description")),
+            ("icon", blocks.RawHTMLBlock(help_text="SVG icon HTML code")),
+        ]),
+        min_num=1,
+        max_num=10,
+        help_text="Add timeline events"
+    )
+
+    class Meta:
+        template = "blocks/timeline_block.html"
+        icon = "list-ol"
+        label = "Timeline"
+
+
+class ComparisonTableBlock(blocks.StructBlock):
+    """Comparison table for features or products."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        help_text="Comparison table heading"
+    )
+    columns = blocks.ListBlock(
+        blocks.StructBlock([
+            ("title", blocks.CharBlock(max_length=100, help_text="Column title")),
+            ("subtitle", blocks.CharBlock(max_length=200,
+             required=False, help_text="Column subtitle")),
+            ("highlight", blocks.BooleanBlock(required=False,
+             default=False, help_text="Highlight this column")),
+        ]),
+        min_num=2,
+        max_num=5,
+        help_text="Add comparison columns"
+    )
+    rows = blocks.ListBlock(
+        blocks.StructBlock([
+            ("feature", blocks.CharBlock(max_length=200, help_text="Feature name")),
+            ("values", blocks.ListBlock(blocks.CharBlock(
+                max_length=100), help_text="Values for each column")),
+        ]),
+        min_num=1,
+        max_num=20,
+        help_text="Add comparison rows"
+    )
+
+    class Meta:
+        template = "blocks/comparison_table_block.html"
+        icon = "table"
+        label = "Comparison Table"
+
+
+class FormBlock(blocks.StructBlock):
+    """Contact or lead generation form."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        help_text="Form heading"
+    )
+    description = blocks.TextBlock(
+        max_length=500,
+        required=False,
+        help_text="Form description"
+    )
+    fields = blocks.ListBlock(
+        blocks.StructBlock([
+            ("name", blocks.CharBlock(max_length=100, help_text="Field name")),
+            ("label", blocks.CharBlock(max_length=200, help_text="Field label")),
+            ("type", blocks.ChoiceBlock(
+                choices=[
+                    ("text", "Text"),
+                    ("email", "Email"),
+                    ("tel", "Phone"),
+                    ("textarea", "Textarea"),
+                    ("select", "Select"),
+                    ("checkbox", "Checkbox"),
+                    ("radio", "Radio"),
+                ],
+                default="text",
+                help_text="Field type"
+            )),
+            ("required", blocks.BooleanBlock(required=False,
+             default=False, help_text="Required field")),
+            ("placeholder", blocks.CharBlock(max_length=200,
+             required=False, help_text="Field placeholder")),
+            ("options", blocks.ListBlock(blocks.CharBlock(max_length=100),
+             required=False, help_text="Options for select/radio fields")),
+        ]),
+        min_num=1,
+        max_num=10,
+        help_text="Add form fields"
+    )
+    submit_text = blocks.CharBlock(
+        max_length=50,
+        default="Submit",
+        help_text="Submit button text"
+    )
+    success_message = blocks.TextBlock(
+        max_length=500,
+        default="Thank you for your submission!",
+        help_text="Success message"
+    )
+
+    class Meta:
+        template = "blocks/form_block.html"
+        icon = "form"
+        label = "Form"
+
+
+class MapBlock(blocks.StructBlock):
+    """Interactive map block."""
+
+    address = blocks.CharBlock(
+        max_length=500,
+        help_text="Address to display on map"
+    )
+    zoom = blocks.IntegerBlock(
+        min_value=1,
+        max_value=20,
+        default=15,
+        help_text="Map zoom level"
+    )
+    height = blocks.IntegerBlock(
+        min_value=200,
+        max_value=800,
+        default=400,
+        help_text="Map height in pixels"
+    )
+    show_marker = blocks.BooleanBlock(
+        required=False,
+        default=True,
+        help_text="Show location marker"
+    )
+    marker_title = blocks.CharBlock(
+        max_length=200,
+        required=False,
+        help_text="Marker title"
+    )
+
+    class Meta:
+        template = "blocks/map_block.html"
+        icon = "site"
+        label = "Map"
+
+
+class ProgressBarBlock(blocks.StructBlock):
+    """Progress bar for skills or completion."""
+
+    heading = blocks.CharBlock(
+        max_length=255,
+        required=False,
+        help_text="Progress section heading"
+    )
+    bars = blocks.ListBlock(
+        blocks.StructBlock([
+            ("label", blocks.CharBlock(max_length=100, help_text="Progress label")),
+            ("percentage", blocks.IntegerBlock(min_value=0,
+             max_value=100, help_text="Progress percentage")),
+            ("color", blocks.ChoiceBlock(
+                choices=[
+                    ("blue", "Blue"),
+                    ("green", "Green"),
+                    ("red", "Red"),
+                    ("yellow", "Yellow"),
+                    ("purple", "Purple"),
+                    ("pink", "Pink"),
+                ],
+                default="blue",
+                help_text="Progress bar color"
+            )),
+        ]),
+        min_num=1,
+        max_num=10,
+        help_text="Add progress bars"
+    )
+
+    class Meta:
+        template = "blocks/progress_bar_block.html"
+        icon = "chart-line"
+        label = "Progress Bars"

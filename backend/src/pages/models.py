@@ -22,6 +22,18 @@ from .blocks import (
     PortfolioProjectsBlock,
     CaseStudiesBlock,
     TechnologiesBlock,
+    # Advanced blocks
+    VideoBlock,
+    GalleryBlock,
+    CodeBlock,
+    AccordionBlock,
+    TabsBlock,
+    PricingTableBlock,
+    TimelineBlock,
+    ComparisonTableBlock,
+    FormBlock,
+    MapBlock,
+    ProgressBarBlock,
 )
 
 
@@ -224,12 +236,41 @@ class StandardPage(SEOMixin, Page):
     )
 
     content = StreamField([
+        # Core content blocks
         ("hero", HeroBlock()),
         ("features", FeatureGridBlock()),
         ("testimonial", TestimonialBlock()),
         ("cta", CTABlock()),
         ("text", TextBlock()),
         ("image", ImageBlock()),
+        ("statistics", MetricsBlock()),
+
+        # Service blocks
+        ("service_packages", ServicePackagesBlock()),
+        ("ala_carte_services", AlaCarteServicesBlock()),
+        ("faq_section", FAQSectionBlock()),
+
+        # Portfolio blocks
+        ("portfolio_projects", PortfolioProjectsBlock()),
+        ("case_studies", CaseStudiesBlock()),
+        ("technologies", TechnologiesBlock()),
+
+        # Contact blocks
+        ("contact_info", ContactInfoBlock()),
+        ("social_links", SocialLinksBlock()),
+
+        # Advanced blocks
+        ("video", VideoBlock()),
+        ("gallery", GalleryBlock()),
+        ("code", CodeBlock()),
+        ("accordion", AccordionBlock()),
+        ("tabs", TabsBlock()),
+        ("pricing_table", PricingTableBlock()),
+        ("timeline", TimelineBlock()),
+        ("comparison_table", ComparisonTableBlock()),
+        ("form", FormBlock()),
+        ("map", MapBlock()),
+        ("progress_bars", ProgressBarBlock()),
     ], blank=True, use_json_field=True)
 
     content_panels = Page.content_panels + [

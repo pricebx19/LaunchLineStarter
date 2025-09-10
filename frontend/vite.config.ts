@@ -32,6 +32,7 @@ export default defineConfig({
     // Optimize chunk size
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
+      external: [],
       output: {
         manualChunks: {
           // Core Vue framework
@@ -80,5 +81,10 @@ export default defineConfig({
     exclude: [
       // Exclude heavy dependencies that should be loaded on demand
     ]
+  },
+  // Ensure proper module resolution
+  define: {
+    __VUE_OPTIONS_API__: true,
+    __VUE_PROD_DEVTOOLS__: false
   }
 })
