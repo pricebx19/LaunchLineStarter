@@ -5,7 +5,7 @@ export interface BlogPost {
   title: string
   slug: string
   intro: string
-  content?: any
+  content?: ContentBlock[] | string
   author?: Author | string
   publishedAt?: string
   updatedAt?: string
@@ -115,6 +115,6 @@ export interface WagtailProject {
 
 export interface ContentBlock {
   type: string
-  value: any
+  value: unknown
   id: string
 }

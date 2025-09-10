@@ -101,13 +101,13 @@
 </template>
 
 <script setup lang="ts">
-import { inject, defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from 'vue'
 import { features as defaultFeatures } from '../../../data/componentData'
-import type { FeatureGridProps, Feature } from '../../../types'
+import type { FeatureGridProps } from '../../../types'
 
 interface Props extends FeatureGridProps {}
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   features: () => defaultFeatures
 })
 
@@ -117,7 +117,7 @@ const NavigationDownButton = defineAsyncComponent(() => import('../../ui/navigat
 const SectionHeader = defineAsyncComponent(() => import('../../ui/layout/SectionHeader.vue'))
 
 // Generate cosmic dust styles
-const getCosmicStyle = (index: number) => {
+const getCosmicStyle = (_index: number) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 4
@@ -142,7 +142,7 @@ const getEnergyOrbStyle = (index: number) => {
     { x: 50, y: 80, color: 'rgba(245, 158, 11, 0.4)' }
   ]
   
-  const orb = positions[index - 1] || positions[0]
+  const orb = positions[index - 1] || positions[0] || { x: 50, y: 50, color: '#ffffff' }
   const delay = index * 0.5
   
   return {
@@ -153,7 +153,7 @@ const getEnergyOrbStyle = (index: number) => {
   }
 }
 
-const getStardustStyle = (index: number) => {
+const getStardustStyle = (_index: number) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3
@@ -177,8 +177,9 @@ const iconMap: Record<string, string> = {
   growth: '<svg fill="currentColor" viewBox="0 0 20 20" class="w-full h-full"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/></svg>'
 }
 
-const getFeatureIcon = (iconName: string): string => {
-  return iconMap[iconName] || iconMap.strategy
+const getFeatureIcon = (iconName: string | undefined): string => {
+  const key = iconName || 'strategy'
+  return iconMap[key] || iconMap.strategy || ''
 }
 
 

@@ -3,21 +3,21 @@
   <section class="relative z-10 pt-32 pb-16 px-4 text-center">
     <div class="max-w-4xl mx-auto">
       <h1 class="hero-title text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
-        {{ heroData.title }}
-        <span class="text-glow block text-brand-primary">{{ heroData.subtitle }}</span>
+        {{ heroData?.title }}
+        <span class="text-glow block text-brand-primary">{{ heroData?.subtitle }}</span>
       </h1>
       <p class="hero-subtitle text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-        {{ heroData.description }}
+        {{ heroData?.description }}
       </p>
       
       <!-- Floating CTA buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
         <button @click="handleStartProject" class="cta-primary">
-          <span class="relative z-10">{{ heroData.primaryCta || 'Start Your Project' }}</span>
+          <span class="relative z-10">{{ heroData?.primaryCta || 'Start Your Project' }}</span>
           <div class="button-glow"></div>
         </button>
         <button @click="handleLearnMore" class="cta-secondary">
-          <span class="relative z-10">{{ heroData.secondaryCta || 'Learn More' }}</span>
+          <span class="relative z-10">{{ heroData?.secondaryCta || 'Learn More' }}</span>
         </button>
       </div>
 
@@ -48,7 +48,7 @@ interface Emits {
   (e: 'learn-more'): void
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   heroData: () => CONTACT_HERO_DATA,
   metrics: () => CONTACT_HERO_DATA.metrics || []
 })

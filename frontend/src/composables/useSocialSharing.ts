@@ -33,7 +33,6 @@ export function useSocialSharing(blogPost?: Ref<any>) {
   const shareOn = (platform: string) => {
     const url = window.location.href
     const title = blogPost?.value?.title || 'Check out this blog post'
-    const text = blogPost?.value?.intro || ''
     
     let shareUrl = ''
     

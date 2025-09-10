@@ -4,7 +4,7 @@
       class="tech-icon" 
       v-for="i in count" 
       :key="`tech-${i}`" 
-      :style="getTechIconStyle(i)"
+      :style="getTechIconStyle()"
     >
       <slot name="icon" :index="i">
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -31,7 +31,7 @@ defineOptions({
 })
 
 // Generate tech icon positions
-const getTechIconStyle = (index: number) => {
+const getTechIconStyle = () => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * props.speed

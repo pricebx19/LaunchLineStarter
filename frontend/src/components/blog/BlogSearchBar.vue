@@ -23,7 +23,7 @@
           :value="searchQuery"
           @input="handleInput"
           type="text" 
-          :placeholder="placeholder"
+          :placeholder="placeholder || 'Search...'"
           class="enhanced-search-input"
         />
         
@@ -61,7 +61,7 @@ interface Emits {
   (e: 'clear'): void
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   placeholder: 'Search articles, topics, technologies...',
   suggestions: () => BLOG_SEARCH_SUGGESTIONS
 })

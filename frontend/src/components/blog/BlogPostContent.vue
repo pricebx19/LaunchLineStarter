@@ -10,31 +10,31 @@
             class="content-block"
           >
             <!-- Text Block -->
-            <div v-if="block.type === 'text'" v-html="block.value.content"></div>
+            <div v-if="block.type === 'text'" v-html="(block.value as any)?.content"></div>
             
             <!-- Image Block -->
             <div v-else-if="block.type === 'image'" class="my-8">
               <img 
-                :src="block.value.image" 
-                :alt="block.value.caption || 'Blog image'"
+                :src="(block.value as any)?.image" 
+                :alt="(block.value as any)?.caption || 'Blog image'"
                 class="w-full rounded-lg shadow-lg"
               >
-              <p v-if="block.value.caption" class="text-center text-gray-400 mt-3 text-sm">
-                {{ block.value.caption }}
+              <p v-if="(block.value as any)?.caption" class="text-center text-gray-400 mt-3 text-sm">
+                {{ (block.value as any)?.caption }}
               </p>
             </div>
             
             <!-- CTA Block -->
             <div v-else-if="block.type === 'cta'" class="bg-gradient-to-r from-gray-800 to-gray-700 p-6 rounded-lg text-center my-8 border border-gray-600 shadow-lg">
-              <h3 class="text-xl font-bold text-white mb-3">{{ block.value.heading }}</h3>
-              <p class="text-gray-300 mb-4">{{ block.value.text }}</p>
+              <h3 class="text-xl font-bold text-white mb-3">{{ (block.value as any)?.heading }}</h3>
+              <p class="text-gray-300 mb-4">{{ (block.value as any)?.text }}</p>
               <a 
-                :href="block.value.button_link" 
+                :href="(block.value as any)?.button_link" 
                 class="btn-primary"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {{ block.value.button_text }}
+                {{ (block.value as any)?.button_text }}
               </a>
             </div>
           </div>

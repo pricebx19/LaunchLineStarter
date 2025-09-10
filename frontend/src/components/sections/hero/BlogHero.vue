@@ -46,7 +46,7 @@ withDefaults(defineProps<Props>(), {
 })
 
 // Generate random star positions
-const getStarStyle = (index: number, size: string) => {
+const getStarStyle = (_index: number, _size: string) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3
@@ -61,7 +61,7 @@ const getStarStyle = (index: number, size: string) => {
 }
 
 // Generate shooting star positions
-const getShootingStarStyle = (index: number) => {
+const getShootingStarStyle = (_index: number) => {
   const startX = Math.random() * 100
   const startY = Math.random() * 50
   const delay = Math.random() * 8

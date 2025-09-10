@@ -23,9 +23,9 @@
       :home-error="wagtailError"
       :is-loading="wagtailLoading"
       :api-url="apiUrl"
-      :last-updated="lastFetched?.toISOString()"
+      :last-updated="lastFetched?.toISOString() || null"
       @refresh="refreshFlags"
-      @refresh-data="refreshWagtailData"
+      @refresh-data="fetchWagtailData"
     />
   </div>
 </template>
@@ -42,9 +42,9 @@
 import { computed, onMounted, defineAsyncComponent } from 'vue'
 import { useMobileDetection } from '../composables/useMobileDetection'
 import { useComponentFlags, useFeatureFlags } from '../composables/useFeatureFlags'
-import { useWagtailHomeDataAuto } from '../composables/useWagtailHomeData'
+import { useWagtailData } from '../composables/useStores'
 import { useSeo } from '../lib/seo'
-import type { HomePageProps } from '../types'
+// import type { HomePageProps } from '../types'
 
 // Use mobile detection
 const { isMobile } = useMobileDetection()
@@ -56,15 +56,17 @@ const {
   shouldShowWagtail 
 } = useComponentFlags('home')
 
-// Wagtail home data
-const {
-  data: wagtailHomeData,
-  isLoading: wagtailLoading,
-  error: wagtailError,
-  lastFetched,
-  fetchHomeData,
-  refresh: refreshWagtailData
-} = useWagtailHomeDataAuto({ autoFetch: true })
+// Wagtail home data using new stores
+const wagtailData = useWagtailData()
+// const _ui = useUI()
+
+const wagtailHomeData = computed(() => wagtailData.getData('home'))
+const wagtailLoading = computed(() => wagtailData.isLoading('home'))
+const wagtailError = computed(() => wagtailData.getError('home'))
+// const _hasWagtailData = computed(() => wagtailData.hasData('home'))
+const lastFetched = computed(() => wagtailData.getLastFetched('home'))
+
+const fetchWagtailData = () => wagtailData.fetchData('home')
 
 // Computed properties for debug menu
 const homeStrategy = computed(() => {
@@ -106,7 +108,7 @@ const refreshFlags = async () => {
     // Also refresh Wagtail data if we're using the Wagtail version
     if (useWagtailHome.value) {
       console.log('Refreshing Wagtail home data...')
-      await refreshWagtailData()
+      await fetchWagtailData()
     }
   } catch (error) {
     console.error('Failed to refresh feature flags:', error)
@@ -129,7 +131,7 @@ onMounted(async () => {
   
   // Fetch Wagtail data if feature flag is enabled
   if (useWagtailHome.value) {
-    await fetchHomeData()
+    await fetchWagtailData()
   }
 
   updateSeo({

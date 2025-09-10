@@ -58,7 +58,7 @@ interface SocialLink {
   iconPath: string
 }
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   title?: string
   description?: string
   contactMethods?: ContactMethod[]

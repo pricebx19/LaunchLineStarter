@@ -16,7 +16,7 @@
         <input 
           v-model="email"
           type="email" 
-          :placeholder="placeholder" 
+          :placeholder="placeholder || 'Enter your email'" 
           class="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary hover:border-gray-500 transition-colors"
           required
         >
@@ -93,7 +93,7 @@ const handleSubmit = async () => {
 }
 
 // Generate random star positions
-const getStarStyle = (index: number, size: string) => {
+const getStarStyle = (_index: number, _size: string) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3

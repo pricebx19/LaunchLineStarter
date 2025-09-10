@@ -24,8 +24,8 @@
       </div>
 
       <CaseStudyTestimonial
-        :testimonial="caseStudy.testimonial"
-        :client="caseStudy.client"
+        :testimonial="caseStudy.testimonial || ''"
+        :client="caseStudy.client || ''"
       />
 
       <CaseStudyDetails

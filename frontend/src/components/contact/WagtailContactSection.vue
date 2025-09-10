@@ -89,7 +89,7 @@
                target="_blank"
                rel="noopener noreferrer">
               <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                <path :d="getSocialIcon(social.icon)"/>
+                <path :d="getSocialIcon(social.icon) || ''"/>
               </svg>
             </a>
           </div>
@@ -182,9 +182,9 @@
 
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue'
-import type { WagtailContactData, ContactFormData, StreamFieldBlock } from '../../types'
+import type { WagtailContactData, ContactFormData } from '../../types'
 
-const props = defineProps<{
+defineProps<{
   wagtailData: WagtailContactData
 }>()
 

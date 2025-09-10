@@ -1,9 +1,9 @@
 <template>
   <DebugPanel
-    :is-dev="isDev"
+    :is-dev="isDev ?? false"
     title="Contact Page Status"
     :strategy="contactStrategy"
-    :is-wagtail-enabled="isWagtailEnabled"
+    :is-wagtail-enabled="isWagtailEnabled ?? false"
     :migration-status="migrationStatus"
     :has-data="false"
     :has-error="false"

@@ -1,71 +1,82 @@
 /**
  * Vue composable for feature flag management during Wagtail transition
+ * Now uses Pinia store for state management
  */
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
+import { useFeatureFlagsStore } from '../stores/feature-flags'
+import { WagtailApiService } from '../services/wagtail-api'
+import { errorHandler } from '../services/error-handler'
 import { 
-  isFeatureEnabled, 
-  useWagtailComponent,
-  getMigrationStatus,
-  isFeatureDeprecated,
-  getFeatureMetadata,
-  loadFeatureFlags,
-  initializeFeatureFlags,
-  startFeatureFlagPolling,
   FEATURE_FLAGS,
   type FeatureName
 } from '../config/features'
 
-// Global state for feature flags
-const isLoading = ref(false)
-const error = ref<string | null>(null)
-const lastUpdated = ref<Date | null>(null)
+// Global API service instance
+const wagtailApi = new WagtailApiService(import.meta.env.VITE_API_URL || 'http://localhost:8000')
 
-let stopPolling: (() => void) | null = null
+let stopPolling: number | null = null
 
 export function useFeatureFlags() {
+  const store = useFeatureFlagsStore()
+
   const initialize = async () => {
-    isLoading.value = true
-    error.value = null
+    store.setLoading(true)
+    store.clearError()
     
     try {
-      await initializeFeatureFlags()
-      lastUpdated.value = new Date()
+      // Load feature flags from API
+      const response = await wagtailApi.getFeatureFlags()
+      
+      if (response.success && response.data) {
+        store.setFlags(response.data.flags)
+        
+        // Load metadata if available
+        const metadataResponse = await wagtailApi.getFeatureMetadata()
+        if (metadataResponse.success && metadataResponse.data) {
+          store.setMetadata(metadataResponse.data)
+        }
+      } else {
+        // Fallback to environment variables
+        const envFlags: Record<string, boolean> = {}
+        Object.entries(FEATURE_FLAGS).forEach(([key]) => {
+          envFlags[key] = import.meta.env[`VITE_${key}`] === 'true'
+        })
+        store.setFlags(envFlags)
+      }
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Failed to load feature flags'
-      console.error('Feature flags initialization failed:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load feature flags'
+      store.setError(errorMessage)
+      errorHandler.logError(err as Error, { component: 'useFeatureFlags', action: 'initialize' })
     } finally {
-      isLoading.value = false
+      store.setLoading(false)
     }
   }
 
   const startPolling = (intervalMs: number = 30000) => {
     if (stopPolling) {
-      stopPolling()
+      clearInterval(stopPolling)
     }
-    stopPolling = startFeatureFlagPolling(intervalMs)
+    stopPolling = window.setInterval(() => {
+      initialize().catch(console.warn)
+    }, intervalMs)
   }
 
   const stopPollingFlags = () => {
     if (stopPolling) {
-      stopPolling()
+      clearInterval(stopPolling)
       stopPolling = null
     }
   }
 
   const refresh = async () => {
-    try {
-      await loadFeatureFlags()
-      lastUpdated.value = new Date()
-    } catch (err) {
-      console.warn('Failed to refresh feature flags:', err)
-    }
+    await initialize()
   }
 
   return {
     // State
-    isLoading: computed(() => isLoading.value),
-    error: computed(() => error.value),
-    lastUpdated: computed(() => lastUpdated.value),
+    isLoading: computed(() => store.isLoading),
+    error: computed(() => store.error),
+    lastUpdated: computed(() => store.lastUpdated),
     
     // Methods
     initialize,
@@ -74,11 +85,9 @@ export function useFeatureFlags() {
     stopPolling: stopPollingFlags,
     
     // Feature flag helpers
-    isEnabled: isFeatureEnabled,
-    useWagtail: useWagtailComponent,
-    getMigrationStatus,
-    isDeprecated: isFeatureDeprecated,
-    getMetadata: getFeatureMetadata,
+    isEnabled: store.isEnabled,
+    useWagtail: store.useWagtailComponent,
+    getMigrationStatus: store.getMigrationStatus,
   }
 }
 
@@ -86,49 +95,41 @@ export function useFeatureFlags() {
  * Composable for component-specific feature flag checks
  */
 export function useComponentFlags(componentName: string) {
-  const {
-    isEnabled,
-    useWagtail,
-    getMigrationStatus,
-    isDeprecated
-  } = useFeatureFlags()
+  const store = useFeatureFlagsStore()
 
   const wagtailFeature = `WAGTAIL_${componentName.toUpperCase()}` as FeatureName
   
   return {
     // Component-specific flags
-    useWagtailVersion: computed(() => useWagtail(componentName)),
-    migrationStatus: computed(() => getMigrationStatus(componentName)),
-    isWagtailEnabled: computed(() => isEnabled(wagtailFeature)),
-    isWagtailDeprecated: computed(() => isDeprecated(wagtailFeature)),
+    useWagtailVersion: computed(() => store.useWagtailComponent(componentName)),
+    migrationStatus: computed(() => store.getMigrationStatus(componentName)),
+    isWagtailEnabled: computed(() => store.isEnabled(wagtailFeature)),
     
     // Conditional rendering helpers
     shouldShowLegacy: computed(() => {
-      const status = getMigrationStatus(componentName)
-      return status === 'legacy' || (status === 'transitioning' && !isEnabled(wagtailFeature))
+      const status = store.getMigrationStatus(componentName)
+      return status === 'legacy' || (status === 'transitioning' && !store.isEnabled(wagtailFeature))
     }),
     
     shouldShowWagtail: computed(() => {
-      return isEnabled(wagtailFeature) && !isDeprecated(wagtailFeature)
+      return store.isEnabled(wagtailFeature)
     }),
     
     shouldShowBoth: computed(() => {
-      const status = getMigrationStatus(componentName)
-      return status === 'transitioning' && isEnabled(wagtailFeature)
+      const status = store.getMigrationStatus(componentName)
+      return status === 'transitioning' && store.isEnabled(wagtailFeature)
     }),
     
     // Component state
     componentStatus: computed(() => {
-      const status = getMigrationStatus(componentName)
-      const enabled = isEnabled(wagtailFeature)
-      const deprecated = isDeprecated(wagtailFeature)
+      const status = store.getMigrationStatus(componentName)
+      const enabled = store.isEnabled(wagtailFeature)
       
       return {
         status,
         enabled,
-        deprecated,
         canToggle: status === 'transitioning',
-        message: getStatusMessage(status, enabled, deprecated)
+        message: getStatusMessage(status, enabled)
       }
     })
   }
@@ -138,17 +139,17 @@ export function useComponentFlags(componentName: string) {
  * Composable for navigation-specific feature flags
  */
 export function useNavigationFlags() {
-  const { isEnabled } = useFeatureFlags()
+  const store = useFeatureFlagsStore()
   
   return {
-    useWagtailNavbar: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_NAVBAR)),
-    useWagtailFooter: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_FOOTER)),
-    useWagtailLayout: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_LAYOUT)),
+    useWagtailNavbar: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_NAVBAR)),
+    useWagtailFooter: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_FOOTER)),
+    useWagtailLayout: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_LAYOUT)),
     
     navigationStrategy: computed(() => {
-      const navbar = isEnabled(FEATURE_FLAGS.WAGTAIL_NAVBAR)
-      const footer = isEnabled(FEATURE_FLAGS.WAGTAIL_FOOTER)
-      const layout = isEnabled(FEATURE_FLAGS.WAGTAIL_LAYOUT)
+      const navbar = store.isEnabled(FEATURE_FLAGS.WAGTAIL_NAVBAR)
+      const footer = store.isEnabled(FEATURE_FLAGS.WAGTAIL_FOOTER)
+      const layout = store.isEnabled(FEATURE_FLAGS.WAGTAIL_LAYOUT)
       
       if (layout) return 'full-wagtail'
       if (navbar && footer) return 'mixed-navigation'
@@ -162,16 +163,16 @@ export function useNavigationFlags() {
  * Composable for content-specific feature flags
  */
 export function useContentFlags() {
-  const { isEnabled } = useFeatureFlags()
+  const store = useFeatureFlagsStore()
   
   return {
-    useWagtailHero: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_HERO)),
-    useWagtailFeatures: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_FEATURES)),
-    useWagtailTestimonials: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_TESTIMONIALS)),
-    useWagtailCTA: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_CTA)),
-    useWagtailBlog: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_BLOG)),
-    useWagtailPortfolio: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_PORTFOLIO)),
-    useWagtailServices: computed(() => isEnabled(FEATURE_FLAGS.WAGTAIL_SERVICES)),
+    useWagtailHero: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_HERO)),
+    useWagtailFeatures: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_FEATURES)),
+    useWagtailTestimonials: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_TESTIMONIALS)),
+    useWagtailCTA: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_CTA)),
+    useWagtailBlog: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_BLOG)),
+    useWagtailPortfolio: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_PORTFOLIO)),
+    useWagtailServices: computed(() => store.isEnabled(FEATURE_FLAGS.WAGTAIL_SERVICES)),
     
     contentStrategy: computed(() => {
       const wagtailFlags = [
@@ -182,7 +183,7 @@ export function useContentFlags() {
       ]
       
       const enabledCount = wagtailFlags.reduce((count, flag) => {
-        return count + (isEnabled(flag) ? 1 : 0)
+        return count + (store.isEnabled(flag) ? 1 : 0)
       }, 0)
       
       const percentage = (enabledCount / wagtailFlags.length) * 100
@@ -233,13 +234,8 @@ export function useFeatureFlagsApp(options: {
 // Helper function for status messages
 function getStatusMessage(
   status: 'legacy' | 'transitioning' | 'wagtail' | 'deprecated',
-  enabled: boolean,
-  deprecated: boolean
+  enabled: boolean
 ): string {
-  if (deprecated) {
-    return 'This component has been deprecated'
-  }
-  
   switch (status) {
     case 'legacy':
       return 'Using legacy implementation'
@@ -258,14 +254,14 @@ function getStatusMessage(
 
 // Development helpers
 export function useFeatureFlagsDev() {
-  const { isEnabled } = useFeatureFlags()
+  const store = useFeatureFlagsStore()
   
   const debugInfo = computed(() => {
     const allFlags = Object.values(FEATURE_FLAGS)
     
     return {
       total: allFlags.length,
-      enabled: allFlags.filter(flag => isEnabled(flag)).length,
+      enabled: allFlags.filter(flag => store.isEnabled(flag)).length,
       wagtailFlags: allFlags.filter(flag => flag.startsWith('WAGTAIL_')),
       legacyFlags: allFlags.filter(flag => !flag.startsWith('WAGTAIL_')),
     }
@@ -274,7 +270,7 @@ export function useFeatureFlagsDev() {
   const logAllFlags = () => {
     console.group('🚩 Feature Flags Status')
     Object.values(FEATURE_FLAGS).forEach(flag => {
-      const enabled = isEnabled(flag)
+      const enabled = store.isEnabled(flag)
       const status = enabled ? '✅' : '❌'
       console.log(`${status} ${flag}: ${enabled}`)
     })

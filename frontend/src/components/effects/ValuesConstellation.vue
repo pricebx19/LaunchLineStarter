@@ -46,7 +46,7 @@
           <div class="value-icon-wrapper">
             <div class="value-icon">
               <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="value.iconPath"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="value.iconPath || ''"></path>
               </svg>
             </div>
             <div class="value-glow"></div>

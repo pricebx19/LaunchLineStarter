@@ -1,5 +1,5 @@
 <template>
-  <section class="py-8 bg-gradient-to-b from-gray-900 to-gray-800 border-t border-gray-700" v-if="posts.length">
+  <section class="py-8 bg-gradient-to-b from-gray-900 to-gray-800 border-t border-gray-700" v-if="posts?.length">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section Header -->
       <div class="text-center mb-12">
@@ -96,7 +96,7 @@ interface RelatedPost {
   tags?: string[]
 }
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   posts?: RelatedPost[]
   title?: string
   description?: string

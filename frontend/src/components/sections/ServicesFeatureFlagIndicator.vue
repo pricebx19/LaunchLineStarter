@@ -7,9 +7,9 @@
     :migration-status="migrationStatus"
     :has-data="!!wagtailData"
     :has-error="!!wagtailError"
-    :is-loading="isLoading"
-    :api-url="apiUrl"
-    :last-updated="lastUpdated"
+    :is-loading="isLoading || false"
+    :api-url="apiUrl || 'http://localhost:8000'"
+    :last-updated="lastUpdated ?? null"
     feature-flag-name="WAGTAIL_SERVICES"
     @refresh="handleRefresh"
     @refresh-data="handleRefreshData"
@@ -53,7 +53,7 @@ interface Emits {
   (e: 'refreshData'): void
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   wagtailData: null,
   wagtailError: null,
   isLoading: false,

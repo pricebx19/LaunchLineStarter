@@ -34,7 +34,7 @@
           :projects="filteredProjects"
           :filter-key="`${selectedCategories.join(',')}-${JSON.stringify(specialFilters)}`"
           @select-project="openProjectModal"
-          @preview-project="showProjectPreview"
+          @preview-project="() => {}"
         />
         
         <!-- Load More Button -->
@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, ref, computed, watch, withDefaults } from 'vue'
+import { defineAsyncComponent, ref, computed, withDefaults } from 'vue'
 import { usePortfolioFilters } from '../../../../composables/usePortfolioFilters'
 
 const StarryBackground = defineAsyncComponent(() => import('../../../effects/StarryBackground.vue'))
@@ -107,14 +107,12 @@ const specialFiltersRef = computed(() => props.specialFilters)
 
 // Use portfolio filters composable
 const {
-  visibleProjects,
   filteredProjects,
   hasMoreProjects,
   remainingProjectsCount,
   shouldShowLessButton,
   loadMoreProjects: loadMore,
-  showLessProjects,
-  resetPagination
+  showLessProjects
 } = usePortfolioFilters(projectsRef, categoriesRef, selectedCategoriesRef, specialFiltersRef, props.initialVisibleCount)
 
 // Methods
@@ -136,10 +134,10 @@ const closeProjectModal = () => {
   selectedProject.value = null
 }
 
-const showProjectPreview = (project: Project) => {
-  // Add preview functionality here
-  // TODO: Implement project preview modal or functionality
-}
+// const showProjectPreview = (project: Project) => {
+//   // Add preview functionality here
+//   // TODO: Implement project preview modal or functionality
+// }
 
 // Note: No automatic pagination reset on filter changes
 // Pagination only resets when user explicitly chooses to collapse

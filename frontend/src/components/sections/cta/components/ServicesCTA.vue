@@ -9,7 +9,7 @@
       </div>
       <p class="text-gray-300 text-center">{{ description }}</p>
       <router-link 
-        :to="ctaLink" 
+        :to="ctaLink || '/contact'" 
         class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-brand-primary to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
       >
         {{ ctaText }}

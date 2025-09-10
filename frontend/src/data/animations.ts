@@ -206,19 +206,61 @@ export const SCROLL_ANIMATIONS: ScrollAnimation[] = [
     trigger: 'viewport',
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px',
-    animation: ANIMATION_PRESETS.slideInUp
+    animation: ANIMATION_PRESETS.slideInUp || {
+      name: 'slideInUp',
+      keyframes: [
+        { offset: 0, properties: { transform: 'translateY(30px)', opacity: '0' } },
+        { offset: 1, properties: { transform: 'translateY(0)', opacity: '1' } }
+      ],
+      config: {
+        duration: 600,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        delay: 0,
+        iterationCount: 1,
+        direction: 'normal',
+        fillMode: 'both'
+      }
+    }
   },
   {
     trigger: 'viewport',
     threshold: 0.2,
     rootMargin: '0px 0px -100px 0px',
-    animation: ANIMATION_PRESETS.fadeIn
+    animation: ANIMATION_PRESETS.fadeIn || {
+      name: 'fadeIn',
+      keyframes: [
+        { offset: 0, properties: { opacity: '0' } },
+        { offset: 1, properties: { opacity: '1' } }
+      ],
+      config: {
+        duration: 800,
+        easing: 'ease-out',
+        delay: 0,
+        iterationCount: 1,
+        direction: 'normal',
+        fillMode: 'both'
+      }
+    }
   },
   {
     trigger: 'viewport',
     threshold: 0.3,
     rootMargin: '0px 0px -150px 0px',
-    animation: ANIMATION_PRESETS.scaleIn
+    animation: ANIMATION_PRESETS.scaleIn || {
+      name: 'scaleIn',
+      keyframes: [
+        { offset: 0, properties: { transform: 'scale(0.8)', opacity: '0' } },
+        { offset: 1, properties: { transform: 'scale(1)', opacity: '1' } }
+      ],
+      config: {
+        duration: 500,
+        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        delay: 0,
+        iterationCount: 1,
+        direction: 'normal',
+        fillMode: 'both'
+      }
+    }
   }
 ]
 

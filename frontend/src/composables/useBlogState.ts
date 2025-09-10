@@ -1,4 +1,4 @@
-import { ref, computed, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { useBlogFilters } from './useBlogFilters'
 
 export interface SpecialFilters {

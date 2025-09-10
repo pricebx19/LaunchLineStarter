@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col sm:flex-row gap-6 justify-center">
     <router-link 
+      v-if="primaryButton"
       :to="primaryButton.link"
       class="cta-button primary"
     >
@@ -8,6 +9,7 @@
       <span class="ml-2">{{ primaryButton.icon }}</span>
     </router-link>
     <router-link 
+      v-if="secondaryButton"
       :to="secondaryButton.link"
       class="cta-button secondary"
     >

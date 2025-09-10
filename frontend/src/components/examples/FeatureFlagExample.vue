@@ -90,7 +90,6 @@ import {
   useContentFlags,
   useFeatureFlagsDev
 } from '../../composables/useFeatureFlags'
-import { FEATURE_FLAGS } from '../../config/features'
 
 // Basic feature flags setup
 const featureFlags = useFeatureFlags()

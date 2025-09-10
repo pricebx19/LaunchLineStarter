@@ -50,7 +50,7 @@ interface Props {
   homeData?: HomePageData
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   homeData: () => HOME_PAGE_DATA
 })
 
@@ -87,7 +87,9 @@ const navigation = {
     const currentIndex = sections.indexOf(currentSection.value)
     const nextIndex = (currentIndex + 1) % sections.length
     const nextSection = sections[nextIndex]
-    currentSection.value = nextSection
+    if (nextSection) {
+      currentSection.value = nextSection
+    }
     
     // Reset navigation lock after a short delay
     setTimeout(() => {
@@ -104,7 +106,10 @@ const navigation = {
     hasNavigated.value = true
     const currentIndex = sections.indexOf(currentSection.value)
     const prevIndex = currentIndex === 0 ? sections.length - 1 : currentIndex - 1
-    currentSection.value = sections[prevIndex]
+    const prevSection = sections[prevIndex]
+    if (prevSection) {
+      currentSection.value = prevSection
+    }
     
     // Reset navigation lock after a short delay
     setTimeout(() => {

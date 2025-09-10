@@ -13,19 +13,19 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
         <!-- Contact Information -->
         <ContactInfo 
-          :title="infoTitle"
-          :description="infoDescription"
-          :contact-methods="contactMethods"
-          :response-time-title="responseTimeTitle"
-          :response-time-description="responseTimeDescription"
+          :title="infoTitle ?? 'Let\'s Start a Conversation'"
+          :description="infoDescription ?? 'We\'re here to help you transform your business'"
+          :contact-methods="contactMethods ?? []"
+          :response-time-title="responseTimeTitle ?? 'Response Time'"
+          :response-time-description="responseTimeDescription ?? 'We typically respond within 24 hours'"
         />
 
         <!-- Contact Form -->
         <ContactForm 
           ref="contactFormRef"
-          :title="formTitle"
-          :subject-options="subjectOptions"
-          :success-message="successMessage"
+          :title="formTitle ?? 'Send us a Message'"
+          :subject-options="subjectOptions ?? []"
+          :success-message="successMessage ?? 'Thank you for your message!'"
           @submit="handleFormSubmit"
         />
       </div>

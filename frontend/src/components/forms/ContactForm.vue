@@ -34,7 +34,7 @@
             type="text"
             required
             class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent hover:border-gray-500 transition-colors"
-            :placeholder="namePlaceholder"
+            :placeholder="namePlaceholder ?? 'Enter your full name'"
           >
         </div>
 
@@ -49,7 +49,7 @@
             type="email"
             required
             class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent hover:border-gray-500 transition-colors"
-            :placeholder="emailPlaceholder"
+            :placeholder="emailPlaceholder ?? 'Enter your email address'"
           >
         </div>
       </div>
@@ -80,9 +80,9 @@
           name="message"
           v-model="formData.message"
           required
-          :rows="messageRows"
+          :rows="messageRows || 4"
           class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent resize-none hover:border-gray-500 transition-colors"
-          :placeholder="messagePlaceholder"
+          :placeholder="messagePlaceholder ?? 'Tell us about your project...'"
         ></textarea>
       </div>
 
@@ -114,11 +114,10 @@
 import { ref, reactive } from 'vue'
 import FormMessage from '../ui/FormMessage.vue'
 import type { ContactFormData, ContactFormProps } from '../../types'
-import { CONTACT_FORM_DATA } from '../../data/forms'
 
 interface Props extends ContactFormProps {}
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   title: 'Send us a Message',
   subjectOptions: () => ['Website Design', 'Brand Development', 'SEO & Marketing', 'General Inquiry', 'Support'],
   successMessage: "Message sent successfully! We'll get back to you within 24 hours to discuss your project.",

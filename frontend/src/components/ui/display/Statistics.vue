@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, inject } from 'vue'
-import { scrollToNextSection as scrollToNext } from '../../../lib/scroll'
+// import { scrollToNextSection as scrollToNext } from '../../../lib/scroll'
 import { statistics as defaultStatistics, type Stat } from '../../../data/componentData'
 
 // Export the component for use in other files
@@ -122,9 +122,9 @@ onMounted(() => {
 })
 
 // Scroll to next section
-const scrollToNextSection = () => {
-  scrollToNext('testimonials')
-}
+// const _scrollToNextSection = () => {
+//   scrollToNext('testimonials')
+// }
 
 // Navigate to next section using parent navigation
 const navigateToNext = () => {

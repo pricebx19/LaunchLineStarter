@@ -2,8 +2,8 @@
   <section class="py-10 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
     <!-- Enhanced starry background -->
     <div class="stars-container absolute inset-0 opacity-25">
-      <div class="star star-small" v-for="i in 40" :key="`alacarte-${i}`" :style="getStarStyle(i, 'small')"></div>
-      <div class="star star-medium" v-for="i in 12" :key="`alacarte-med-${i}`" :style="getStarStyle(i, 'medium')"></div>
+      <div class="star star-small" v-for="i in 40" :key="`alacarte-${i}`" :style="getStarStyle('small')"></div>
+      <div class="star star-medium" v-for="i in 12" :key="`alacarte-med-${i}`" :style="getStarStyle('medium')"></div>
     </div>
     
     <!-- Ambient gradient overlays -->
@@ -160,7 +160,7 @@ const remainingCount = computed(() => {
 })
 
 // Handle service selection
-const handleServiceSelect = (service: AlaCarteService) => {
+const handleServiceSelect = () => {
   // Here you can add any custom logic for service selection
   // You could emit an event or handle routing to a service detail page
 }
@@ -186,7 +186,7 @@ const handleSpecialFiltersChange = (filters: { popular: boolean; featured: boole
 }
 
 // Generate random star positions
-const getStarStyle = (index: number, size: string) => {
+const getStarStyle = (size: string) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 4

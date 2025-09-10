@@ -296,7 +296,7 @@ export function prefersReducedMotion(): boolean {
  */
 export function getRandomColor(): string {
   const colors = ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#06B6D4']
-  return colors[Math.floor(Math.random() * colors.length)]
+  return colors[Math.floor(Math.random() * colors.length)] || colors[0]!
 }
 
 /**

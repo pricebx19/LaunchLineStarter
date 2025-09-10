@@ -48,7 +48,6 @@
 
 <script setup lang="ts">
 import type { BlogPost } from '../../types/Content'
-import type { SearchFilters } from '../../types/Common'
 
 interface SpecialFilters {
   popular: boolean
@@ -71,7 +70,7 @@ interface Emits {
   (e: 'clear-special-filters'): void
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const handleClearSearch = () => {

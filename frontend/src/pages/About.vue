@@ -31,7 +31,7 @@
       :about-error="wagtailError"
       :is-loading="wagtailLoading"
       :api-url="apiUrl"
-      :last-updated="lastFetched?.toISOString()"
+      :last-updated="lastFetched?.toISOString() || null"
       @refresh="refreshFlags"
       @refresh-data="refreshWagtailData"
     />
@@ -43,7 +43,7 @@ import { computed, onMounted, defineAsyncComponent } from 'vue'
 import { useSeo } from '../lib/seo'
 import { useComponentFlags, useFeatureFlags } from '../composables/useFeatureFlags'
 import { useWagtailAboutDataAuto } from '../composables/useWagtailAboutData'
-import type { AboutPageProps } from '../types'
+// import type { AboutPageProps } from '../types'
 
 // Feature flag management
 const { 

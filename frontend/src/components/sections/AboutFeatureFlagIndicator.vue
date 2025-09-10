@@ -7,9 +7,9 @@
     :migration-status="migrationStatus"
     :has-data="!!aboutData"
     :has-error="!!aboutError"
-    :is-loading="isLoading"
-    :api-url="apiUrl"
-    :last-updated="lastUpdated"
+    :is-loading="isLoading ?? false"
+    :api-url="apiUrl ?? ''"
+    :last-updated="lastUpdated ?? null"
     feature-flag-name="WAGTAIL_ABOUT"
     @refresh="handleRefresh"
     @refresh-data="handleRefreshData"
@@ -43,7 +43,7 @@ interface Emits {
   (e: 'refreshData'): void
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   aboutData: null,
   aboutError: null,
   isLoading: false,

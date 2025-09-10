@@ -230,7 +230,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, nextTick } from 'vue'
+import { computed, ref } from 'vue'
 import type { CategoryFilterProps } from '../../../types/index'
 
 interface Props extends CategoryFilterProps {}
@@ -408,7 +408,7 @@ const getActiveFiltersText = (): string => {
   }
   
   if (filters.length === 1) {
-    return filters[0]
+    return filters[0] || ''
   }
   
   if (filters.length === 2) {

@@ -30,7 +30,7 @@
           <div class="stat-content">
             <!-- Animated Counter -->
             <div class="stat-number" :data-target="stat.value">
-              {{ animatedValue(stat.value, index) }}
+              {{ animatedValue(stat.value) }}
             </div>
             <div class="stat-suffix">{{ stat.suffix }}</div>
             <div class="stat-label">{{ stat.label }}</div>
@@ -74,7 +74,7 @@ const animatedValues = ref<number[]>([])
 
 const stats = computed(() => props.statsData || defaultCompanyStats.stats)
 
-const animatedValue = (target: number, index: number) => {
+const animatedValue = (index: number) => {
   return animatedValues.value[index] || 0
 }
 

@@ -1,4 +1,4 @@
-import { computed, ref, watch, type Ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import type { Project } from '../data/portfolioData'
 
 export interface FilterState {

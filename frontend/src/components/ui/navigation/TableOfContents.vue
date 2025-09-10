@@ -56,11 +56,11 @@ const updateActiveHeading = () => {
 
   // Find the current heading based on scroll position
   for (let i = headings.length - 1; i >= 0; i--) {
-    const element = document.getElementById(headings[i].id)
+    const element = document.getElementById(headings[i]?.id || '')
     if (element) {
       const rect = element.getBoundingClientRect()
       if (rect.top <= 100) { // 100px offset for better UX
-        activeHeading.value = headings[i].id
+        activeHeading.value = headings[i]?.id || ''
         break
       }
     }

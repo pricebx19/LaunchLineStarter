@@ -55,7 +55,6 @@ const socialLinks = computed(() => defaultSocialLinks)
 const shareOn = (platform: string) => {
   const url = encodeURIComponent(props.url)
   const title = encodeURIComponent(props.title)
-  const description = encodeURIComponent(props.description)
 
   let shareUrl = ''
 

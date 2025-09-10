@@ -288,10 +288,12 @@ export interface DebugPanelProps {
   migrationStatus?: string
   hasData?: boolean
   hasError?: boolean
-  isLoading?: boolean
+  isLoading?: boolean | undefined
   featureFlagName?: string
   apiUrl?: string
-  lastUpdated?: string | null
+  lastUpdated?: string | null | undefined
+  onRefreshData?: () => void
+  onRefresh?: () => void
 }
 
 export interface LoadMoreButtonProps {

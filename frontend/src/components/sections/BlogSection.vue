@@ -2,20 +2,20 @@
   <section class="py-16 bg-gradient-to-b from-gray-800 to-gray-900 relative overflow-hidden">
     <!-- Subtle starry background -->
     <div class="stars-container absolute inset-0 opacity-25">
-      <div class="star star-small" v-for="i in 20" :key="`blog-${i}`" :style="getStarStyle(i, 'small')"></div>
+      <div class="star star-small" v-for="i in 20" :key="`blog-${i}`" :style="getStarStyle()"></div>
     </div>
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <!-- Loading State -->
       <LoadingState 
         v-if="loading" 
-        :message="loadingMessage"
+        :message="loadingMessage ?? 'Loading blog posts...'"
       />
 
       <!-- Error State -->
       <ErrorState 
         v-else-if="error"
-        :title="errorTitle"
+        :title="errorTitle ?? 'Error Loading Blog'"
         :message="error"
         @retry="$emit('retry')"
       />
@@ -81,7 +81,7 @@ interface Props {
   errorTitle?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   loadingMessage: 'Loading blog posts...',
   errorTitle: 'Failed to Load Blog Posts'
 })
@@ -94,7 +94,7 @@ defineEmits<{
 }>()
 
 // Generate random star positions
-const getStarStyle = (index: number, size: string) => {
+const getStarStyle = () => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3

@@ -86,22 +86,21 @@ interface Props {
   testimonialData?: TestimonialData
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   testimonials: () => TESTIMONIAL_DATA.testimonials,
   testimonialData: () => TESTIMONIAL_DATA
 })
 
-const getInitials = (name: string): string => {
-  return name
-    .split(' ')
-    .map(word => word.charAt(0))
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
-}
+// const _getInitials = (name: string): string => {
+//   return name
+//     .split(' ')
+//     .map(word => word.charAt(0))
+//     .join('')
+//     .toUpperCase()
+//     .slice(0, 2)
+// }
 
 import { inject } from 'vue'
-import { testimonials as defaultTestimonials, type TestimonialWithRating } from '../../../data/componentData'
 
 // Inject navigation function from parent
 interface ParentNavigation {

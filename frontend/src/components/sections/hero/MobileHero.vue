@@ -51,7 +51,7 @@ interface Props {
 defineProps<Props>()
 
 // Generate simplified star positions for mobile
-const getStarStyle = (index: number) => {
+const getStarStyle = (_index: number) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3

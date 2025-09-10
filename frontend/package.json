@@ -6,13 +6,17 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "build:analyze": "cross-env ANALYZE=true vue-tsc && vite build",
     "preview": "vite preview",
     "type-check": "vue-tsc --noEmit",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "bundle:analyze": "npm run build && node scripts/analyze-bundle.js"
   },
   "dependencies": {
     "@types/dompurify": "^3.0.5",
     "dompurify": "^3.2.6",
+    "pinia": "^3.0.3",
+    "pinia-plugin-persistedstate": "^4.5.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
@@ -24,9 +28,11 @@
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/tsconfig": "^0.5.1",
     "autoprefixer": "^10.4.19",
+    "cross-env": "^10.0.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
     "postcss": "^8.4.38",
+    "rollup-plugin-visualizer": "^6.0.3",
     "tailwindcss": "^3.4.1",
     "typescript": "~5.4.3",
     "vite": "^5.2.8",

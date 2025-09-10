@@ -55,7 +55,7 @@ interface Props {
   homeData?: HomePageData
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   homeData: () => HOME_PAGE_DATA
 })
 

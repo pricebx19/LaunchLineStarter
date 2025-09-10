@@ -11,11 +11,11 @@
     
     <div class="widget-content" :class="{ 'open': widgetOpen }">
       <div class="widget-header">
-        <h4 class="text-white font-semibold">{{ widgetData.title }}</h4>
-        <p class="text-gray-300 text-sm">{{ widgetData.subtitle || 'Get in touch with us' }}</p>
+        <h4 class="text-white font-semibold">{{ widgetData?.title }}</h4>
+        <p class="text-gray-300 text-sm">{{ widgetData?.subtitle || 'Get in touch with us' }}</p>
       </div>
       <div class="widget-methods">
-        <a v-for="method in (widgetData.methods || [])" :key="method.type" :href="method.href" class="widget-method">
+        <a v-for="method in (widgetData?.methods || [])" :key="method.type" :href="method.href" class="widget-method">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="method.icon"/>
           </svg>
@@ -39,7 +39,7 @@ interface Emits {
   (e: 'toggle'): void
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   widgetData: () => FLOATING_WIDGET_DATA
 })
 

@@ -92,9 +92,9 @@ let featureMetadata: Record<string, FeatureMetadata> = {}
 export function isFeatureEnabled(feature: FeatureName): boolean {
   // Check runtime flags first (from API), then fall back to env vars
   if (feature in runtimeFeatures) {
-    return runtimeFeatures[feature]
+    return runtimeFeatures[feature] || false
   }
-  return FEATURES[feature]
+  return FEATURES[feature] || false
 }
 
 // Helper function to check if using Wagtail version of a component
@@ -162,7 +162,7 @@ export function getFeatureMetadata(feature: FeatureName): FeatureMetadata | null
 // Get all features by category
 export function getFeaturesByCategory(category: string): FeatureName[] {
   return Object.keys(featureMetadata)
-    .filter(key => featureMetadata[key].category === category) as FeatureName[]
+    .filter(key => featureMetadata[key]?.category === category) as FeatureName[]
 }
 
 // Check if a feature is deprecated

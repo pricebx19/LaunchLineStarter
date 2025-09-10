@@ -115,8 +115,7 @@ const getConstellationStyle = (index: number) => {
     { x: 55, y: 80, size: 'small', color: 'bg-blue-500' }
   ]
   
-  const star = positions[index - 1] || positions[0]
-  const sizeClass = star.size === 'large' ? 'w-3 h-3' : star.size === 'medium' ? 'w-2 h-2' : 'w-1 h-1'
+  const star = positions[index - 1] || positions[0] || { x: 50, y: 50, size: 'medium', color: 'bg-white' }
   
   return {
     left: `${star.x}%`,
@@ -126,7 +125,7 @@ const getConstellationStyle = (index: number) => {
 }
 
 // Generate particle field positions
-const getParticleStyle = (index: number) => {
+const getParticleStyle = (_index: number) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 4
@@ -148,7 +147,7 @@ const getNodeStyle = (index: number) => {
     { x: 80, y: 40 }, { x: 30, y: 60 }, { x: 45, y: 70 }, { x: 60, y: 65 }
   ]
   
-  const node = positions[index - 1] || positions[0]
+  const node = positions[index - 1] || positions[0] || { x: 50, y: 50 }
   const delay = index * 0.3
   
   return {

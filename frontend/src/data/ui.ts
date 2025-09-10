@@ -222,14 +222,14 @@ export const ERROR_STATE_PRESETS = {
     title: 'Server Error',
     description: 'Something went wrong on our end. Please try again later.',
     actionText: 'Retry',
-    actionUrl: undefined,
+    actionUrl: '',
     icon: 'alert-circle'
   },
   networkError: {
     title: 'Network Error',
     description: 'Please check your internet connection and try again.',
     actionText: 'Retry',
-    actionUrl: undefined,
+    actionUrl: '',
     icon: 'wifi-off'
   }
 }

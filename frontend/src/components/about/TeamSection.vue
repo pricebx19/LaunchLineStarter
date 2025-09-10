@@ -9,13 +9,13 @@
       <!-- Section Header -->
       <div class="text-center mb-16">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 mb-6">
-          <span class="text-brand-primary text-sm font-semibold">👥 {{ teamData.title.toUpperCase() }}</span>
+          <span class="text-brand-primary text-sm font-semibold">👥 {{ teamData?.title?.toUpperCase() }}</span>
         </div>
         <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-          {{ teamData.subtitle }}
+          {{ teamData?.subtitle }}
         </h2>
         <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-          {{ teamData.description }}
+          {{ teamData?.description }}
         </p>
       </div>
       
@@ -48,7 +48,7 @@
               <a 
                 v-for="(url, platform) in member.social" 
                 :key="platform"
-                :href="url"
+                :href="url || '#'"
                 class="skill-tag"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -83,7 +83,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { TEAM_DATA } from '../../data/about'
-import type { TeamData, TeamMember } from '../../types/About'
+import type { TeamData } from '../../types/About'
 
 interface Props {
   teamData?: TeamData

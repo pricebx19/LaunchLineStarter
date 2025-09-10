@@ -6,7 +6,7 @@
         class="star star-large" 
         v-for="i in largeCount" 
         :key="`large-${i}`" 
-        :style="getStarStyle(i, 'large')"
+        :style="getStarStyle()"
       ></div>
     </template>
     
@@ -16,7 +16,7 @@
         class="star star-medium" 
         v-for="i in mediumCount" 
         :key="`medium-${i}`" 
-        :style="getStarStyle(i, 'medium')"
+        :style="getStarStyle()"
       ></div>
     </template>
     
@@ -26,7 +26,7 @@
         class="star star-small" 
         v-for="i in smallCount" 
         :key="`small-${i}`" 
-        :style="getStarStyle(i, 'small')"
+        :style="getStarStyle()"
       ></div>
     </template>
     
@@ -36,7 +36,7 @@
         class="shooting-star" 
         v-for="i in shootingCount" 
         :key="`shooting-${i}`" 
-        :style="getShootingStarStyle(i)"
+        :style="getShootingStarStyle()"
       ></div>
     </template>
   </div>
@@ -44,7 +44,6 @@
 
 <script setup lang="ts">
 import type { AnimationProps } from '../../types/Common'
-import { STARRY_BACKGROUND_PRESETS } from '../../data/animations'
 
 interface StarryBackgroundProps extends AnimationProps {
   largeCount?: number
@@ -59,7 +58,7 @@ interface StarryBackgroundProps extends AnimationProps {
   preset?: 'subtle' | 'default' | 'intense'
 }
 
-const props = withDefaults(defineProps<StarryBackgroundProps>(), {
+withDefaults(defineProps<StarryBackgroundProps>(), {
   largeCount: 15,
   mediumCount: 30,
   smallCount: 45,
@@ -77,7 +76,7 @@ defineOptions({
 })
 
 // Generate random star positions
-const getStarStyle = (index: number, size: string) => {
+const getStarStyle = () => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3
@@ -92,7 +91,7 @@ const getStarStyle = (index: number, size: string) => {
 }
 
 // Generate shooting star positions
-const getShootingStarStyle = (index: number) => {
+const getShootingStarStyle = () => {
   const startX = Math.random() * 100
   const startY = Math.random() * 50
   const delay = Math.random() * 8

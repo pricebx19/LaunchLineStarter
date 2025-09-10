@@ -4,7 +4,7 @@
       v-if="pagination.previous"
       @click="$emit('changePage', currentPage - 1)"
       class="btn-secondary hover:scale-105 transition-transform duration-300"
-      :disabled="loading"
+      :disabled="loading ?? false"
     >
       {{ previousText }}
     </button>
@@ -17,7 +17,7 @@
       v-if="pagination.next"
       @click="$emit('changePage', currentPage + 1)"
       class="btn-secondary hover:scale-105 transition-transform duration-300"
-      :disabled="loading"
+      :disabled="loading ?? false"
     >
       {{ nextText }}
     </button>

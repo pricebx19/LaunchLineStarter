@@ -75,7 +75,7 @@ import { useBlogPostData } from '../composables/useBlogPostData'
 import { useReadingProgress } from '../composables/useReadingProgress'
 import { useSocialSharing } from '../composables/useSocialSharing'
 import { useTableOfContents } from '../composables/useTableOfContents'
-import type { BlogPostPageProps } from '../types'
+// import type { BlogPostPageProps } from '../types'
 
 // Async component imports for better performance
 const LoadingState = defineAsyncComponent(() => import('../components/ui/feedback/LoadingState.vue'))

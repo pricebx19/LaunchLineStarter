@@ -41,21 +41,21 @@
 </template>
 
 <script setup lang="ts">
-import { inject, defineAsyncComponent } from 'vue'
-import type { HeroProps, ParentNavigation } from '../../../types'
+import { defineAsyncComponent } from 'vue'
+import type { HeroProps } from '../../../types'
 
 // Use dynamic imports for navigation components
 const NavigationDownButton = defineAsyncComponent(() => import('../../ui/navigation/NavigationDownButton.vue'))
 
 // Inject navigation function from parent
-const parentNavigation = inject<ParentNavigation | null>('navigation', null)
+// const parentNavigation = inject<ParentNavigation | null>('navigation', null)
 
 interface Props extends HeroProps {}
 
 defineProps<Props>();
 
 // Generate random star positions
-const getStarStyle = (index: number, size: string) => {
+const getStarStyle = (_index: number, _size: string) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3
@@ -70,7 +70,7 @@ const getStarStyle = (index: number, size: string) => {
 }
 
 // Generate shooting star positions
-const getShootingStarStyle = (index: number) => {
+const getShootingStarStyle = (_index: number) => {
   const startX = Math.random() * 100
   const startY = Math.random() * 50
   const delay = Math.random() * 8
@@ -83,22 +83,22 @@ const getShootingStarStyle = (index: number) => {
 }
 
 // Navigate to next section using parent navigation
-const scrollToNextSection = () => {
-  console.log('Scroll button clicked!')
-  console.log('parentNavigation:', parentNavigation)
-  
-  if (parentNavigation?.goToNextSection) {
-    console.log('Calling goToNextSection')
-    parentNavigation.goToNextSection()
-  } else {
-    console.log('No parent navigation, using fallback scroll')
-    // Fallback: scroll to next section manually
-    const nextSection = document.getElementById('features')
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-}
+// const scrollToNextSection = () => {
+//   console.log('Scroll button clicked!')
+//   console.log('parentNavigation:', parentNavigation)
+//   
+//   if (parentNavigation?.goToNextSection) {
+//     console.log('Calling goToNextSection')
+//     parentNavigation.goToNextSection()
+//   } else {
+//     console.log('No parent navigation, using fallback scroll')
+//     // Fallback: scroll to next section manually
+//     const nextSection = document.getElementById('features')
+//     if (nextSection) {
+//       nextSection.scrollIntoView({ behavior: 'smooth' })
+//     }
+//   }
+// }
 </script>
 
 <style scoped>

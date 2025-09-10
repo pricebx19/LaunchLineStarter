@@ -23,10 +23,10 @@ export interface ThemeProps {
   size?: 'sm' | 'md' | 'lg' | 'xl'
 }
 
-export interface LoadingState {
+export interface LoadingState<T = unknown> {
   isLoading: boolean
   error?: string | null
-  data?: any
+  data?: T
 }
 
 export interface PaginationProps {

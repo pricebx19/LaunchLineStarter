@@ -80,7 +80,6 @@ const {
   isLoading,
   error,
   data: fetchedData,
-  hasData,
   hasHero,
   hasStatistics,
   hasProjects,
@@ -98,8 +97,8 @@ const mappedProjectsData = computed((): { heading?: string; subheading?: string;
   if (!portfolioData.value?.portfolio_projects?.projects) return { projects: [] }
   
   return {
-    heading: portfolioData.value.hero?.heading,
-    subheading: portfolioData.value.hero?.subheading,
+    heading: portfolioData.value.hero?.heading || '',
+    subheading: portfolioData.value.hero?.subheading || '',
     projects: (portfolioData.value.portfolio_projects.projects || []).map((wagtailProject: any) => ({
       id: parseInt(wagtailProject.id) || 0,
       title: wagtailProject.title,

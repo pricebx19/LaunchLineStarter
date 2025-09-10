@@ -2,8 +2,8 @@
   <div class="values-summary mt-24 text-center" ref="summaryRef">
     <div class="summary-card">
       <div class="summary-header">
-        <h3 class="summary-title">{{ statisticsData.title }}</h3>
-        <div class="summary-subtitle">{{ statisticsData.subtitle }}</div>
+        <h3 class="summary-title">{{ statisticsData?.title }}</h3>
+        <div class="summary-subtitle">{{ statisticsData?.subtitle }}</div>
       </div>
       
       <div class="summary-stats">
@@ -19,12 +19,12 @@
       </div>
       
       <p class="summary-description">
-        {{ statisticsData.description }}
+        {{ statisticsData?.description }}
       </p>
       
       <div class="summary-cta">
         <router-link to="/contact" class="cta-button">
-          <span>{{ statisticsData.ctaText }}</span>
+          <span>{{ statisticsData?.ctaText }}</span>
           <div class="cta-arrow">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ANIMATED_STATISTICS_DATA } from '../../data/about'
 import type { AnimatedStatisticsData, Statistic } from '../../types/About'
 
@@ -62,7 +62,7 @@ const statistics = ref<Statistic[]>(props.statisticsData.statistics.map(stat => 
 
 // Animate statistics numbers
 const animateNumbers = () => {
-  statistics.value.forEach((stat, index) => {
+  statistics.value.forEach((stat) => {
     const duration = 2000 // 2 seconds
     
     if (stat.target === '∞') {
@@ -71,7 +71,7 @@ const animateNumbers = () => {
       let currentIndex = 0
       
       const infinityTimer = setInterval(() => {
-        stat.current = symbols[currentIndex]
+        stat.current = symbols[currentIndex] || '∞'
         currentIndex = (currentIndex + 1) % symbols.length
         
         if (currentIndex === 0) {

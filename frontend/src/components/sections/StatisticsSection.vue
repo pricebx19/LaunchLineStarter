@@ -10,7 +10,7 @@
         <div class="nebula-cloud nebula-cyan" style="left: 80%; top: 60%; animation-delay: 0.5s;"></div>
         
         <!-- Sparkling stars -->
-        <div class="sparkle-star" v-for="i in 25" :key="`sparkle-${i}`" :style="getSparkleStyle(i)"></div>
+        <div class="sparkle-star" v-for="i in 25" :key="`sparkle-${i}`" :style="getSparkleStyle()"></div>
       </div>
       
       <div class="text-center text-white max-w-6xl mx-auto px-6 relative z-10">
@@ -80,7 +80,7 @@ interface Props {
 defineProps<Props>()
 
 // Generate sparkle star positions
-const getSparkleStyle = (index: number) => {
+const getSparkleStyle = () => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3

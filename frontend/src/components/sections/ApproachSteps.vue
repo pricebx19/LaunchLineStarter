@@ -168,14 +168,14 @@ const getTechIconStyle = (index: number): Record<string, string> => {
     color: '#3b82f6',
     opacity: '0.4',
     animation: 'float 8s ease-in-out infinite',
-    top: position.top,
-    animationDelay: position.animationDelay
+    top: position?.top || '0%',
+    animationDelay: position?.animationDelay || '0s'
   }
   
   // Add left or right positioning
-  if ('left' in position) {
+  if (position && 'left' in position) {
     baseStyle.left = position.left
-  } else if ('right' in position) {
+  } else if (position && 'right' in position) {
     baseStyle.right = position.right
   }
   

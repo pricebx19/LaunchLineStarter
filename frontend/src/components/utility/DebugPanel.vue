@@ -7,14 +7,14 @@
     >
       <div class="p-4 min-w-80 flex-1">
         <div class="flex items-center justify-between mb-4">
-          <h4 class="font-semibold text-sm">{{ title }}</h4>
+          <h4 class="font-semibold text-sm">{{ title || 'Debug Panel' }}</h4>
         </div>
 
         <!-- Status Info -->
         <div class="text-xs space-y-2 mb-4">
           <div class="flex justify-between">
             <span>Strategy:</span>
-            <span class="font-mono">{{ strategy }}</span>
+            <span class="font-mono">{{ strategy || 'Unknown' }}</span>
           </div>
           <div class="flex justify-between">
             <span>Wagtail:</span>
@@ -24,7 +24,7 @@
           </div>
           <div class="flex justify-between">
             <span>Migration:</span>
-            <span class="font-mono">{{ migrationStatus }}</span>
+            <span class="font-mono">{{ migrationStatus || 'Unknown' }}</span>
           </div>
           <div v-if="hasData" class="flex justify-between">
             <span>Data:</span>
@@ -78,8 +78,8 @@
             <div>
               <div class="font-semibold text-white mb-1">Feature Flags:</div>
               <div class="ml-2 space-y-1">
-                <div>{{ featureFlagName }}: {{ isWagtailEnabled ? 'ON' : 'OFF' }}</div>
-                <div>API URL: {{ apiUrl }}</div>
+                <div>{{ featureFlagName || 'Unknown' }}: {{ isWagtailEnabled ? 'ON' : 'OFF' }}</div>
+                <div>API URL: {{ apiUrl || 'Not set' }}</div>
                 <div>Last Updated: {{ lastUpdated || 'Never' }}</div>
               </div>
             </div>
@@ -112,9 +112,20 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { DebugPanelProps } from '../../types'
 
-interface Props extends DebugPanelProps {}
+interface Props {
+  isDev?: boolean
+  title?: string
+  strategy?: string
+  isWagtailEnabled?: boolean
+  migrationStatus?: string
+  hasData?: boolean
+  hasError?: boolean
+  isLoading?: boolean
+  featureFlagName?: string
+  apiUrl?: string
+  lastUpdated?: string | null
+}
 
 interface Emits {
   (e: 'refresh'): void
@@ -122,12 +133,16 @@ interface Emits {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  isDev: false,
   hasData: false,
   hasError: false,
   isLoading: false,
   apiUrl: 'http://localhost:8000',
   lastUpdated: null
 })
+
+// Use props to avoid unused variable warning
+const { isDev, title, strategy, isWagtailEnabled, migrationStatus, hasData, hasError, isLoading, featureFlagName, apiUrl, lastUpdated } = props
 
 const emit = defineEmits<Emits>()
 
@@ -148,6 +163,12 @@ const handleRefreshData = () => {
 
 const toggleDebugInfo = () => {
   showDebugInfo.value = !showDebugInfo.value
+}
+</script>
+
+<script lang="ts">
+export default {
+  name: 'DebugPanel'
 }
 </script>
 

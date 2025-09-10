@@ -56,7 +56,7 @@
 
       <!-- Statistics (for full variant) -->
       <div 
-        v-if="variant === 'full' && showStats && stats.length > 0" 
+        v-if="variant === 'full' && showStats && stats && stats.length > 0" 
         class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10"
       >
         <div 
@@ -74,7 +74,7 @@
       </div>
 
       <!-- Feature highlights (for section variant) -->
-      <div v-if="variant === 'section' && features.length > 0" class="grid md:grid-cols-3 gap-8 text-center mb-12">
+      <div v-if="variant === 'section' && features && features.length > 0" class="grid md:grid-cols-3 gap-8 text-center mb-12">
         <div v-for="feature in features" :key="feature.title" class="group">
           <div class="w-16 h-16 bg-brand-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-brand-primary/30 transition-all duration-300">
             <span class="text-2xl">{{ feature.icon }}</span>
@@ -87,7 +87,7 @@
       <!-- CTA Buttons -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
         <router-link
-          :to="primaryCtaLink"
+          :to="primaryCtaLink || '/'"
           :class="[
             'text-lg px-8 py-4 inline-block transform hover:scale-105 transition-transform duration-200 font-bold rounded-lg',
             variant === 'section' 
@@ -100,7 +100,7 @@
         
         <router-link
           v-if="secondaryCtaText"
-          :to="secondaryCtaLink"
+          :to="secondaryCtaLink || '/'"
           :class="[
             'text-lg px-8 py-4 inline-block font-bold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105',
             variant === 'section' 
@@ -128,7 +128,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
 import { ctaFeatures, ctaStats } from '../../../../data/componentData'
-import type { CTAProps, CTAStat, Feature } from '../../../../types'
+import type { CTAProps } from '../../../../types'
 
 // Use dynamic imports for navigation components
 const NavigationUpButton = defineAsyncComponent(() => import('../../../ui/navigation/NavigationUpButton.vue'))
@@ -136,7 +136,7 @@ const NavigationDownButton = defineAsyncComponent(() => import('../../../ui/navi
 
 interface Props extends CTAProps {}
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   variant: 'simple',
   title: 'Ready to Launch Your Success?',
   subtitle: 'Join the growing list of businesses who\'ve transformed their online presence with LaunchLine. Your next big launch starts here.',
@@ -154,7 +154,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 // Generate star styles
-const getStarStyle = (index: number, size: string) => {
+const getStarStyle = (_index: number, _size: string) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3
@@ -181,7 +181,7 @@ const getMeteorStyle = (index: number) => {
   }
 }
 
-const getTwinkleStyle = (index: number) => {
+const getTwinkleStyle = (_index: number) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 3
@@ -196,7 +196,7 @@ const getTwinkleStyle = (index: number) => {
   }
 }
 
-const getShootingStyle = (index: number) => {
+const getShootingStyle = (_index: number) => {
   const startX = Math.random() * 100
   const startY = Math.random() * 50
   const delay = Math.random() * 4

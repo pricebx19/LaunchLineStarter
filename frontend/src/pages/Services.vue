@@ -44,7 +44,7 @@
       :wagtail-error="wagtailError"
       :is-loading="wagtailLoading"
       :api-url="apiUrl"
-      :last-updated="lastFetched?.toISOString()"
+      :last-updated="lastFetched?.toISOString() || null"
       @refresh="refreshFlags"
       @refresh-data="refreshWagtailData"
     />

@@ -10,12 +10,42 @@
     },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": false,
+    
+    // Strict type checking
     "strict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true,
+    
+    // Unused code detection
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    
+    // Module and target
     "module": "ESNext",
     "target": "ES2020",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "types": ["node"]
+    "types": ["node", "vite/client"],
+    
+    // Additional strict checks
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    
+    // Performance
+    "incremental": true,
+    "tsBuildInfoFile": "./tsconfig.tsbuildinfo"
   }
 }

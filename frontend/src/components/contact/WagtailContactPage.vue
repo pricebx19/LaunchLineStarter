@@ -107,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, computed } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { api } from '../../lib/api'
 import { useSeo } from '../../lib/seo'
 import StarryBackground from '../effects/StarryBackground.vue'
@@ -115,7 +115,7 @@ import WagtailContactSection from './WagtailContactSection.vue'
 import type { WagtailPage } from '../../types'
 import type { ContactFormData } from '../../types/Forms'
 
-const props = defineProps<{
+defineProps<{
   wagtailData: WagtailPage
 }>()
 

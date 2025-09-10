@@ -150,8 +150,7 @@ export function useSearch<T>(
   } = {}
 ) {
   const {
-    minQueryLength = 2,
-    debounceDelay = 300
+    minQueryLength = 2
   } = options
 
   const query = ref('')

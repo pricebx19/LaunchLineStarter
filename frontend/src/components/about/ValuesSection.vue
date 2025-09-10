@@ -25,7 +25,7 @@
           class="energy-particle" 
           v-for="i in 12" 
           :key="`energy-${i}`" 
-          :style="getEnergyParticleStyle(i)"
+          :style="getEnergyParticleStyle()"
         ></div>
       </div>
     </div>
@@ -186,7 +186,7 @@ const orbitalSystemRef = ref<HTMLElement>()
 let hoverTimeouts: { [key: number]: ReturnType<typeof setTimeout> } = {}
 
 // Generate energy particle positions
-const getEnergyParticleStyle = (index: number) => {
+const getEnergyParticleStyle = () => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 8

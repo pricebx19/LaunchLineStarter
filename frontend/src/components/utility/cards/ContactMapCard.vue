@@ -10,8 +10,8 @@
         </div>
         <div class="map-info">
           <p class="text-white font-semibold">{{ locationName }}</p>
-          <p class="text-gray-300 text-sm">{{ address.street }}</p>
-          <p class="text-gray-300 text-sm">{{ address.city }}</p>
+          <p class="text-gray-300 text-sm">{{ address?.street }}</p>
+          <p class="text-gray-300 text-sm">{{ address?.city }}</p>
         </div>
       </div>
     </div>

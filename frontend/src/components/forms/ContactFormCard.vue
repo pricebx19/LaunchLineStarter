@@ -31,7 +31,7 @@ import type { ContactFormData, FormErrors } from '../../types'
 const ContactFormSuccess = defineAsyncComponent(() => import('./ContactFormSuccess.vue'))
 const ContactFormFields = defineAsyncComponent(() => import('./ContactFormFields.vue'))
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   title?: string
 }>(), {
   title: 'Start Your Project'

@@ -64,12 +64,12 @@
         <div class="hidden md:block">
           <div class="flex items-center space-x-1">
             <router-link
-              v-for="(item, index) in navigation"
+              v-for="item in navigation"
               :key="item.name"
               :to="item.href"
               class="relative px-6 py-3 text-sm font-medium text-gray-300 hover:text-white transition-all duration-300 group rounded-lg"
               :class="$route.path === item.href ? 'text-cyan-400' : ''"
-              @mouseenter="onNavItemHover(index)"
+              @mouseenter="onNavItemHover()"
               @mouseleave="onNavItemLeave"
             >
               <!-- Background hover effect -->
@@ -198,7 +198,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, computed, nextTick, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { isFeatureEnabled, FEATURE_FLAGS } from '../../config/features'
 
@@ -263,7 +263,7 @@ const generateParticles = () => {
     x: Math.random() * 100,
     y: Math.random() * 100,
     size: Math.random() * 4 + 2,
-    color: colors[Math.floor(Math.random() * colors.length)],
+    color: colors[Math.floor(Math.random() * colors.length)] || '#3b82f6',
     duration: Math.random() * 20 + 10,
   }))
 }
@@ -291,7 +291,7 @@ const closeMobileMenu = () => {
 }
 
 // Navigation hover effects
-const onNavItemHover = (index: number) => {
+const onNavItemHover = () => {
   // Add subtle animations or effects here if needed
 }
 
@@ -340,7 +340,9 @@ onUnmounted(() => {
 })
 
 // Watch route changes to close mobile menu
-const currentPath = computed(() => route.path)
+watch(() => route.path, () => {
+  isOpen.value = false
+})
 </script>
 
 <style scoped>

@@ -38,7 +38,6 @@
 <script setup lang="ts">
 import { ref, watch, defineAsyncComponent } from 'vue'
 import type { BlogPost } from '../../types/Content'
-import type { SearchFilters } from '../../types/Common'
 
 interface SpecialFilters {
   popular: boolean

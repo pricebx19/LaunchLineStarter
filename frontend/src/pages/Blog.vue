@@ -69,7 +69,7 @@
       :blog-error="wagtailError"
       :is-loading="wagtailLoading"
       :api-url="apiUrl"
-      :last-updated="lastFetched?.toISOString()"
+      :last-updated="lastFetched?.toISOString() || null"
       @refresh="refreshFlags"
       @refresh-data="refreshWagtailData"
     />
@@ -85,7 +85,7 @@ import { useBlogData } from '../composables/useBlogData'
 import { useBlogState } from '../composables/useBlogState'
 import { useNewsletter } from '../composables/useNewsletter'
 import { useScroll } from '../composables/useScroll'
-import type { BlogPageProps } from '../types'
+// import type { BlogPageProps } from '../types'
 
 // Feature flag management
 const { 

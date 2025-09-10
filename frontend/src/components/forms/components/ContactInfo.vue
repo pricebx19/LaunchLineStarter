@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import ContactMethod from './ContactMethod.vue'
-import type { ContactMethodData, ContactInfoProps } from '../../../types'
+import type { ContactInfoProps } from '../../../types'
 
 interface Props extends ContactInfoProps {}
 

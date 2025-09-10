@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   badge?: string
   title?: string
   highlightedText?: string

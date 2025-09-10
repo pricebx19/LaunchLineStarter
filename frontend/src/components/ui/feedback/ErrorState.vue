@@ -4,8 +4,8 @@
       <svg :class="iconClass" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="iconPath"/>
       </svg>
-      <h3 class="text-lg font-semibold text-white mb-2">{{ title || errorData.title }}</h3>
-      <p class="text-gray-400 mb-4">{{ message || errorData.description }}</p>
+      <h3 class="text-lg font-semibold text-white mb-2">{{ title || errorData?.title }}</h3>
+      <p class="text-gray-400 mb-4">{{ message || errorData?.description }}</p>
       <button 
         v-if="showRetryButton"
         @click="$emit('retry')" 

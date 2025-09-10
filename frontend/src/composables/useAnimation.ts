@@ -1,7 +1,6 @@
 // Animation composables
 
 import { ref, onMounted, onUnmounted, nextTick, computed, type Ref } from 'vue'
-import type { AnimationPreset, ParticleConfig, ScrollAnimation } from '../types/Animation'
 import { ANIMATION_PRESETS, PARTICLE_CONFIGS } from '../data/animations'
 
 /**
@@ -33,6 +32,19 @@ export function useAnimation(
 
   const animation = computed(() => {
     const preset = ANIMATION_PRESETS[animationName]
+    if (!preset) {
+      return {
+        name: animationName,
+        config: {
+          duration: duration || 600,
+          easing: easing || 'ease-out',
+          delay: delay,
+          iterationCount,
+          direction,
+          fillMode
+        }
+      }
+    }
     return {
       ...preset,
       config: {
@@ -192,7 +204,7 @@ export function useStaggeredAnimation(
     totalItems?: number
   } = {}
 ) {
-  const { staggerDelay = 100, totalItems = 0 } = options
+  const { staggerDelay = 100 } = options
 
   const elements = ref<HTMLElement[]>([])
   const isAnimating = ref(false)
@@ -257,7 +269,21 @@ export function useParticles(
   const config = computed(() => PARTICLE_CONFIGS[configName])
 
   const createParticle = () => {
-    const { count, size, speed, colors, opacity, lifetime } = config.value
+    const particleConfig = config.value
+    if (!particleConfig) {
+      return {
+        id: Math.random().toString(36).substr(2, 9),
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: 2,
+        speed: 1,
+        color: '#ffffff',
+        opacity: 0.5,
+        lifetime: 1000,
+        age: 0
+      }
+    }
+    const { size, speed, colors, opacity, lifetime } = particleConfig
     
     return {
       id: Math.random().toString(36).substr(2, 9),
@@ -273,7 +299,9 @@ export function useParticles(
   }
 
   const generateParticles = () => {
-    particles.value = Array.from({ length: config.value.count }, createParticle)
+    const particleConfig = config.value
+    const count = particleConfig?.count || 50
+    particles.value = Array.from({ length: count }, createParticle)
   }
 
   const animateParticles = () => {
@@ -346,7 +374,6 @@ export function useParallax(
   const handleScroll = () => {
     if (!element.value) return
 
-    const rect = element.value.getBoundingClientRect()
     const scrolled = window.pageYOffset
     const rate = scrolled * -speed
 

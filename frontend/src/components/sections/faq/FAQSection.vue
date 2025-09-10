@@ -2,8 +2,8 @@
   <section class="py-10 bg-gradient-to-b from-gray-900 via-gray-850 to-gray-900 relative overflow-hidden">
     <!-- Enhanced starry background with multiple layers -->
     <div class="stars-container absolute inset-0 opacity-30">
-      <div class="star star-small" v-for="i in starCount" :key="`faq-${i}`" :style="getStarStyle(i, 'small')"></div>
-      <div class="star star-medium" v-for="i in 8" :key="`faq-med-${i}`" :style="getStarStyle(i, 'medium')"></div>
+      <div class="star star-small" v-for="i in starCount" :key="`faq-${i}`" :style="getStarStyle('small')"></div>
+      <div class="star star-medium" v-for="i in 8" :key="`faq-med-${i}`" :style="getStarStyle('medium')"></div>
     </div>
     
     <!-- Ambient gradient overlays -->
@@ -202,7 +202,7 @@ const toggleFAQ = async (faq: FAQ) => {
 }
 
 // Generate random star positions with enhanced distribution
-const getStarStyle = (index: number, size: string) => {
+const getStarStyle = (size: string) => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * 4

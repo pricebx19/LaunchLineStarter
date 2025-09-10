@@ -4,14 +4,13 @@
       class="particle" 
       v-for="i in count" 
       :key="`particle-${i}`" 
-      :style="getParticleStyle(i)"
+      :style="getParticleStyle()"
     ></div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { AnimationProps } from '../../types/Common'
-import { PARTICLE_PRESETS } from '../../data/animations'
 
 interface Props extends AnimationProps {
   count?: number
@@ -34,7 +33,7 @@ defineOptions({
 })
 
 // Generate particle positions
-const getParticleStyle = (index: number) => {
+const getParticleStyle = () => {
   const x = Math.random() * 100
   const y = Math.random() * 100
   const delay = Math.random() * props.speed

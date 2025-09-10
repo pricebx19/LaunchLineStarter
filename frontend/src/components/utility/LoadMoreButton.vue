@@ -3,7 +3,7 @@
     <button
       v-if="!showAll"
       @click="$emit('show-more')"
-      :disabled="loading"
+      :disabled="loading ?? false"
       :class="[
         'group relative inline-flex items-center font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed',
         variant === 'primary' ? 'px-8 py-4 bg-gradient-to-r from-brand-primary to-purple-600 text-white rounded-full hover:from-purple-600 hover:to-brand-primary shadow-lg hover:shadow-xl' :

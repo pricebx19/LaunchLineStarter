@@ -65,7 +65,6 @@ const {
   isLoading,
   error,
   data: fetchedData,
-  hasData,
   hasHero,
   hasFeatures,
   hasTestimonial,

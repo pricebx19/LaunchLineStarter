@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue'
-import type { WagtailContactData, ContactFormData } from '../../types'
+import type { ContactFormData } from '../../types'
 
 const WagtailContactPage = defineAsyncComponent(() => import('./WagtailContactPage.vue'))
 

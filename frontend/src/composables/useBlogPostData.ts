@@ -30,8 +30,16 @@ export function useBlogPostData() {
           const item = items[0]
           console.log('Blog post item:', item)
           
+          if (!item) {
+            error.value = 'Invalid blog post data'
+            return
+          }
+          
           // Transform Wagtail response to match our BlogPage interface
           const publishedDate = item.meta?.first_published_at || item.date || new Date().toISOString()
+          const featuredImageUrl = item.featured_image || item.featuredImage || ''
+          const searchDescription = item.meta?.search_description || item.search_description || ''
+          
           blogPost.value = {
             id: item.id,
             title: item.title,
@@ -41,11 +49,11 @@ export function useBlogPostData() {
             body: item.body || '',
             publishedDate: publishedDate,
             author: item.author || 'Anonymous',
-            featuredImage: item.featured_image || item.featuredImage,
+            featuredImage: featuredImageUrl,
             content: Array.isArray(item.content) ? item.content : [], // This is now an array from the API
             seo: {
               title: item.title,
-              description: item.meta?.search_description || item.search_description || ''
+              description: searchDescription
             },
             // Additional properties to match BlogPost interface
             publishedAt: publishedDate,
@@ -54,9 +62,9 @@ export function useBlogPostData() {
             tags: [],
             category: 'General',
             featured: false,
-            image: item.featured_image || item.featuredImage,
+            image: featuredImageUrl,
             seoTitle: item.title,
-            seoDescription: item.meta?.search_description || item.search_description || ''
+            seoDescription: searchDescription
           }
           
           console.log('Transformed blog post:', blogPost.value)
