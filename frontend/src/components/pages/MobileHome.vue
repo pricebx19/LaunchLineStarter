@@ -1,8 +1,5 @@
 <template>
   <div class="mobile-home">
-    <!-- Mobile Navigation -->
-    <MobileNavigation />
-    
     <!-- Main Content -->
     <main class="mobile-main">
       <!-- Hero Section -->
@@ -46,7 +43,6 @@ defineOptions({
 })
 
 // Import mobile components dynamically
-const MobileNavigation = defineAsyncComponent(() => import('../ui/navigation/MobileNavigation.vue'))
 const MobileHero = defineAsyncComponent(() => import('../sections/hero/MobileHero.vue'))
 const MobileFeaturesSection = defineAsyncComponent(() => import('../sections/features/MobileFeaturesSection.vue'))
 const MobileStatisticsSection = defineAsyncComponent(() => import('../sections/MobileStatisticsSection.vue'))
@@ -106,7 +102,7 @@ onUnmounted(() => {
 .mobile-main {
   /* Smooth scrolling for better mobile experience */
   scroll-behavior: smooth;
-  /* Account for mobile navigation height */
+  /* Account for global navigation height */
   padding-top: 0;
 }
 
@@ -124,7 +120,7 @@ onUnmounted(() => {
   transform: scale(0.95);
 }
 
-/* Ensure proper spacing for mobile navigation */
+/* Ensure proper spacing for global navigation */
 @media (max-width: 768px) {
   .mobile-main {
     padding-top: 0;
