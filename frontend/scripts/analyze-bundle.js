@@ -5,6 +5,7 @@
 import fs from 'fs'
 import path from 'path'
 
+/* eslint-env node */
 const distPath = path.join(process.cwd(), 'dist')
 const jsPath = path.join(distPath, 'js')
 const cssPath = path.join(distPath, 'css')

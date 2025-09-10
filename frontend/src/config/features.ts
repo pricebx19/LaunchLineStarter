@@ -86,7 +86,7 @@ interface FeatureMetadata {
   deprecationNotes?: string
 }
 
-let featureMetadata: Record<string, FeatureMetadata> = {}
+const featureMetadata: Record<string, FeatureMetadata> = {}
 
 // Helper function to check if a feature is enabled
 export function isFeatureEnabled(feature: FeatureName): boolean {

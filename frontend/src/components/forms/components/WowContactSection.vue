@@ -363,7 +363,7 @@ const validateField = (field: string) => {
         formErrors.name = 'Name must be at least 2 characters'
       }
       break
-    case 'email':
+    case 'email': {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!formData.email.trim()) {
         formErrors.email = 'Email is required'
@@ -371,6 +371,7 @@ const validateField = (field: string) => {
         formErrors.email = 'Please enter a valid email address'
       }
       break
+    }
     case 'message':
       if (!formData.message.trim()) {
         formErrors.message = 'Message is required'

@@ -1,6 +1,4 @@
 /* eslint-env node */
-require('@rushstack/eslint-patch/modern-module-resolution')
-
 module.exports = {
   root: true,
   extends: [
@@ -10,15 +8,35 @@ module.exports = {
     '@vue/eslint-config-prettier/skip-formatting'
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
+    sourceType: 'module'
   },
   rules: {
     // Vue specific rules
     'vue/multi-word-component-names': 'off',
     'vue/component-definition-name-casing': ['error', 'PascalCase'],
     
+    // Enhanced unused variables detection
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        // Allow unused vars in Vue <script setup> that might be used in template
+        ignoreRestSiblings: true
+      }
+    ],
+    
+    // Vue-specific unused variables
+    'vue/no-unused-vars': 'error',
+    'vue/no-unused-components': 'error',
+    
+    // General unused variables
+    'no-unused-vars': 'off', // Turn off base rule in favor of TypeScript version
+    
     // TypeScript specific rules
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-explicit-any': 'off',
     
     // Vue 3 <script setup> compatibility

@@ -32,7 +32,7 @@ import FeaturedPostCard from './FeaturedPostCard.vue'
 import BlogPostCard from './BlogPostCard.vue'
 import Pagination from '../../ui/navigation/Pagination.vue'
 
-interface Pagination {
+interface PaginationData {
   next: string | null
   previous: string | null
   count: number
@@ -41,7 +41,7 @@ interface Pagination {
 interface Props {
   blogPosts: BlogPage[]
   currentPage: number
-  pagination: Pagination | null
+  pagination: PaginationData | null
 }
 
 const props = defineProps<Props>()

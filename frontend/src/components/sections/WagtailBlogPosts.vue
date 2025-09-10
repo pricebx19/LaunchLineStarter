@@ -72,7 +72,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 
 interface BlogPost {
   id: number

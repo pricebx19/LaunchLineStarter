@@ -69,7 +69,7 @@ const validateField = (field: string): boolean => {
       delete formErrors.name
       return true
 
-    case 'email':
+    case 'email': {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!formData.email.trim()) {
         formErrors.email = 'Email is required'
@@ -81,6 +81,7 @@ const validateField = (field: string): boolean => {
       }
       delete formErrors.email
       return true
+    }
 
     case 'message':
       if (!formData.message.trim()) {

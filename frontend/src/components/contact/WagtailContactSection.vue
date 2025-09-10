@@ -221,10 +221,11 @@ const handleContactClick = (type: 'phone' | 'email' | 'address', contactInfo: an
         window.open(`mailto:${contactInfo.email}`)
       }
       break
-    case 'address':
+    case 'address': {
       const address = `${contactInfo.address_line_1}, ${contactInfo.address_line_2}`
       window.open(`https://maps.google.com/?q=${encodeURIComponent(address)}`)
       break
+    }
   }
 }
 

@@ -15,7 +15,7 @@ const STATIC_ASSETS = [
 ]
 
 // API endpoints to cache
-const API_ENDPOINTS = [
+const _API_ENDPOINTS = [
   '/api/',
   '/api/feature-flags/',
   '/api/home/',
@@ -297,7 +297,7 @@ self.addEventListener('notificationclick', (event) => {
   } else {
     // Default click action
     event.waitUntil(
-      clients.openWindow('/')
+      self.clients.openWindow('/')
     )
   }
 })
