@@ -33,31 +33,10 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Let Vite handle chunk splitting automatically
-        manualChunks: (id) => {
-          // Only split node_modules into vendor chunks
-          if (id.includes('node_modules')) {
-            if (id.includes('vue') || id.includes('vue-router')) {
-              return 'vue-vendor'
-            }
-            if (id.includes('pinia')) {
-              return 'pinia-vendor'
-            }
-            if (id.includes('dompurify')) {
-              return 'utils-vendor'
-            }
-            return 'vendor'
-          }
-        },
+        // Use default Vite chunking strategy
+        manualChunks: undefined,
         // Optimize chunk naming
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId
-          if (facadeModuleId) {
-            const fileName = facadeModuleId.split('/').pop()?.replace('.vue', '') || 'chunk'
-            return `js/${fileName}-[hash].js`
-          }
-          return 'js/[name]-[hash].js'
-        },
+        chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') || []
@@ -97,5 +76,9 @@ export default defineConfig({
   define: {
     __VUE_OPTIONS_API__: true,
     __VUE_PROD_DEVTOOLS__: false
+  },
+  // Additional configuration for production builds
+  esbuild: {
+    target: 'es2020'
   }
 })
