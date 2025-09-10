@@ -4,7 +4,7 @@
     <main>
       <router-view />
     </main>
-    <Footer v-if="!isHomePage" />
+    <Footer v-if="shouldShowFooter" />
   </div>
 </template>
 
@@ -12,6 +12,7 @@
 import { computed, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSeo } from './lib/seo'
+import { useMobileDetection } from './composables/useMobileDetection'
 
 // Use dynamic imports for components
 const Navbar = defineAsyncComponent(() => import('./components/layout/Navbar.vue'))
@@ -19,9 +20,18 @@ const Footer = defineAsyncComponent(() => import('./components/layout/Footer.vue
 
 const route = useRoute()
 const { updateSeo } = useSeo()
+const { isMobile } = useMobileDetection()
 
 // Check if current page is home page
 const isHomePage = computed(() => route.path === '/')
+
+// Show footer only on mobile home page
+const shouldShowFooter = computed(() => {
+  if (isHomePage.value) {
+    return isMobile.value // Show footer only on mobile home page
+  }
+  return true // Show footer on all other pages
+})
 
 onMounted(() => {
   // Set default SEO if no specific page meta
