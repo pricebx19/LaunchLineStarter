@@ -8,9 +8,16 @@
       }
     },
     {
+      "route": "/js/*",
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
       "route": "/*.js",
       "headers": {
-        "content-type": "application/javascript",
+        "content-type": "application/javascript; charset=utf-8",
         "cache-control": "public, max-age=31536000, immutable"
       }
     },
@@ -40,7 +47,7 @@
   },
   "mimeTypes": {
     ".json": "application/json",
-    ".js": "application/javascript",
+    ".js": "application/javascript; charset=utf-8",
     ".mjs": "application/javascript",
     ".ts": "application/javascript",
     ".css": "text/css",

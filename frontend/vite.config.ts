@@ -29,11 +29,11 @@ export default defineConfig({
     assetsDir: 'assets',
     sourcemap: process.env.NODE_ENV === 'development',
     minify: 'esbuild',
-    // Force everything into a single bundle
+    // Azure Static Web Apps compatible build
     rollupOptions: {
       output: {
-        // Force all code into a single chunk
-        manualChunks: () => 'everything',
+        // Use default ES module format but ensure proper chunking
+        manualChunks: undefined,
         // Optimize chunk naming
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
